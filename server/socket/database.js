@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 
-
 const fs = require('fs');
 const { styleText } = require('node:util');
 const { writeRunningLog } = require('../scripts/utils')
@@ -8,19 +7,18 @@ const { writeRunningLog } = require('../scripts/utils')
 let synconce = 0;
 const connectServer = async (connection, connectionFaild, syncLocalHistory) => {
     connection.connect((error) => {  
-      if (error) {
-        connectionFaild = true;
-        console.log(styleText('red', '[SERVER]：Error connecting to the MySQL server!'));
-        return;
-      }
-      syncLocalHistory.databaseSYncWithLocation();
-      console.log(styleText('green', '[SERVER]：Server：Connected to the MySQL server!'));
+        if (error) {
+            console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
+            return process.exit(1);
+        }
+        syncLocalHistory.databaseSYncWithLocation();
+        console.log(styleText('green', '[SERVER]：Server：Connected to the MySQL server!'));
 
-      setInterval(() => {
-        connection.query('SELECT 1', (error) => {
-          if (error) return console.log(styleText('red', '[SERVER]：Error while performing Query!'));
-        });
-      }, 1000);
+        setInterval(() => {
+            connection.query('SELECT 1', (error) => {
+              if (error) return console.log(styleText('red', '[SERVER]：Error while performing Query!'));
+            });
+        }, 1000);
     });
 }
 

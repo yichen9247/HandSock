@@ -9,7 +9,10 @@ const connection = mysql.createConnection(database);
 
 if (!config.connectionFaild) {
     connection.connect((error) => {
-        if (error) return process.exit(1);
+        if (error) {
+            console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
+            return process.exit(1);
+        }
         console.log(styleText('green', '[CHECK]：Connected to the MySQL server!'));
     
         connection.query('SHOW TABLES LIKE "history"', (error, result) => {
