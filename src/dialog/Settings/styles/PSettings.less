@@ -1,0 +1,108 @@
+
+div.flex-line {
+    display: flex;
+    justify-content: space-between;
+
+    .el-menu-vertical-setting {
+        height: 510px;
+        max-width: 145px;
+        overflow: hidden;
+        min-width: 145px;
+        border-radius: 0.25rem;
+        border: 5px solid #ffffff;
+        background-color: transparent;
+    }
+
+    ul.content {
+        width: 425px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    ul.content {
+        overflow: hidden;
+        position: relative;
+        border-radius: 0.25rem;
+        border: 5px solid #ffffff;
+        background-color: transparent;
+    }
+
+    ul.content {
+        li.content-page {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            min-height: 100%;
+            transition: all 0.5s ease 0s;
+        }
+
+        div.page-header {
+            width: 100%;
+            height: 60px;
+            border-bottom: 5px solid #ffffff;
+
+            span.page-title {
+                font-size: 18px;
+                line-height: 60px;
+                margin-left: 20px;
+            }
+        }
+
+        div.page-content {
+            padding: 15px;
+            overflow: hidden;
+            overflow-y: scroll;
+            width: calc(100% - 30px);
+            height: calc(100% - 95px);
+
+            div.flex-line {
+                height: 126px;
+                display: flex;
+                overflow: hidden;
+                border-radius: 0.25rem;
+                justify-content: flex-start;
+
+                div.progress-content {
+                    height: 126px;
+                    display: flex;
+                    margin-left: 15px;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    span.content-text {
+                        display: block;
+                        font-size: 15px;
+                    }
+                }
+            }
+
+            div.el-progress {
+                width: 100px;
+                height: 100px;
+                padding: 8px;
+                display: flex;
+                border-radius: 0.25rem;
+                border: 5px solid #ffffff;
+            }
+
+            .percentage-value {
+                display: block;
+                margin-top: 10px;
+                font-size: 22px;
+            }
+
+            .percentage-label {
+              display: block;
+              font-size: 9px;
+              margin-top: 10px;
+            }
+
+            div.el-progress-circle {
+                margin: auto;
+                margin-top: 7px!important;
+            }
+        }
+    }
+}
+

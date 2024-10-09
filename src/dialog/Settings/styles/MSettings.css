@@ -1,0 +1,98 @@
+div#m-settings {
+  width: 100%;
+  overflow: hidden;
+}
+div#m-settings div.tab-h {
+  width: 100%;
+  height: 45px;
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 45px;
+  border-bottom: 4px solid #ffffff;
+}
+div#m-settings div.tab-b {
+  height: 200px;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding: 15px 10px;
+  width: calc(100% - 30px);
+}
+div#m-settings div.tab-b div.el-empty {
+  width: 100%;
+  height: 200px;
+  padding: 0!important;
+}
+div#m-settings div.tab-b div.el-empty div.el-empty__image {
+  width: 140px;
+  height: 140px;
+}
+div#m-settings div.tab-b div.flex-line {
+  height: 126px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  justify-content: flex-start;
+}
+div#m-settings div.tab-b div.flex-line div.progress-content {
+  height: 126px;
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+div#m-settings div.tab-b div.flex-line div.progress-content span.content-text {
+  display: block;
+  font-size: 14px;
+}
+div#m-settings div.tab-b div.el-progress {
+  width: 100px;
+  padding: 8px;
+  height: 100px;
+  display: flex;
+  padding-top: 6px;
+  border-radius: 0.25rem;
+  border: 4px solid #ffffff;
+}
+div#m-settings div.tab-b .percentage-value {
+  display: block;
+  margin-top: 10px;
+  font-size: 22px;
+}
+div#m-settings div.tab-b .percentage-label {
+  display: block;
+  font-size: 9px;
+  margin-top: 10px;
+}
+div#m-settings div.tab-b div.el-progress-circle {
+  margin: auto;
+  margin-top: 7px!important;
+}
+div.van-tabs__wrap {
+  height: 65px!important;
+}
+div.van-tabs__nav {
+  display: flex;
+  background: unset;
+  align-items: center;
+  padding-bottom: 0;
+  border-radius: 0.25rem;
+  border: 4px solid #ffffff;
+}
+div.van-tab {
+  margin: 10px 0;
+}
+div.van-tabs__nav--line {
+  height: 40px;
+}
+.van-tab--active {
+  color: var(--dominColor);
+}
+div.van-tabs__line {
+  top: 32px;
+  background: var(--dominColor);
+}
+div.van-tabs__track {
+  border-radius: 0.25rem;
+  width: calc(100% - 8px);
+  border: 4px solid #ffffff;
+}

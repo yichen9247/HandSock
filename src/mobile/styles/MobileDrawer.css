@@ -1,0 +1,111 @@
+div#drawer-main {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
+  overflow-y: scroll;
+  background-color: #f2f6fc;
+}
+div#drawer-main div.side-out-image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  position: absolute;
+}
+div#drawer-main div.side-out-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.5s;
+  background-image: var(--background);
+}
+div#drawer-main div.side-out-image::before {
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  content: "";
+  height: 100%;
+  position: absolute;
+  background-color: rgba(241, 241, 241, 0.4);
+}
+div#drawer-main div.side-out-navg {
+  bottom: 0;
+  width: calc(100% - 50px);
+  position: absolute!important;
+}
+div#drawer-main div.side-out-notice,
+div#drawer-main div.side-out-empty {
+  padding: 0!important;
+}
+div#drawer-main div.drawer-card {
+  z-index: 1;
+  padding: 15px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 25px;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  box-shadow: var(--el-box-shadow-lighter);
+}
+div#drawer-main div.side-out-autho {
+  z-index: 1;
+  display: flex;
+  margin-top: 90px;
+}
+div#drawer-main div.side-out-autho img.avatar-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+  box-shadow: var(--el-box-shadow-lighter);
+}
+div#drawer-main div.side-out-autho div.author-infos {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  overflow: hidden;
+  line-height: 25px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+div#drawer-main div.side-out-autho div.author-infos p.username {
+  color: #42d392;
+  font-weight: 700;
+  overflow: hidden;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+  width: calc(100% - 35px);
+  text-overflow: ellipsis;
+}
+div#drawer-main div.side-out-autho div.author-infos p.userhito {
+  color: #636363;
+  font-size: 12px;
+  overflow: hidden;
+  padding: 0.25rem;
+  padding-bottom: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: calc(100% - 35px);
+  margin-bottom: 0 !important;
+}
+div#drawer-main button.side-bright-button {
+  top: 15px;
+  right: 15px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  border-color: #dcdfe6;
+  background-color: #ffffff;
+}
+div.nav-item {
+  width: 100%;
+  height: 30px;
+  display: flex;
+}
+div.nav-item svg {
+  margin: auto;
+}

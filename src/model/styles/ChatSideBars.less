@@ -1,0 +1,62 @@
+
+div#chat-sidebar {
+    width: 105px;
+    height: 100%;
+    display: flex;
+    min-width: 105px;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    border-right: 8px solid #ffffff;
+    background-color: var(--dominColor);
+
+    div.button-sheet {
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        margin-top: 20px;
+        position: absolute;
+        overflow-y: scroll;
+        align-items: flex-end;
+        justify-content: center;
+        height: calc(100% - 105px);
+
+        button.el-button {
+            width: 70px;
+            height: 70px;
+            border: none;
+            margin: 5px 0;
+            background: none;
+            margin-bottom: 10px;
+            box-shadow: var(--el-box-shadow-light);
+        }
+    }
+
+    button.tab-active {
+        border: 5px solid #ffffff;
+    }
+
+    span.avatar-info {
+        width: 70px;
+        height: 70px;
+        cursor: pointer;
+        margin-top: 19.5px;
+        border: 5px solid #ffffff;
+        box-shadow: var(--el-box-shadow-light);
+    }
+}
+
+div.sendState {
+    width: 45px;
+    height: 7px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    div#chat-sidebar {
+        width: unset;
+        display: none;
+        min-width: 105px;
+    }
+}

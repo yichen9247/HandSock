@@ -1,0 +1,12 @@
+div#search-main {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  height: calc(100% - 40px);
+  background-color: #dae8f1;
+}
+div#search-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
