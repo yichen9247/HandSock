@@ -119,6 +119,35 @@ npm run clear # 在项目根目录执行
 
 此命令用于清理聊天记录，您的用户信息不会被清理掉，不管是MySQL还是JSON存储，只会清理掉聊天记录。
 
+## 关于反向代理
+
+如果你使用了反向代理，请修改Nginx或者Apache的配置文件，否则将错误识别客户端的IP
+
+在Nginx的配置文件中，使用proxy_set_header指令来添加Forwarded头：
+
+```js
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+在Apache的配置文件中，使用RequestHeader指令来添加Forwarded头：
+
+```xml
+<VirtualHost>
+    ProxyPreserveHost On
+</VirtualHost>
+```
+
+
 ## 关于下个版本
 
 下个版本可能会对整个HandSock消息系统和用户系统进行重构，且会放弃对本地JSON存储的支持，关于管理员功能以后可能会增加部分功能，欢迎提Issuses

@@ -30,6 +30,8 @@ const __dirname = path.dirname(__filename);
 config.checkToken && ioServer.use((socket, next) => {
     let address = socket.handshake.address;
     let headers = socket.handshake.headers['user-agent'];
+    let ipAddress = socket.handshake.headers["x-forwarded-for"].split(",")[0];
+    if (ipAddress !== undefined) address = ipAddress;
     if (assecc.some(item => item.address === address)) {
         let client = assecc.find(item => item.address === address);
         if (client.auth.some(item => item.headers === headers)) {
@@ -67,6 +69,9 @@ ioServer.on('connection', (socket) => {
     initChatServer(socket);
     let address = socket.handshake.address;
     let headers = socket.handshake.headers['user-agent'];
+    let ipAddress = socket.handshake.headers["x-forwarded-for"].split(",")[0];
+
+    if (ipAddress !== undefined) address = ipAddress;
 
     if (!assecc.some(item => item.address === address)) {
         assecc.push({
