@@ -115,9 +115,9 @@
                     <el-text class="mx-1">
                         <p>HandSock 是一款有趣的聊天应用，基于 Node.js, Vue3, Mysql 和 Socket.io 等技术开发</p>
                         <br/>
-                        <p>项目作者：<el-link type="primary" href="https://github.com/yichen9247">yichen9247（Hua）</el-link></p>
+                        <p>项目作者：<el-link type="primary" href="https://github.com/yichen9247" target="_blank">yichen9247（Hua）</el-link></p>
                         <br/>
-                        <p>项目地址：<el-link type="primary" href="https://github.com/yichen9247/HandSock">https://github.com/yichen9247/HandSock</el-link></p>
+                        <p>项目地址：<el-link type="primary" href="https://github.com/yichen9247/HandSock" target="_blank">https://github.com/yichen9247/HandSock</el-link></p>
                     </el-text>
                 </div>
             </li>
