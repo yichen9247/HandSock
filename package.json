@@ -15,6 +15,7 @@
   "dependencies": {
     "@mdui/icons": "^1.0.2",
     "axios": "^1.7.7",
+    "disable-devtool": "^0.3.8",
     "element-plus": "^2.4.4",
     "ioredis": "^5.4.1",
     "mysql": "^2.18.1",
