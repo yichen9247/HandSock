@@ -118,6 +118,8 @@ ioServer.on('connection', (socket) => {
         if (messageObject.clientCorsPassword !== config.clientCorsPassword) return socket.emit('[WARNING]', { code: 403, message: "连接被拒绝" });
         if (command.list.some(item => item.keyword === messageObject.message)) {
             databasePushHistory(connection, connectionFaild, { 'code': 201, name: messageObject.name, message: messageObject.message, userid: messageObject.userid, channel: messageObject.channel, userqq: messageObject.userqq, time: returnThisTime(), chatCode: messageObject.chatCode }, broadcastMessage);
+            writeRunningLog(messageType[103] + JSON.stringify({ 'code': 103, name: messageObject.name, message: messageObject.message, userid: messageObject.userid, channel: messageObject.channel, userqq: messageObject.userqq, time: returnThisTime(), chatCode: messageObject.chatCode, address: extractIPv4FromIPv6(address) }) + "\n");
+            
             robot.robotChat(messageObject.message).then((value) => {
                 databasePushHistory(connection, connectionFaild, { code: 203, name: command.name, message: value, userid: 66600000, channel: messageObject.channel, userqq: "1708910253", time: returnThisTime(), chatCode: 0 }, broadcastMessage);
                 writeRunningLog(messageType[203] + JSON.stringify({ 'code': 203, name: command.name, message: value, userid: 66600000, channel: messageObject.channel, userqq: "1708910253", time: returnThisTime(), chatCode: 0, address: extractIPv4FromIPv6(address) }) + "\n");
