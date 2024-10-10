@@ -1,10 +1,9 @@
-
 /* eslint-disable no-undef */
 
-const mysql = require('mysql');
-const config = require('../config');
-const database = require('../database');
-const { styleText } = require('node:util');
+import mysql from 'mysql';
+import config from '../config.mjs';
+import { styleText } from 'node:util';
+import database from '../database.mjs';
 const connection = mysql.createConnection(database);
 
 if (!config.connectionFaild) {

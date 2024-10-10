@@ -1,6 +1,6 @@
 export default {
     clientCorsPassword: '12345678',
-    serverIOAdress: '11.47.17.166:5100',
+    serverIOAdress: '127.0.0.1:5100',
 
     dominColor: {
         defaultDominColor: 'rgba(5,160, 150, 0.5)',

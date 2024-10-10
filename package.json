@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "clear": "node server/clear.js",
-    "server": "node server/class/check.js && node server/socket/server.js",
-    "server:io": "node server/class/check.js && node server/socket/server.js",
+    "clear": "node server/class/clear.mjs",
+    "server": "node server/class/check.mjs && node server/socket/server.mjs",
+    "server:io": "node server/class/check.mjs && node server/socket/server.mjs",
     "preview": "vite preview --port 3000",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },

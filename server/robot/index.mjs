@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const axios = require('axios');
+import axios from "axios";
 
 const robotChat = async (command) => {
     if (command === "随机一言") {
@@ -17,4 +17,4 @@ const robotChat = async (command) => {
     }
 }
 
-module.exports = { robotChat };
+export default { robotChat };

@@ -64,4 +64,4 @@ class dateTool {
     }
 }
 
-module.exports = dateTool;
+export default dateTool;

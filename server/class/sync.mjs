@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 
-const fs = require('fs');
-const mysql = require('mysql');
-const database = require('../database.js');
-const { styleText } = require('node:util');
+import fs from 'fs';
+import mysql from 'mysql';
+import { styleText } from 'util';
+import database from '../database.mjs';
+
 const connection = mysql.createConnection(database);
 
 connection.connect((error) => {  
@@ -46,4 +47,4 @@ const databaseSYncWithLocation = () => {
   });
 }
 
-module.exports = { databaseSYncWithLocation: databaseSYncWithLocation };
+export default { databaseSYncWithLocation: databaseSYncWithLocation }

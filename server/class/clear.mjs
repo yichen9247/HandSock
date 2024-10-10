@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
 
-const fs = require('fs');
-const mysql = require('mysql');
-const config = require('./config.js');
-const database = require('./database.js');
+import fs from 'fs';
+import mysql from 'mysql';
+import config from '../config.mjs';
+import database from '../database.mjs';
 
 let connection = null;
 let connectionFaild = config.connectionFaild;

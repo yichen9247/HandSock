@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-module.exports = {
+export default {
     textValid: false,
     serverPort: 5100,
     checkToken: false,

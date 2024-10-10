@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-module.exports = {
+export default {
     list: [
         { keyword: '随机一言' },
         { keyword: '你好世界' }

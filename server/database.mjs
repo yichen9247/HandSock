@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-module.exports = {
+export default {
     port: 3306,
     user: 'root',
     host: 'localhost',

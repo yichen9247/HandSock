@@ -4,10 +4,10 @@ HandSock 是一款有趣的聊天应用，基于 Node.js, Vue3, Mysql 和 Socket
 
 ## 配置项目：服务端
 
-创建一个空的数据库，然后修改 `server/database.js` 里面的的数据库连接信息
+创建一个空的数据库，然后修改 `server/database.mjs` 里面的的数据库连接信息
 
 ```js
-module.exports = {
+export default {
     port: 3306,
     user: 'root',
     host: 'localhost',
@@ -17,10 +17,10 @@ module.exports = {
 }
 ```
 
-配置 `server/config.js` 里面的各种信息，文件内容以及参数说明如下表所示：
+配置 `server/config.mjs` 里面的各种信息，文件内容以及参数说明如下表所示：
 
 ```js
-module.exports = {
+export default {
     textValid: false,
     serverPort: 5100,
     checkToken: false,
@@ -125,4 +125,4 @@ npm run clear # 在项目根目录执行
 
 ## License
 
-HandSock is [MIT licensed](./LICENSE.txt)
+HandSock is [MIT licensed](https://github.com/yichen9247/HandSock/blob/main/LICENSE.txt)

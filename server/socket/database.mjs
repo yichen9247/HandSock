@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 
-const fs = require('fs');
-const { styleText } = require('node:util');
-const { writeRunningLog } = require('../scripts/utils')
+import fs from 'fs';
+import { styleText } from 'util';
+import { writeRunningLog } from '../scripts/utils.mjs';
 
 let synconce = 0;
-const connectServer = async (connection, connectionFaild, syncLocalHistory) => {
+export const connectServer = async (connection, connectionFaild, syncLocalHistory) => {
     connection.connect((error) => {  
         if (error) {
             console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
@@ -22,7 +22,7 @@ const connectServer = async (connection, connectionFaild, syncLocalHistory) => {
     });
 }
 
-const registerUser = (connection, connectionFaild, userid, username, userqq) => {
+export const registerUser = (connection, connectionFaild, userid, username, userqq) => {
     !connectionFaild && connection.query('SHOW TABLES LIKE "users"', (error) => {
         if (error) throw error;
         connection.query('SELECT * FROM users WHERE username = ?', [username], (error) => {
@@ -35,7 +35,7 @@ const registerUser = (connection, connectionFaild, userid, username, userqq) => 
     });
 }
 
-const clearHistory = (connection, content, broadcastMessage) => {
+export const clearHistory = (connection, content, broadcastMessage) => {
     connection.query('SELECT chatData FROM history', (error, results) => {
         if (error) throw error;
         const query = 'UPDATE history SET chatData = ?';
@@ -62,9 +62,9 @@ const clearHistory = (connection, content, broadcastMessage) => {
 };
 
 
-const databasePushHistory = (connection, connectionFaild, content, broadcastMessage) => {
-    if (error) throw error;
+export const databasePushHistory = (connection, connectionFaild, content, broadcastMessage) => {
     connectionFaild && fs.readFile('cache/history.json', 'utf8', (error, data) => {
+        if (error) throw error;
         let dataJson = JSON.parse(data);
         if (dataJson.length > 600) {
             broadcastMessage({ code: 500, message: "服务端聊天记录已重置！" });
@@ -93,11 +93,9 @@ const databasePushHistory = (connection, connectionFaild, content, broadcastMess
     });
 }
 
-const databaseClearWithLocation = (syncLocalHistory) => {
+export const databaseClearWithLocation = (syncLocalHistory) => {
     if (!(synconce <= 20)) {
         synconce = 0;
         syncLocalHistory.databaseSYncWithLocation();
     } else synconce++;
 }
-
-module.exports = { registerUser, clearHistory, connectServer, databaseClearWithLocation, databasePushHistory }

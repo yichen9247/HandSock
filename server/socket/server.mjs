@@ -1,18 +1,20 @@
 /* eslint-disable no-undef */
-const fs = require('fs');
-const path = require('path');
-const mysql = require('mysql');
-const express = require('express');
-const config = require('../config.js');
-const database = require('../database.js');
-const { styleText } = require('node:util');
-const robot = require('../robot/index.js');
-const command = require('../robot/command.js');
+import fs from 'fs';
+import path from 'path';
+import mysql from 'mysql';
+import express from 'express';
+import config from '../config.mjs';
+import database from '../database.mjs';
+import robot from '../robot/index.mjs';
+import command from '../robot/command.mjs';
+import syncLocalHistory from '../class/sync.mjs';
 
-const { Server } = require('socket.io');
-const { createServer } = require('node:http');
-const { databasePushHistory, connectServer } = require('./database');
-const { returnThisTime, writeRunningLog, checkChatTextValid, returnServerToken, extractIPv4FromIPv6 } = require('../scripts/utils');
+import { styleText } from 'util';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
+import { fileURLToPath } from 'url';
+import { databasePushHistory, connectServer } from './database.mjs';
+import { returnThisTime, writeRunningLog, checkChatTextValid, returnServerToken, extractIPv4FromIPv6 } from '../scripts/utils.mjs';
 
 const application = express();
 const server = createServer(application);
@@ -22,8 +24,10 @@ const ioServer = new Server(server, {
         methods: ["GET", "POST"]
     },
 });
+const __filename = fileURLToPath(import.meta.url);
 
 let assecc = [];
+const __dirname = path.dirname(__filename);
 config.checkToken && ioServer.use((socket, next) => {
     let address = socket.handshake.address;
     let headers = socket.handshake.headers['user-agent'];
@@ -36,11 +40,10 @@ config.checkToken && ioServer.use((socket, next) => {
 });
 
 let onlineUsers = 0;
+let connection = null;
 let connectionFaild = config.connectionFaild;
-let connection = null, syncLocalHistory = null;
 
 if (!config.connectionFaild) {
-    syncLocalHistory = require('../class/sync.js');
     connection = mysql.createConnection(database);
     connectServer(connection, connectionFaild, syncLocalHistory);
 } else console.log('Server：Connected to the LocalStorage server!\n');
