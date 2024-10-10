@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 export default {
-    textValid: false,
+    textValid: true,
     serverPort: 5100,
     checkToken: false,
     connectionFaild: false,
     clientCorsPassword: '12345678',
-    alApiValidAsV2Token: 'alapi-token',
+    alApiValidAsV2Token: 'MPCPPpyj3e1QWU7y',
 }
 
 /**
