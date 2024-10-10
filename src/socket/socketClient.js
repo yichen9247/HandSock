@@ -130,10 +130,10 @@ const sendJoinMessage = async (channel) => {
     onlineChatStore.logind ? onlineChatStore.socketIo.emit('[JOIN：101]', { name: onlineChatStore.username, userid: onlineChatStore.userid, userqq: onlineChatStore.userqq, channel: channel, clientCorsPassword: config.clientCorsPassword }) : openRegisterDialog();
 }
 
+let interval = 0;
 const sendChatMessage = async (code, message) => {
     const onlineChatStore = utils.useOnlineChatStore();
     if (!onlineChatStore.logind) return openRegisterDialog();
-    let interval = 0;
     if (interval === 0) {
         interval = 3;
         let intervalTimer = setInterval(() => {
