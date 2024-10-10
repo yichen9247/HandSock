@@ -7,7 +7,6 @@ import config from '../config.mjs';
 import database from '../database.mjs';
 import robot from '../robot/index.mjs';
 import command from '../robot/command.mjs';
-import syncLocalHistory from '../class/sync.mjs';
 
 import { styleText } from 'util';
 import { Server } from 'socket.io';
@@ -45,7 +44,7 @@ let connectionFaild = config.connectionFaild;
 
 if (!config.connectionFaild) {
     connection = mysql.createConnection(database);
-    connectServer(connection, connectionFaild, syncLocalHistory);
+    connectServer(connection, connectionFaild);
 } else console.log('Server：Connected to the LocalStorage server!\n');
 
 

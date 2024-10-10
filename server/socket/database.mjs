@@ -2,10 +2,11 @@
 
 import fs from 'fs';
 import { styleText } from 'util';
+import syncLocalHistory from '../class/sync.mjs';
 import { writeRunningLog } from '../scripts/utils.mjs';
 
 let synconce = 0;
-export const connectServer = async (connection, connectionFaild, syncLocalHistory) => {
+export const connectServer = async (connection) => {
     connection.connect((error) => {  
         if (error) {
             console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
@@ -93,7 +94,7 @@ export const databasePushHistory = (connection, connectionFaild, content, broadc
     });
 }
 
-export const databaseClearWithLocation = (syncLocalHistory) => {
+export const databaseClearWithLocation = () => {
     if (!(synconce <= 20)) {
         synconce = 0;
         syncLocalHistory.databaseSYncWithLocation();
