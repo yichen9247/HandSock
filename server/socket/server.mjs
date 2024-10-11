@@ -34,7 +34,8 @@ const ioServer = new Server(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
-    }
+    },
+    pingTimeout: 60000
 });
 const __filename = fileURLToPath(import.meta.url);
 
