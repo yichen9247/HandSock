@@ -1,5 +1,4 @@
 <script setup>
-    import axios from "axios"
     import { ref, watch } from "vue"
     import utils from "@/scripts/utils"
     import channelList from "../scripts/channel.js"
@@ -25,18 +24,9 @@
 
     const setUserNameInfo = async () => {
         if (nameInfoInput.value === "") return ElMessage({ message: '昵称请不要为空！', type: 'warning' });
-        const checkUrl = await axios.get('https://v2.alapi.cn/api/censor/text?token=MPCPPpyj3e1QWU7y&text=' + nameInfoInput.value);
-        const editName = () => {
-            onlineChatStore.setUserName(nameInfoInput.value);
-            localStorage.setItem('username', nameInfoInput.value);
-            ElMessage({ message: '设置昵称成功！', type: 'success' });
-        }
-        
-        if (checkUrl.data.code !== 102) {
-            if (checkUrl.data.data.conclusion === "不合规") {
-                ElMessage({ message: '昵称不合规请检查！', type: 'error' });
-            } else editName();
-        } else editName();
+        onlineChatStore.setUserName(nameInfoInput.value);
+        localStorage.setItem('username', nameInfoInput.value);
+        ElMessage({ message: '设置昵称成功！', type: 'success' });
     }
 
     const searchChannel = () => {
