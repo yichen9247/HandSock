@@ -1,8 +1,24 @@
 # [HandSock](https://github.com/yichen9247/HandSock) &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yichen9247/HandSock/blob/main/LICENSE.txt) [![author](https://img.shields.io/badge/author-Hua-blue.svg)](https://github.com/yichen9247) [![Node.js Version](https://img.shields.io/badge/node.js-16.20.2-blue.svg)](http://nodejs.org/download)
 
-HandSock 是一款有趣的聊天应用，基于 Node.js, Vue3, Mysql 和 Socket.io 等技术开发
+HandSock 是一款有趣的聊天应用，基于 Node.js, Vue3, Mysql，Redis 和 Socket.io 等技术开发
 
 ## 配置项目：服务端
+
+配置 `server/redis.mjs` 里面的Redis连接信息：
+
+```js
+export default {
+    port: 6379,
+    host: '127.0.0.1',
+    // password: '12345678'
+}
+
+/**
+ * port: Redis端口号
+ * host：Redis主机名（IP）
+ * password: 如果设置了Redis密码，请配置此项
+ */
+```
 
 创建一个空的数据库，然后修改 `server/database.mjs` 里面的的数据库连接信息
 
@@ -11,10 +27,17 @@ export default {
     port: 3306,
     user: 'root',
     host: 'localhost',
+    charset: 'utf8mb4',
     password: '12345678',
     database: 'handsock',
-    useConnectionPooling: true
+    useConnectionPooling: true,
+    collation: 'utf8mb4_unicode_ci'
 }
+
+/**
+ * collation: 关键，勿动此项
+ * charset：数据库字符集，勿动此项
+ */
 ```
 
 配置 `server/config.mjs` 里面的各种信息，文件内容以及参数说明如下表所示：
@@ -24,18 +47,20 @@ export default {
     textValid: false,
     serverPort: 5100,
     checkToken: false,
+    retryConnection: true,
     connectionFaild: false,
     clientCorsPassword: '12345678',
     alApiValidAsV2Token: 'alapi-token',
 }
 
 /**
- * textValid: 是否启用文本检验 Type: Boolean
- * serverPort：服务端（后端）端口 Type: String
- * checkToken: 是否启用客户端Token验证 Type: Boolean
- * connectionFaild: 如果不使用数据库存而是本地存储请设置 Type: String
- * clientCorsPassword：此项与客户端的clientCorsPassword一致 Type: String
- * alApiValidAsV2Token： AlAPI的Token，详见https://www.alapi.c/ Type: String
+ * textValid: 是否启用文本检验 
+ * serverPort：服务端（后端）端口
+ * checkToken: 是否启用客户端Token验证
+ * retryConnection: 尝试重新连接Mysql数据库
+ * connectionFaild: 如果不想使用数据库存储而是本地存储，请设置为true
+ * clientCorsPassword：此项与客户端的clientCorsPassword一致
+ * alApiValidAsV2Token： AlAPI的Token，详见https://www.alapi.cn/
  */
 ```
 
@@ -146,7 +171,6 @@ server {
     ProxyPreserveHost On
 </VirtualHost>
 ```
-
 
 ## 关于下个版本
 

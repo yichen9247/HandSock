@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 export default {
     port: 3306,
     user: 'root',
@@ -9,3 +8,8 @@ export default {
     useConnectionPooling: true,
     collation: 'utf8mb4_unicode_ci'
 }
+
+/**
+ * collation: 关键，勿动此项
+ * charset：数据库字符集，勿动此项
+ */

@@ -15,6 +15,13 @@ const generUserId = () => {
     return Math.floor(111111111 + Math.random() * 9999999999);
 }
 
+const aboutThisChatPage = () => {
+    ElMessageBox.alert('HandSock 是一款有趣的聊天应用，基于 Node.js, Vue3, Mysql 和 Socket.io，Redis 等技术开发', '关于项目', {
+        confirmButtonText: '朕已知晓',
+        callback: () => {},
+    });
+}
+
 const returnLoadingSvg = () => {
     return `
         <path class="path" d="  
@@ -81,4 +88,4 @@ const playNoticeVoice = async () => {
     audioRef.play().catch(() => {});
 }
 
-export default { isMobile, audioMenu, themeMenu, showToasts, showErrorToasts, generUserId, playNoticeVoice, useApplicationStore, useOnelDialogStore, useOnlineChatStore, returnLoadingSvg };
+export default { isMobile, audioMenu, themeMenu, showToasts, showErrorToasts, generUserId, aboutThisChatPage, playNoticeVoice, useApplicationStore, useOnelDialogStore, useOnlineChatStore, returnLoadingSvg };

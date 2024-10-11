@@ -54,13 +54,6 @@
         }
     }
 
-    const aboutThisChatPage = () => {
-        ElMessageBox.alert('这是一个基于Vue3和Websocket实时通讯技术以及Element Plus构建的前端网页在线聊天室，旨在使用最少的代码和最简单的逻辑来模拟在线聊天环境。', '关于项目', {
-            confirmButtonText: '朕已知晓',
-            callback: () => {},
-        });
-    }
-
     const settingFromChatPage = () => {
         if (onlineChatStore.logind && onlineChatStore.connection) {
             onelDialogStore.setSettinglCenter(true);
@@ -98,7 +91,7 @@
                 </el-tooltip>
 
                 <el-tooltip class="box-item" effect="dark" content="关于" placement="right">
-                    <el-button size="large" @click="aboutThisChatPage">
+                    <el-button size="large" @click="utils.aboutThisChatPage">
                         <svg t="1703496071634" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9471" width="48" height="48"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 85.333333C311.701333 149.333333 149.333333 311.701333 149.333333 512s162.368 362.666667 362.666667 362.666667 362.666667-162.368 362.666667-362.666667S712.298667 149.333333 512 149.333333z m21.333333 277.333334a21.333333 21.333333 0 0 1 21.333334 21.333333v298.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333V448a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z m0-170.666667a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z" fill="#ffffff" p-id="9472"></path></svg>
                     </el-button>
                 </el-tooltip>

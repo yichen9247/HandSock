@@ -9,19 +9,10 @@ const connection = mysql.createConnection(database);
 
 connection.connect((error) => {  
   if (error) {
-      console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
+      console.log(styleText('red', '[SERVER]：Sync Failed to connect to MySQL database!'));
       return process.exit(1);
   }
-  console.log(styleText('green', '[SYNC]：Connected to the MySQL server!'));
-    
-  connection.query('SHOW TABLES LIKE "users"', (error, result) => {
-      if (error) throw error;
-      if (result.length === 0) {
-        connection.query('CREATE TABLE users (userid BIGINT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), userqq BIGINT)', () => {  
-          if (error) throw error;
-        });
-      }
-  });
+  console.log(styleText('green', '[SERVER]：Sync Connected to the MySQL server!'));
   
   connection.query('SHOW TABLES LIKE "history"', (error, result) => {
     if (error) throw error;

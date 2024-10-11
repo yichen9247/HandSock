@@ -11,8 +11,10 @@
     "dependencies": {
         "axios": "^1.6.7",
         "chalk": "^5.3.0",
+        "dotenv": "^16.4.5",
         "express": "^4.21.0",
         "mysql": "^2.18.1",
+        "redis": "^4.7.0",
         "server": "^1.0.41",
         "socket.io": "^4.8.0",
         "uuid": "^10.0.0",

@@ -5,25 +5,12 @@ import mysql from 'mysql';
 import config from '../config.mjs';
 import database from '../database.mjs';
 
-let connection = null;
-let connectionFaild = config.connectionFaild;
-
-if (!config.localStorage) {
-  connection = mysql.createConnection(database);
-}
+let connection = null, connectionFaild = config.connectionFaild;
+if (!config.localStorage) connection = mysql.createConnection(database);
 
 !connectionFaild && connection.connect((error) => {  
     if (error) throw error;
     console.log('Connected to the MySQL server!\n');  
-    
-    connection.query('SHOW TABLES LIKE "users"', (error, result) => {
-        if (error) throw error;
-        if (result.length === 0) {
-          connection.query('CREATE TABLE users (userid BIGINT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255), userqq BIGINT)', () => {  
-            if (error) throw error;
-          });
-        }
-    });
   
     connection.query('SHOW TABLES LIKE "history"', (error, result) => {
       if (error) throw error;

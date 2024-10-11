@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import { styleText } from 'util';
+import message from './message.mjs';
 import syncLocalHistory from '../class/sync.mjs';
 import { writeRunningLog } from '../scripts/utils.mjs';
 
@@ -9,30 +10,11 @@ let synconce = 0;
 export const connectServer = async (connection) => {
     connection.connect((error) => {  
         if (error) {
-            console.log(styleText('red', '[CHECK]：Failed to connect to MySQL database!'));
+            console.log(styleText('red', '[CHECK]：Failed to connect to MySQL Server!'));
             return process.exit(1);
         }
         syncLocalHistory.databaseSYncWithLocation();
-        console.log(styleText('green', '[SERVER]：Server：Connected to the MySQL server!'));
-
-        setInterval(() => {
-            connection.query('SELECT 1', (error) => {
-              if (error) return console.log(styleText('red', '[SERVER]：Error while performing Query!'));
-            });
-        }, 1000);
-    });
-}
-
-export const registerUser = (connection, connectionFaild, userid, username, userqq) => {
-    !connectionFaild && connection.query('SHOW TABLES LIKE "users"', (error) => {
-        if (error) throw error;
-        connection.query('SELECT * FROM users WHERE username = ?', [username], (error) => {
-            if (error) throw error;
-            const query = 'INSERT INTO users (userid, username, userqq) VALUES (?, ?, ?)';
-            connection.query(query, [userid, username, userqq], (error) => {
-                if (error) throw error;
-            });
-        });
+        console.log(styleText('green', '[SERVER]：Server：Connected to the MySQL Server!'));
     });
 }
 
@@ -63,7 +45,11 @@ export const clearHistory = (connection, content, broadcastMessage) => {
 };
 
 
-export const databasePushHistory = (connection, connectionFaild, content, broadcastMessage) => {
+export const databasePushHistory = (connection, connectionFaild, content, broadcastMessage, address) => {
+    let logContent = content;
+    logContent.address = address;
+    writeRunningLog("\n" + message.messageType[content.code] + JSON.stringify(logContent));
+
     connectionFaild && fs.readFile('cache/history.json', 'utf8', (error, data) => {
         if (error) throw error;
         let dataJson = JSON.parse(data);
