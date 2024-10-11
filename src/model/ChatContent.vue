@@ -15,6 +15,7 @@
     let mousetime = 0, mousedown = null;
 
     watch(onlineChatStore.messageList, (news) => {
+        if (!onlineChatStore.connection) return;
         const message = news[news.length - 1];
         setTimeout(() => document.querySelector(".content-main").scrollTo({ top: document.querySelector(".content-main").scrollHeight, behavior: 'smooth' }),100);
         if ((onlineChatStore.userid === message.userid) || (onlineChatStore.chatChannel !== message.channel)) return;

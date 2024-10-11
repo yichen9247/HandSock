@@ -17,7 +17,7 @@ const openRegisterDialog = async () => {
             onlineChatStore.setUserId(userid);
             localStorage.setItem('userid', userid);
             localStorage.setItem('username', value);
-            onlineChatStore.socketIo.emit('[JOIN：103]', { name: value, userid: userid, userqq: onlineChatStore.userqq, channel: onlineChatStore.chatChannel, clientCorsPassword: config.clientCorsPassword });
+            onlineChatStore.socketIo.emit('[JOIN：101]', { name: value, userid: userid, userqq: onlineChatStore.userqq, channel: onlineChatStore.chatChannel, clientCorsPassword: config.clientCorsPassword });
         }
     }).catch(() => utils.showToasts('info', '正在以游客的身份进行浏览！'));
 }
@@ -43,13 +43,14 @@ const startSocketIo = async () => {
           onlineChatStore.setLogind(true);
           onlineChatStore.setUserName(localStorage.getItem('username'));
           onlineChatStore.setUserId(Number(localStorage.getItem('userid')));
-        } else openRegisterDialog(onlineChatStore.socket);
+        } else openRegisterDialog(onlineChatStore.socketIo);
         if (localStorage.getItem('userqq') !== null) onlineChatStore.setUserQQ(localStorage.getItem('userqq'));
     });
 
     onlineChatStore.socketIo.on('disconnect', () => {
         onlineChatStore.setOnlineUsers(0);
         onlineChatStore.setConnection(false);
+        onlineChatStore.messageList.length = [0];
         utils.showErrorToasts('error', '服务器崩了', '与通信服务器的连接已断开！');
     });
     onlineChatStore.socketIo.on('[WARNING]', (messageObject) => utils.showToasts('error', messageObject.message));

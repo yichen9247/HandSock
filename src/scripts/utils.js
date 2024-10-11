@@ -50,7 +50,7 @@ const showToasts = async (type, text) => {
     }
 }
 
-const showErrorToasts = async (type, text1, text2) => {
+const showErrorToasts = (type, text1, text2) => {
     if (!isMobile()) {
         if (type === 'error') ElMessage({ message: text2, type: 'error' });
         if (type === 'warning') ElMessage({ message: text2, type: 'warning' });
