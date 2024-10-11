@@ -31,8 +31,8 @@
 
     const searchChannel = () => {
         if (!onlineChatStore.logind || !onlineChatStore.connection) return ElMessage({ message: '你还没有登录到聊天室哦！', type: 'warning' });
-        if (!channelList.some(item => item.id === Number(searchInput.value))) return ElMessage({ message: '请勿重复加入频道！', type: 'warning' });
         if (onlineChatStore.chatChannel === Number(searchInput.value)) return ElMessage({ message: '请勿重复加入频道！', type: 'warning' });
+        if (!channelList.some(item => item.id === Number(searchInput.value))) return ElMessage({ message: '未找到该频道！', type: 'warning' });
         
         onelDialogStore.setSearchalCenter(false);
         let channelName = channelList.find(item => item.id === Number(searchInput.value)).name;
