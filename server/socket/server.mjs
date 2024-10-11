@@ -133,10 +133,10 @@ ioServer.on('connection', (socket) => {
                 databasePushHistory(connection, connectionFaild, { code: 203, name: command.name, message: value, userid: 66600000, channel: messageObject.channel, userqq: "1708910253", time: returnThisTime(), chatCode: 0 }, broadcastMessage, extractIPv4FromIPv6(address));
             });
         } else 
-        await checkChatTextValid(messageObject.message).then(async (data) => {
-            if (config.textValid && data.code === 200 && data.data.conclusion === '不合规') return socket.emit('[WARNING]', { code: 401, message: "请注意措辞" });
+        config.textValid ? await checkChatTextValid(messageObject.message).then(async (data) => {
+            if (data.code === 200 && data.data.conclusion === '不合规') return socket.emit('[WARNING]', { code: 401, message: "请注意措辞" });
             databasePushHistory(connection, connectionFaild, { 'code': 201, name: messageObject.name, message: messageObject.message, userid: messageObject.userid, channel: messageObject.channel, userqq: messageObject.userqq, time: returnThisTime(), chatCode: messageObject.chatCode }, broadcastMessage, extractIPv4FromIPv6(address));
-        });
+        }) : databasePushHistory(connection, connectionFaild, { 'code': 201, name: messageObject.name, message: messageObject.message, userid: messageObject.userid, channel: messageObject.channel, userqq: messageObject.userqq, time: returnThisTime(), chatCode: messageObject.chatCode }, broadcastMessage, extractIPv4FromIPv6(address));
     });
 });
 
