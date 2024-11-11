@@ -1,0 +1,91 @@
+div.admin-frame {
+  top: 0;
+  padding: 25px 20px;
+  padding-left: 0px;
+  position: absolute;
+  width: calc(100% - 120px);
+  height: calc(100% - 50px);
+  transition: transform 0.5s;
+  transform: translateX(-100%);
+  background-color: var(--dominColor);
+}
+div.admin-frame div.frame-header {
+  height: 60px;
+  padding: 0 20px;
+  font-size: 20px;
+  overflow: hidden;
+  color: #ffffff;
+  line-height: 60px;
+  border-radius: 5px;
+  text-align: center;
+  width: calc(100% - 40px);
+  box-shadow: var(--el-box-shadow-light);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  margin-top: 25px;
+  overflow-y: scroll;
+  height: calc(100% - 85px);
+  justify-content: space-between;
+}
+div.admin-frame div.frame-content div.frame-sidebar {
+  width: 165px;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: var(--el-box-shadow-light);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content div.frame-sidebar ul.el-menu-vertical-admin {
+  border-right: unset;
+  background-color: unset;
+}
+div.admin-frame div.frame-content div.frame-sidebar ul.el-menu-vertical-admin li.el-menu-item {
+  font-size: 16px;
+  color: #ffffff;
+}
+div.admin-frame div.frame-content div.frame-sidebar ul.el-menu-vertical-admin li.el-menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content div.frame-sidebar ul.el-menu-vertical-admin li.el-menu-item.is-active {
+  color: var(--dominColor);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content div.item-content {
+  padding: 20px;
+  overflow: hidden;
+  margin-left: 20px;
+  border-radius: 5px;
+  position: relative;
+  height: calc(100% - 40px);
+  width: calc(100% - 225px);
+  box-shadow: var(--el-box-shadow-light);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content div.item-content div.button-sheet {
+  display: flex;
+  margin-bottom: 25px;
+  align-items: center;
+}
+div.admin-frame div.frame-content div.item-content div.button-sheet button.el-button {
+  margin-right: 5px;
+}
+div.admin-frame div.frame-content div.item-content div.el-table--fit * {
+  text-align: center;
+}
+div.admin-frame div.frame-content div.item-content div.el-table--fit {
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.admin-frame div.frame-content div.item-content div.el-table--fit tbody tr td div.cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+}
+div.admin-frame div.frame-content div.item-content div.pagination {
+  margin-top: 25px;
+  justify-content: center;
+}

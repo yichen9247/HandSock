@@ -1,0 +1,56 @@
+div.admin-content-sidebar {
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: 280px;
+  height: 100%;
+  padding: 0 20px;
+  overflow: hidden;
+  position: absolute;
+  transition: transform 0.3s;
+  background-color: #ffffff;
+  transform: translateX(320px);
+  box-shadow: var(--el-box-shadow-light);
+}
+div.admin-content-sidebar div.header-box {
+  width: 100%;
+  height: 75px;
+  display: flex;
+  font-size: 20px;
+  line-height: 75px;
+  text-align: center;
+  align-items: center;
+  color: var(--dominColor);
+}
+div.admin-content-sidebar div.header-box p.title-text {
+  width: 100%;
+  text-align: center;
+}
+div.admin-content-sidebar div.header-box i.el-icon {
+  width: 23px;
+  height: 28px;
+  cursor: pointer;
+  position: absolute;
+}
+div.admin-content-sidebar div.header-box i.el-icon svg {
+  width: inherit;
+  height: inherit;
+}
+div.admin-content-sidebar div.el-divider {
+  margin: unset;
+  border-top: 1px solid var(--dominColor);
+}
+div.admin-content-sidebar div.sidbar-content {
+  padding: 20px 0;
+  overflow: hidden;
+  position: relative;
+  overflow-y: scroll;
+  height: calc(100% - 117px);
+}
+div.admin-content-sidebar div.sidbar-content form.el-form div.el-form-item {
+  flex-direction: column;
+}
+div.admin-content-sidebar div.sidbar-content form.el-form div.el-form-item label {
+  margin-bottom: 10px;
+  color: var(--dominColor);
+}

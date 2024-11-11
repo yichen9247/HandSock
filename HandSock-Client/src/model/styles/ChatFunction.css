@@ -1,0 +1,39 @@
+div.chat-function {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: var(--el-box-shadow-light);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.chat-function div.head-box {
+  height: 65px;
+  padding: 0 20px;
+  font-size: 20px;
+  color: #ffffff;
+  overflow: hidden;
+  line-height: 65px;
+  width: calc(100% - 40px);
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.chat-function div.function-box {
+  padding: 20px;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: relative;
+  width: calc(100% - 40px);
+  height: calc(100% - 105px);
+}
+div.chat-function div.function-box div.van-notice-bar {
+  color: #ffffff;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.chat-function div.function-box div.van-notice-bar div.van-notice-bar__content {
+  color: #ffffff;
+}
+@media (max-width: 1450px) {
+  div.chat-function {
+    display: none;
+  }
+}

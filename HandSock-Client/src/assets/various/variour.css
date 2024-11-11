@@ -1,0 +1,34 @@
+* {
+  --el-text-color-primary: #606266!important;
+  --el-color-primary: var(--dominColor)!important;
+}
+.el-table {
+  --el-table-text-color: rgba(0, 0, 0, 0.5)!important;
+  --el-table-header-text-color: var(--dominColor)!important;
+  --el-table-tr-bg-color: rgba(255, 255, 255, 0.35)!important;
+  --el-table-header-bg-color: rgba(255, 255, 255, 0.35)!important;
+}
+::selection {
+  color: #ffffff;
+  background-color: var(--dominColor);
+}
+.el-menu-item {
+  --el-menu-active-color: var(--dominColor)!important;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.el-button--primary {
+  border: none!important;
+}
+.el-button--primary {
+  --el-button-outline-color: none!important;
+  --el-button-hover-bg-color: var(--dominColor)!important;
+  --el-button-active-bg-color: var(--dominColor)!important;
+}
+.el-tabs__item:focus-visible {
+  box-shadow: none!important;
+}
+.el-link.el-link--primary {
+  --el-link-hover-text-color: var(--dominColor)!important;
+}

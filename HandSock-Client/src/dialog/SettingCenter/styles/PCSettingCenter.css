@@ -1,0 +1,50 @@
+div.flex-line {
+  display: flex;
+  justify-content: space-between;
+}
+div.flex-line .el-menu-vertical-setting {
+  height: 516px;
+  max-width: 145px;
+  overflow: hidden;
+  min-width: 145px;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  border: 0.5rem solid #EBEEF5;
+}
+div.flex-line ul.content {
+  width: 425px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+div.flex-line ul.content {
+  overflow: hidden;
+  position: relative;
+  border-radius: 0.25rem;
+  background-color: transparent;
+  border: 0.5rem solid #EBEEF5;
+}
+div.flex-line ul.content li.content-page {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-height: 100%;
+  transition: all 0.5s ease 0s;
+}
+div.flex-line ul.content div.page-header {
+  width: 100%;
+  height: 60px;
+  border-bottom: 0.5rem solid #EBEEF5;
+}
+div.flex-line ul.content div.page-header span.page-title {
+  font-size: 16px;
+  line-height: 60px;
+  margin-left: 15px;
+}
+div.flex-line ul.content div.page-content {
+  padding: 15px;
+  overflow: hidden;
+  overflow-y: scroll;
+  width: calc(100% - 30px);
+  height: calc(100% - 95px);
+}

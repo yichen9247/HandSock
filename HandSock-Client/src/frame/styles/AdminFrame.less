@@ -1,0 +1,106 @@
+
+div.admin-frame {
+    top: 0;
+    padding: 25px 20px;
+    padding-left: 0px;
+    position: absolute;
+    width: calc(100% - 120px);
+    height: calc(100% - 50px);
+    transition: transform 0.5s;
+    transform: translateX(-100%);
+    background-color: var(--dominColor);
+
+    div.frame-header {
+        height: 60px;
+        padding: 0 20px;
+        font-size: 20px;
+        overflow: hidden;
+        color: #ffffff;
+        line-height: 60px;
+        border-radius: 5px;
+        text-align: center;
+        width: calc(100% - 40px);
+        box-shadow: var(--el-box-shadow-light);
+        background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    div.frame-content {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        margin-top: 25px;
+        overflow-y: scroll;
+        height: calc(100% - 85px);
+        justify-content: space-between;
+
+        div.frame-sidebar {
+            width: 165px;
+            height: 100%;
+            border-radius: 5px;
+            box-shadow: var(--el-box-shadow-light);
+            background-color: rgba(255, 255, 255, 0.35);
+
+            ul.el-menu-vertical-admin {
+                border-right: unset;
+                background-color: unset;
+
+                li.el-menu-item {
+                    font-size: 16px;
+                    color: #ffffff;
+
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.35);
+                    }
+                }
+
+                li.el-menu-item.is-active {
+                    color: var(--dominColor);
+                    background-color: rgba(255, 255, 255, 0.35);
+                }
+            }
+        }
+
+        div.item-content {
+            padding: 20px;
+            overflow: hidden;
+            margin-left: 20px;
+            border-radius: 5px;
+            position: relative;
+            height: calc(100% - 40px);
+            width: calc(100% - 225px);
+            box-shadow: var(--el-box-shadow-light);
+            background-color: rgba(255, 255, 255, 0.35);
+
+            div.button-sheet {
+                display: flex;
+                margin-bottom: 25px;
+                align-items: center;
+
+                button.el-button {
+                    margin-right: 5px;
+                }
+            }
+
+            div.el-table--fit * {
+                text-align: center;
+            }
+
+            div.el-table--fit {
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, 0.35);
+
+                tbody tr td div.cell {
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                }
+            }
+
+            div.pagination {
+                margin-top: 25px;
+                justify-content: center;
+            }
+        }
+    }
+}

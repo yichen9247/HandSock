@@ -1,0 +1,25 @@
+div.emoje-center div.el-dialog__body {
+  display: flex;
+  padding-top: 20px;
+  align-items: center;
+}
+div.emoje-center div.el-dialog__body div.emoje-list {
+  display: flex;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+}
+div.emoje-center div.el-dialog__body div.emoje-list span.emoje-item {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  transition: background-color 0.5s;
+}
+div.emoje-center div.el-dialog__body div.emoje-list span.emoje-item:hover {
+  background-color: #e9e9e9;
+}

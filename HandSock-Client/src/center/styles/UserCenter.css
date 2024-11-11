@@ -1,0 +1,63 @@
+div.handsock-user-center div.userinfo-box {
+  width: 100%;
+  margin-top: 5px;
+}
+div.handsock-user-center div.userinfo-box div.avatar-box {
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+div.handsock-user-center div.userinfo-box div.el-upload {
+  width: 75px;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  box-shadow: var(--el-box-shadow-lighter);
+  border: 0.5rem solid rgba(255, 255, 255, 0.35);
+}
+div.handsock-user-center div.userinfo-box div.el-upload div.el-image {
+  width: 100%;
+  height: 100%;
+}
+div.handsock-user-center div.userinfo-box div.el-upload div.trigger {
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  height: 20px;
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 20px;
+  text-align: center;
+  position: absolute;
+  background-color: var(--dominColorV2);
+}
+div.handsock-user-center div.userinfo-box ul.el-upload-list {
+  display: none;
+}
+div.handsock-user-center div.userinfo-box div.nick-box {
+  height: 24px;
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+div.handsock-user-center div.userinfo-box div.nick-box span.nick {
+  font-size: 18px;
+  font-weight: 700;
+}
+div.handsock-user-center div.userinfo-box div.nick-box i.edit-icon {
+  cursor: pointer;
+}
+div.handsock-user-center div.userinfo-box div.nick-box div.button-sheet {
+  margin-left: 10px;
+}
+div.handsock-user-center div.notice-box {
+  width: 300px;
+  margin: 0 auto;
+  display: flex;
+  margin-top: 20px;
+  justify-content: center;
+  box-shadow: var(--el-box-shadow-lighter);
+}

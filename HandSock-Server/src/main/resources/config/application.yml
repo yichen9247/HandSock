@@ -1,0 +1,30 @@
+
+server:
+  port: 8081 # 后端端口
+
+handsock:
+  port: 5120 # 通信端口
+  host: 127.0.0.1 # 通信主机
+  origin: http://127.0.0.1:5173 # 跨域设置
+  pingTimeout: 6000000 # PING超时
+  pingInterval: 25000 # PING间隔
+  upgradeTimeout: 1000000 # 更新超时
+
+spring:
+  data:
+    redis:
+      port: 6379 # Redis端口
+      host: localhost # Redis主机
+  mail:
+    port: 25 # 邮件服务器端口
+    host: smtp.mail.com # 邮件服务器地址
+    password: ABC12345678 # 邮箱密码
+    username: username@mail.com # 邮箱账号
+  servlet:
+    multipart:
+      max-file-size: 5MB # 文件上传最大大小
+      max-request-size: 5MB # 网络请求最大大小
+  datasource:
+    username: root #数据库用户
+    password: 12345678 # 数据库密码
+    url: jdbc:mysql://localhost:3306/handsock?useSSL=false&serverTimezone=UTC # 数据库连接URL（handsock为数据库名）

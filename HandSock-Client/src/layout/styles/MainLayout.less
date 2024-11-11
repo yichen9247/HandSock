@@ -1,0 +1,96 @@
+
+div.main-container {
+    margin: auto;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    padding: 25px 20px;
+    padding-left: 0px;
+    min-height: 620px;
+    border-radius: 0.5rem;
+    width: calc(80% - 20px);
+    height: calc(80% - 50px);
+    background-color: var(--dominColor);
+    box-shadow: var(--el-box-shadow-dark);
+
+    div.chat-content {
+        width: 55%;
+        height: 100%;
+        margin: 0 20px;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        box-shadow: var(--el-box-shadow-light);
+        background-color: rgba(255, 255, 255, 0.35);
+
+        div.content-head {
+            width: 100%;
+            height: 65px;
+            font-size: 20px;
+            color: #ffffff;
+            overflow: hidden;
+            line-height: 65px;
+            background-color: rgba(255, 255, 255, 0.35);
+
+            span.group-name {
+                margin-left: 20px;
+            }
+
+            button.h-button {
+                left: 20px;
+                outline: none;
+                border: unset;
+                color: #ffffff;
+                position: absolute;
+                background-color: unset;
+        
+                i {
+                    transform: scale(1.75);
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1450px) {
+    div.main-container {
+        div.chat-content {
+            width: 70%;
+            margin-right: 0;
+        }
+    }
+}
+
+@media (max-width: 1350px) {
+    div.main-container {
+        border-radius: unset;
+        width: calc(100% - 20px);
+        height: calc(100% - 50px);
+    }
+}
+
+div.main-container.container-mobile {
+    width: 100%;
+    height: 100%;
+    padding: unset;
+    border-radius: unset;
+    background-color: var(--dominColorV2);
+
+    div.chat-content {
+        width: 100%;
+        margin: unset;
+        border-radius: unset;
+
+        div.content-head {
+            height: 65px;
+            display: flex;
+            font-size: 1.5rem;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+         
+            span.group-name {
+                margin-left: unset;
+            }
+        }
+    }
+}

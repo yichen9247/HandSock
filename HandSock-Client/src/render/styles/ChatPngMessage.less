@@ -1,0 +1,71 @@
+
+div.image-message {
+    width: 220px;
+    display: grid;
+    cursor: pointer;
+    background-color: var(--dominColorV2);
+
+    div.image-lazy {
+        height: 50px;
+        padding: 10px;
+        display: flex;
+        width: calc(100% - 20px);
+        
+        div.icon-box {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            min-width: 50px;
+            transition: 0.5s;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.35);
+    
+            svg {
+                width: 75%;
+                height: 75%;
+                margin: auto;
+    
+                path {
+                    fill: #ffffff;
+                    transition: fill 0.5s;
+                }
+            }
+        }
+    
+        div.content-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+            font-size: 1.25rem;
+            align-items: center;
+            justify-content: center;
+            transition: margin-top 0.5s;
+        }
+    }
+}
+
+div.content-frame.frame-pc {
+    div.image-message div.image-lazy {
+        &:hover {
+            div.icon-box {
+                width: 100%;
+                min-width: 100%;
+
+                svg path {
+                    fill: var(--dominColor);
+                }
+            }
+
+            div.content-box {
+                margin-top: 100%;
+            }
+        }
+    }
+}
+
+div.content-frame.frame-mobile {
+    div.image-message {
+        width: 100%;
+    }
+}

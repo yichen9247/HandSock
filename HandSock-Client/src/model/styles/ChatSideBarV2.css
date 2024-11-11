@@ -1,0 +1,41 @@
+div.sidebar-container {
+  z-index: 99;
+  height: 100%;
+  display: flex;
+  padding-left: 20px;
+  position: relative;
+  background-color: var(--dominColor);
+}
+div.sidebar-container div.sidebar {
+  width: 60px;
+  height: inherit;
+  position: relative;
+  background-color: var(--dominColor);
+}
+div.sidebar-container div.sidebar div.avatar-box {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+div.sidebar-container div.sidebar div.avatar-box span.avatar-info {
+  height: 60px;
+  width: inherit;
+  margin: 0 auto;
+  cursor: pointer;
+  box-shadow: var(--el-box-shadow-light);
+}
+div.sidebar-container div.sidebar div.button-box {
+  bottom: 0;
+  width: inherit;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+}
+div.sidebar-container div.sidebar div.button-box div.button-item {
+  cursor: pointer;
+  margin: 15px auto;
+}
+div.sidebar-container div.sidebar div.button-box div.button-item:last-child {
+  margin-bottom: 0;
+}
