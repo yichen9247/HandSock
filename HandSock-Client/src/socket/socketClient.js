@@ -98,18 +98,18 @@ export const startSocketIo = async () => {
             html: "页面将在 <b>5</b> 秒后刷新",
             timerProgressBar: true,
             didOpen: () => {
-                let seconds = 5;
+                let seconds = 205;
                 Swal.showLoading();
                 const timerElement = Swal.getPopup().querySelector("b");
                 timerElement.textContent = seconds;
                 const timerInterval = setInterval(() => {
                     seconds--;
                     timerElement.textContent = seconds;
-                    if (seconds <= 0) {
-                        clearInterval(timerInterval);
-                        Swal.close();
-                        setTimeout(() => location.reload(), 500);
-                    }
+                    // if (seconds <= 0) {
+                    //     clearInterval(timerInterval);
+                    //     Swal.close();
+                    //     setTimeout(() => location.reload(), 500);
+                    // }
                 }, 1000);
             },
             willClose: () => clearInterval(timerInterval),
