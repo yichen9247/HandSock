@@ -2,13 +2,13 @@
 div.emoje-center {
     div.el-dialog__body {
         display: flex;
-        padding-top: 20px;
         align-items: center;
 
         div.emoje-list {
             display: flex;
             flex-wrap: wrap;
             word-wrap: break-word;
+            justify-content: center;
 
             span.emoje-item {
                 width: 32px;
@@ -28,4 +28,8 @@ div.emoje-center {
             }
         }
     }
+}
+
+.el-dialog__header {
+    padding-right: unset!important;
 }

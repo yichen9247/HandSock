@@ -1,0 +1,17 @@
+[HandSock 2024-11-12T21:03:30.402+08:00]Socket.IO server started!
+[HandSock 2024-11-12T21:03:30.404+08:00]Springboot server started!
+[HandSock 2024-11-12T21:03:30.559+08:00]Mysql server connect success!
+[HandSock 2024-11-12T21:03:31.039+08:00]Redis server connect success!
+[HandSock 2024-11-12T21:03:31.040+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T21:03:31.078+08:00]Database table check success!
+[HandSock 2024-11-12T21:03:31.561+08:00]New visitor 11.47.17.166:62707 4e42159b64186cfd12b3abdd47dcb78e
+[HandSock 2024-11-12T21:03:32.240+08:00]New visitor 11.47.17.166:62715 8327120880c49eab25a582e20ada4c17
+[HandSock 2024-11-12T21:03:33.394+08:00]New visitor 11.47.17.166:62721 f96686c8caec305ff4a7b0e63333785e
+[HandSock 2024-11-12T21:03:42.776+08:00]Socket.IO server started!
+[HandSock 2024-11-12T21:03:42.778+08:00]Springboot server started!
+[HandSock 2024-11-12T21:03:42.952+08:00]Mysql server connect success!
+[HandSock 2024-11-12T21:03:43.297+08:00]Redis server connect success!
+[HandSock 2024-11-12T21:03:43.301+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T21:03:43.323+08:00]Database table check success!
+[HandSock 2024-11-12T21:03:45.295+08:00]New visitor 11.47.17.166:62784 414a3c74838551401307322a3b1a08c0
+[HandSock 2024-11-12T21:15:50.121+08:00]New visitor leave 11.47.17.166:62784 414a3c74838551401307322a3b1a08c0

@@ -1,12 +1,12 @@
 div.emoje-center div.el-dialog__body {
   display: flex;
-  padding-top: 20px;
   align-items: center;
 }
 div.emoje-center div.el-dialog__body div.emoje-list {
   display: flex;
   flex-wrap: wrap;
   word-wrap: break-word;
+  justify-content: center;
 }
 div.emoje-center div.el-dialog__body div.emoje-list span.emoje-item {
   width: 32px;
@@ -22,4 +22,7 @@ div.emoje-center div.el-dialog__body div.emoje-list span.emoje-item {
 }
 div.emoje-center div.el-dialog__body div.emoje-list span.emoje-item:hover {
   background-color: #e9e9e9;
+}
+.el-dialog__header {
+  padding-right: unset!important;
 }
