@@ -7,6 +7,7 @@ import com.server.handsock.console.HandleResults;
 import com.server.handsock.admin.mod.OR_ChatModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class OR_ChatService {
             List<OR_ChatModel> or_chatModelList = or_chatDao.selectList(null);
             int total = or_chatModelList.size();
             int startWith = (page - 1) * limit;
+            Collections.reverse(or_chatModelList);
             int endWith = Math.min(startWith + limit, or_chatModelList.size());
             List<OR_ChatModel> subList = or_chatModelList.subList(startWith, endWith);
             return new HandleResults().handleResultByCode(200, new HashMap<>(){{
