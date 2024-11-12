@@ -1,0 +1,123 @@
+[HandSock 2024-11-12T11:32:34.324+08:00]Socket.IO server started!
+[HandSock 2024-11-12T11:32:34.325+08:00]Springboot server started!
+[HandSock 2024-11-12T11:32:34.538+08:00]Mysql server connect success!
+[HandSock 2024-11-12T11:32:34.982+08:00]Redis server connect success!
+[HandSock 2024-11-12T11:32:34.982+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T11:32:35.195+08:00]Database table check success!
+[HandSock 2024-11-12T11:35:58.527+08:00]Socket.IO server started!
+[HandSock 2024-11-12T11:35:58.529+08:00]Springboot server started!
+[HandSock 2024-11-12T11:35:58.708+08:00]Mysql server connect success!
+[HandSock 2024-11-12T11:35:59.033+08:00]Redis server connect success!
+[HandSock 2024-11-12T11:35:59.035+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T11:35:59.057+08:00]Database table check success!
+[HandSock 2024-11-12T11:36:59.187+08:00]Socket.IO server started!
+[HandSock 2024-11-12T11:36:59.202+08:00]Springboot server started!
+[HandSock 2024-11-12T11:36:59.372+08:00]Mysql server connect success!
+[HandSock 2024-11-12T11:36:59.682+08:00]Redis server connect success!
+[HandSock 2024-11-12T11:36:59.684+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T11:36:59.746+08:00]Database table check success!
+[HandSock 2024-11-12T12:11:20.312+08:00]Socket.IO server started!
+[HandSock 2024-11-12T12:11:20.324+08:00]Springboot server started!
+[HandSock 2024-11-12T12:11:20.511+08:00]Mysql server connect success!
+[HandSock 2024-11-12T12:11:20.702+08:00]New visitor 11.47.17.166:57957 d822105cbf4f6ab2141a6a4c9299d051
+[HandSock 2024-11-12T12:11:20.853+08:00]Redis server connect success!
+[HandSock 2024-11-12T12:11:20.855+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T12:11:20.905+08:00]Database table check success!
+[HandSock 2024-11-12T12:11:23.223+08:00]New visitor 11.47.17.166:57979 428baa99150d2e66b5cc5a617336aac4
+[HandSock 2024-11-12T12:11:23.964+08:00]New visitor 11.47.17.166:57981 bbc07289278d862f6122eac0f2a37fab
+[HandSock 2024-11-12T12:11:25.499+08:00]New visitor 11.47.17.166:57983 51c340f8beff77a612f391c7ddc22e0d
+[HandSock 2024-11-12T12:11:28.924+08:00]New visitor 11.47.17.166:57987 bfab8386bbe8f64c3cfc0d3da169e3b6
+[HandSock 2024-11-12T12:11:33.933+08:00]New visitor 11.47.17.166:58010 ebdfcadcbde1d0da508905e1fd1c17cd
+[HandSock 2024-11-12T12:11:34.290+08:00]New visitor 11.47.17.166:58019 11fc084cbdfbe743ebdeb9a001164490
+[HandSock 2024-11-12T12:11:35.419+08:00]New visitor 11.47.17.166:58034 edda482b9e910514966f564e853f3d5d
+[HandSock 2024-11-12T12:11:36.126+08:00]New visitor 11.47.17.166:58036 dcd044dae458021c4fe5e97980d78d90
+[HandSock 2024-11-12T12:11:36.536+08:00]New visitor 11.47.17.166:58038 fa9a7d439d841b31ce78f1f959df1bf9
+[HandSock 2024-11-12T12:11:36.935+08:00]New visitor 11.47.17.166:58040 e9a3051ab9d11d044e7c717c07f063ef
+[HandSock 2024-11-12T12:11:37.306+08:00]New visitor 11.47.17.166:58044 b4fa878dfb01a460bbaac146f352b5d2
+[HandSock 2024-11-12T12:11:37.683+08:00]New visitor 11.47.17.166:58046 eb53334364b9ccde0fa6647c929fc72c
+[HandSock 2024-11-12T12:11:38.027+08:00]New visitor 11.47.17.166:58048 4593f9d692b0c76036883f02193f825a
+[HandSock 2024-11-12T12:11:38.390+08:00]New visitor 11.47.17.166:58051 b7b721c41c63fc665169430a18010a23
+[HandSock 2024-11-12T12:11:38.722+08:00]New visitor 11.47.17.166:58053 781d81302ea3b2cb85f8a0081e6c69a0
+[HandSock 2024-11-12T12:11:39.083+08:00]New visitor 11.47.17.166:58055 f9a9b472ebd0222510160193f8cd7c64
+[HandSock 2024-11-12T12:11:39.618+08:00]New visitor 11.47.17.166:58059 6a58ad09944cfc15f506baca106c3b3a
+[HandSock 2024-11-12T12:11:40.159+08:00]New visitor 11.47.17.166:58061 f93814b9366461eed1028240b34e6974
+[HandSock 2024-11-12T12:11:41.114+08:00]New visitor 11.47.17.166:58062 928dde499742bf15e41b103d13f2fad6
+[HandSock 2024-11-12T12:11:43.069+08:00]New visitor 11.47.17.166:58064 5f3f7ff2688e3e81410fa466b7b27403
+[HandSock 2024-11-12T12:11:47.302+08:00]New visitor 11.47.17.166:58084 b722077ffc6a5f6d22e28e296c1df7fc
+[HandSock 2024-11-12T12:11:49.095+08:00]New visitor 11.47.17.166:58090 12cc66d7b32de1c4d60e38290f1b6217
+[HandSock 2024-11-12T12:11:51.102+08:00]New visitor 11.47.17.166:58097 140287c990be034b39416ae076832926
+[HandSock 2024-11-12T12:11:57.092+08:00]New visitor 11.47.17.166:58816 edab619425969bf161cb067485628ee8
+[HandSock 2024-11-12T12:12:01.692+08:00]New visitor 11.47.17.166:58843 bac4b2aed4797ae1fda1e905cd09ff8e
+[HandSock 2024-11-12T12:12:02.270+08:00]New visitor 11.47.17.166:58847 797c9bca3fea10e53591f96dfb98ecf9
+[HandSock 2024-11-12T12:12:04.236+08:00]New visitor 11.47.17.166:58848 7bb45053e22a8d9321ec99980f3f1cab
+[HandSock 2024-11-12T12:12:06.260+08:00]New visitor 11.47.17.166:58851 674e19be5333b9ad9630600b93072239
+[HandSock 2024-11-12T12:12:07.707+08:00]New visitor 11.47.17.166:58854 59ec23a686d6efc894956895bc80a3d3
+[HandSock 2024-11-12T12:12:08.471+08:00]New visitor 11.47.17.166:58855 b52817961b4597d4d8a1ac251151a717
+[HandSock 2024-11-12T12:12:09.112+08:00]New visitor 11.47.17.166:58858 6b6d01c0c2276f3afdd702a7714d90e4
+[HandSock 2024-11-12T12:12:09.900+08:00]New visitor 11.47.17.166:58859 3e8918a95b2a5a0bbb8bd149cb5ab3bf
+[HandSock 2024-11-12T12:12:12.052+08:00]New visitor 11.47.17.166:58862 df52dde4377a9d0dd36d3519f9678849
+[HandSock 2024-11-12T12:12:17.059+08:00]New visitor 11.47.17.166:58887 8562b625d4f3cd3fc14854c6880318cf
+[HandSock 2024-11-12T12:12:22.078+08:00]New visitor 11.47.17.166:58908 fca4c63bc4d19e4392ad26e473d915a8
+[HandSock 2024-11-12T12:12:27.098+08:00]New visitor 11.47.17.166:58911 9c6b4f330984a3967ad1151627d26fd5
+[HandSock 2024-11-12T12:12:32.115+08:00]New visitor 11.47.17.166:58925 a09ecf786ff324d4d911a89e2d62ef45
+[HandSock 2024-11-12T12:12:39.627+08:00]java.net.BindException: Cannot assign requested address: bind
+[HandSock 2024-11-12T12:12:39.629+08:00]Springboot server started!
+[HandSock 2024-11-12T12:12:39.822+08:00]Mysql server connect success!
+[HandSock 2024-11-12T12:12:40.137+08:00]Redis server connect success!
+[HandSock 2024-11-12T12:12:40.138+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T12:12:40.199+08:00]Database table check success!
+[HandSock 2024-11-12T12:12:51.958+08:00]Socket.IO server started!
+[HandSock 2024-11-12T12:12:51.990+08:00]Springboot server started!
+[HandSock 2024-11-12T12:12:52.139+08:00]New visitor 11.47.17.166:59017 15a496b7ef3044686968aae977f5ff67
+[HandSock 2024-11-12T12:12:52.182+08:00]Mysql server connect success!
+[HandSock 2024-11-12T12:12:52.539+08:00]Redis server connect success!
+[HandSock 2024-11-12T12:12:52.543+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T12:12:52.595+08:00]Database table check success!
+[HandSock 2024-11-12T12:12:53.121+08:00]New visitor 11.47.17.166:59016 ffba955598929d20519bcf9257c041c8
+[HandSock 2024-11-12T12:12:54.570+08:00]New visitor 11.47.17.166:59056 080a72413e283fb2d19889b2e37fb909
+[HandSock 2024-11-12T12:12:55.814+08:00]New visitor 11.47.17.166:59059 47435a85395f38bbc1d5074f79af9ca0
+[HandSock 2024-11-12T12:12:58.535+08:00]New visitor 11.47.17.166:59068 d6c91d64987ba74081153fb770a3318d
+[HandSock 2024-11-12T12:13:03.545+08:00]New visitor 11.47.17.166:59086 f81447d6c0061e3bdc40ca8d78cb53f1
+[HandSock 2024-11-12T12:13:08.554+08:00]New visitor 11.47.17.166:59097 faffc3b139b463b930177c54dc26bddc
+[HandSock 2024-11-12T12:13:18.694+08:00]Socket.IO server started!
+[HandSock 2024-11-12T12:13:18.731+08:00]Springboot server started!
+[HandSock 2024-11-12T12:13:18.883+08:00]Mysql server connect success!
+[HandSock 2024-11-12T12:13:19.102+08:00]New visitor 11.47.17.166:59150 3ee7b60ff26913a19753e0dcbdf4136f
+[HandSock 2024-11-12T12:13:19.429+08:00]Redis server connect success!
+[HandSock 2024-11-12T12:13:19.432+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-12T12:13:19.929+08:00]Database table check success!
+[HandSock 2024-11-12T12:13:25.589+08:00]New visitor leave 11.47.17.166:59150 3ee7b60ff26913a19753e0dcbdf4136f
+[HandSock 2024-11-12T12:13:25.752+08:00]New visitor 11.47.17.166:59183 318095e78fa6762eae11d60dab1a81c7
+[HandSock 2024-11-12T12:14:14.295+08:00]New visitor leave 11.47.17.166:59183 318095e78fa6762eae11d60dab1a81c7
+[HandSock 2024-11-12T12:14:14.639+08:00]New visitor 11.47.17.166:59304 fe059182bf3e318b2c4cb6b8756ef7d3
+[HandSock 2024-11-12T12:14:23.734+08:00]New visitor leave 11.47.17.166:59304 fe059182bf3e318b2c4cb6b8756ef7d3
+[HandSock 2024-11-12T12:14:24.001+08:00]New visitor 11.47.17.166:59326 f0b01277889f56c5242839b407d7654e
+[HandSock 2024-11-12T12:14:33.756+08:00]New visitor 11.47.17.166:59366 3dde6eb29309ae6a66506d4153b65992
+[HandSock 2024-11-12T12:14:38.509+08:00]New visitor leave 11.47.17.166:59326 f0b01277889f56c5242839b407d7654e
+[HandSock 2024-11-12T12:14:38.705+08:00]New visitor 11.47.17.166:59378 9814f98b284191871abd02f9faeec0ea
+[HandSock 2024-11-12T12:14:39.112+08:00]New visitor leave 11.47.17.166:59366 3dde6eb29309ae6a66506d4153b65992
+[HandSock 2024-11-12T12:14:39.275+08:00]New visitor 11.47.17.166:59383 eff05b6d12088f7265e02b78b64bee75
+[HandSock 2024-11-12T12:14:49.537+08:00]New visitor leave 11.47.17.166:59378 9814f98b284191871abd02f9faeec0ea
+[HandSock 2024-11-12T12:14:49.722+08:00]New visitor 11.47.17.166:59420 897b6816ca41e00361b71892ffda8d3e
+[HandSock 2024-11-12T12:14:50.102+08:00]New visitor leave 11.47.17.166:59383 eff05b6d12088f7265e02b78b64bee75
+[HandSock 2024-11-12T12:14:50.256+08:00]New visitor 11.47.17.166:59429 9a473dbd936ac064f7e8db6713c50964
+[HandSock 2024-11-12T12:15:21.223+08:00]New visitor leave 11.47.17.166:59420 897b6816ca41e00361b71892ffda8d3e
+[HandSock 2024-11-12T12:15:21.427+08:00]New visitor 11.47.17.166:59486 6a6248bc63882b7207c00f8c65b0aeee
+[HandSock 2024-11-12T12:15:22.114+08:00]New visitor leave 11.47.17.166:59429 9a473dbd936ac064f7e8db6713c50964
+[HandSock 2024-11-12T12:15:22.342+08:00]New visitor 11.47.17.166:59493 9ed1460c96c0c7889b1aacc94f2c1984
+[HandSock 2024-11-12T12:15:39.363+08:00]New visitor leave 11.47.17.166:59486 6a6248bc63882b7207c00f8c65b0aeee
+[HandSock 2024-11-12T12:15:39.538+08:00]New visitor 11.47.17.166:59547 6b2d52cb079b9b4c0c1dc63bfa69facb
+[HandSock 2024-11-12T12:15:40.112+08:00]New visitor leave 11.47.17.166:59493 9ed1460c96c0c7889b1aacc94f2c1984
+[HandSock 2024-11-12T12:15:40.309+08:00]New visitor 11.47.17.166:59553 838d9de4f9c8abd20ddb978c6e58295a
+[HandSock 2024-11-12T12:16:35.115+08:00]New visitor leave 11.47.17.166:59553 838d9de4f9c8abd20ddb978c6e58295a
+[HandSock 2024-11-12T12:16:35.129+08:00]New visitor leave 11.47.17.166:59547 6b2d52cb079b9b4c0c1dc63bfa69facb
+[HandSock 2024-11-12T12:16:35.416+08:00]New visitor 11.47.17.166:59696 b1930fc83c2a134a80d666dbc2be66c3
+[HandSock 2024-11-12T12:16:35.425+08:00]New visitor 11.47.17.166:59697 15a564eb770c0fada6e8abe42b4c29b7
+[HandSock 2024-11-12T12:16:40.111+08:00]New visitor leave 11.47.17.166:59697 15a564eb770c0fada6e8abe42b4c29b7
+[HandSock 2024-11-12T12:16:40.134+08:00]New visitor leave 11.47.17.166:59696 b1930fc83c2a134a80d666dbc2be66c3
+[HandSock 2024-11-12T12:16:40.484+08:00]New visitor 11.47.17.166:59714 785c1cec0ce3a2a471fea3d37e80bf36
+[HandSock 2024-11-12T12:16:40.496+08:00]New visitor 11.47.17.166:59715 638d77c3f3133b2cb7b1bd2915e2380a
+[HandSock 2024-11-12T12:18:04.396+08:00]New visitor leave 11.47.17.166:59714 785c1cec0ce3a2a471fea3d37e80bf36
+[HandSock 2024-11-12T12:18:08.992+08:00]New visitor 11.47.17.166:51602 75ba4edd5b42dd8a22ae36e6d32fa15d
+[HandSock 2024-11-12T12:18:32.498+08:00]New visitor leave 11.47.17.166:51602 75ba4edd5b42dd8a22ae36e6d32fa15d
+[HandSock 2024-11-12T12:18:32.763+08:00]New visitor 11.47.17.166:52470 5d8c2375f9910a9a4be7344e8d8a6a81

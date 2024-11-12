@@ -4,8 +4,8 @@ server:
 
 handsock:
   port: 5120 # 通信端口
-  host: 127.0.0.1 # 通信主机
-  origin: http://127.0.0.1:5173 # 跨域设置
+  host: 11.47.17.166 # 通信主机
+  origin: http://11.47.17.166:5173 # 跨域设置
   pingTimeout: 6000000 # PING超时
   pingInterval: 25000 # PING间隔
   upgradeTimeout: 1000000 # 更新超时
@@ -17,9 +17,9 @@ spring:
       host: localhost # Redis主机
   mail:
     port: 25 # 邮件服务器端口
-    host: smtp.mail.com # 邮件服务器地址
-    password: ABC12345678 # 邮箱密码
-    username: username@mail.com # 邮箱账号
+    host: smtp.163.com # 邮件服务器地址
+    password: KGuKXfRah45nJwMJ # 邮箱密码
+    username: yichen9247@163.com # 邮箱账号
   servlet:
     multipart:
       max-file-size: 5MB # 文件上传最大大小
