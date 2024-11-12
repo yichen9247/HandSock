@@ -32,7 +32,7 @@ const showToasts = async (type, text) => {
         !isMobile() && ElMessage({ message: text, type: 'info', plain: true });
     } else 
     if (type === 'error') {
-        isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error' });
+        isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error', plain: true });
     } else 
     if (type === 'success') {
         ElMessage({ message: text, type: 'success', plain: true });
