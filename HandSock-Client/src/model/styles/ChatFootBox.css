@@ -9,27 +9,33 @@ footer.content-footer {
 }
 footer.content-footer div.input-box {
   height: 50px;
+  display: flex;
+  align-items: center;
   width: calc(100% - 70px);
 }
-footer.content-footer div.input-box div.chat-input {
+footer.content-footer div.input-box div.el-mention {
   height: 48px;
   background: none;
   box-shadow: none;
   overflow: hidden;
+  border-radius: 5px 0 0 5px;
   width: calc(100% - 122px);
   border: 1px solid var(--dominColor) !important;
 }
-footer.content-footer div.input-box div.chat-input .el-textarea__inner {
+footer.content-footer div.input-box div.el-mention div.el-input {
+  width: 100%!important;
+  height: 100%!important;
+}
+footer.content-footer div.input-box div.el-mention div.el-input .el-textarea__inner {
   height: 100%!important;
   outline: unset!important;
   box-shadow: unset!important;
 }
-footer.content-footer div.input-box div.chat-input div.el-input__wrapper {
+footer.content-footer div.input-box div.el-mention div.el-input div.el-input__wrapper {
   border-radius: 0%;
   box-shadow: none!important;
-  background-color: var(--el-color-primary-light-9);
 }
-footer.content-footer div.input-box div.chat-input div.el-input__wrapper span.el-input__count-inner {
+footer.content-footer div.input-box div.el-mention div.el-input div.el-input__wrapper span.el-input__count-inner {
   background-color: transparent;
 }
 footer.content-footer div.input-box button.chat-button {

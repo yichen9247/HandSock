@@ -1,8 +1,10 @@
 <script setup>
     import config from "@/scripts/config"
     import utils from "@/scripts/utils.js"
+    import { reactive, watch } from "vue"
     import { sendChatMessage, checkLoginWork, sendSocketEmit } from "@/socket/socketClient.js"
 
+    const userList = reactive([{}]);
     const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();
 
@@ -15,7 +17,6 @@
             await sendChatMessage();
         });
     }
-    const handleKeydown = async (event) => (event.ctrlKey && event.key === "Enter") && await sendChatMessage();
 
     const uploadFileSuccess = async (data) => {
         if (data !== null && data.response !== null) {
@@ -29,13 +30,35 @@
             } else utils.showToasts('error' , data.message);
         }
     }
+
+    
+    watch(applicationStore, () => {
+        userList.length = 0;
+        for (const item of applicationStore.userList) {
+            userList.push({
+                value: item.nick,
+                avatar: item.avatar,
+                isAdmin: item.isAdmin,
+                isRobot: item.isRobot,
+            });
+        }
+    }, { deep: true });
 </script>
 
 <template>
     <div>
         <el-footer class="content-footer" v-if="applicationStore.loginStatus">
             <div class="input-box">
-                <el-input autosize type="textarea" class="chat-input" v-model="applicationStore.chantInput" placeholder="请在此输入聊天内容，按Ctrl+Enter发送..." clearable maxlength="100" show-word-limit @keydown="handleKeydown"/>
+                <el-mention v-model="applicationStore.chantInput" :options="userList" placeholder="请在此输入聊天内容，按Enter发送..." @keydown.enter="sendChatMessageV2" placement="top">
+                    <template #label="{ item }">
+                        <div style="display: flex; align-items: center">
+                            <el-avatar :size="24" :src="config.serverAdress + config.serverApi.downloadAvatar + item.avatar" />
+                            <span style="margin-left: 10px; color: #79bbff" v-if="item.isRobot">{{ item.value }}</span>
+                            <span style="margin-left: 10px;" v-if="!item.isAdmin && !item.isRobot">{{ item.value }}</span>
+                            <span style="margin-left: 10px; color: var(--dominColor)" v-if="item.isAdmin">{{ item.value }}</span>
+                        </div>
+                    </template>
+                </el-mention>
                 <el-button class="chat-button" type="primary" plain @click="sendChatMessageV2">{{ applicationStore.sendst ? '正在发送中' : '发送消息' }}</el-button>
             </div>
             

@@ -10,29 +10,36 @@ footer.content-footer {
 
     div.input-box {
         height: 50px;
+        display: flex;
+        align-items: center;
         width: calc(100% - 70px);
 
-        div.chat-input {
+        div.el-mention {
             height: 48px;
             background: none;
             box-shadow: none;
             overflow: hidden;
+            border-radius: 5px 0 0 5px;
             width: calc(100% - 122px);
             border: 1px solid var(--dominColor)!important;
-    
-            .el-textarea__inner {
+
+            div.el-input {
+                width: 100%!important;
                 height: 100%!important;
-                outline: unset!important;
-                box-shadow: unset!important;
-            }
-    
-            div.el-input__wrapper {
-                border-radius: 0%;
-                box-shadow: none!important;
-                background-color: var(--el-color-primary-light-9);
-    
-                span.el-input__count-inner {
-                    background-color: transparent;
+        
+                .el-textarea__inner {
+                    height: 100%!important;
+                    outline: unset!important;
+                    box-shadow: unset!important;
+                }
+        
+                div.el-input__wrapper {
+                    border-radius: 0%;
+                    box-shadow: none!important;
+        
+                    span.el-input__count-inner {
+                        background-color: transparent;
+                    }
                 }
             }
         }
