@@ -45,7 +45,7 @@
 <template>
     <div class="dialog-content">
         <LoginCenter/><EmojeCenter/><UploadCenter/>
-        <el-dialog class="search-center handsock-dialog" v-model="onelDialogStore.searchalCenter" width="450px" align-center destroy-on-close center>
+        <el-dialog class="search-center handsock-dialog" v-model="onelDialogStore.searchalCenter" width="450px" align-center destroy-on-close center style="padding: 0">
             <p class="center-title">搜索频道</p>
             <div class="flex-line" style="display: flex;">
                 <el-input v-model="searchInput" maxlength="5" placeholder="请在此输入管理员提供的频道ID" show-word-limit type="text" clearable validate-event />
