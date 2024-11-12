@@ -3,24 +3,13 @@
     import { ref } from "vue"
     import utils from "@/scripts/utils"
     import { Check, Close } from '@element-plus/icons-vue'
-    const audioSelect = ref(utils.audioMenu[localStorage.getItem('audio')]);
+    const audioSelect = ref(localStorage.getItem('audio'));
     const audioSwitch = ref(localStorage.getItem('audio-switch') === 'true' ? true : false);
 
     const audioSelectChange = async (event) => {
-        if (event === '默认') {
-            localStorage.setItem('audio', 'default');
-        } else 
-        if (event === '苹果') {
-            localStorage.setItem('audio', 'apple');
-        } else
-        if (event === '陌陌') {
-            localStorage.setItem('audio', 'momo');
-        } else
-        if (event === '滑稽') {
-            localStorage.setItem('audio', 'huaji');
-        }
+        localStorage.setItem('audio', event);
         await utils.playNoticeVoice();
-        await utils.showToasts('success' ,'切换提示音成功！');
+        await utils.showToasts('success' ,'切换提示音成功');
     }
     const audioSwitchChange = async (event) => localStorage.setItem('audio-switch', event);
 </script>

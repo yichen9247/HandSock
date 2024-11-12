@@ -57,7 +57,7 @@
 </script>
 
 <template>
-    <el-dialog class="login-form handsock-dialog" v-model="applicationStore.loginFormStatus" align-center :width="applicationStore.isDeviceMobile ? '95%' : '450px'">
+    <el-dialog class="login-form handsock-dialog" v-model="applicationStore.loginFormStatus" align-center :width="applicationStore.isDeviceMobile ? '95%' : '450px'" style="padding: 0;">
         <el-tabs v-model="activeTab" class="login-tabs">
             <el-tab-pane label="登录" name="login">
                 <div class="form-box">

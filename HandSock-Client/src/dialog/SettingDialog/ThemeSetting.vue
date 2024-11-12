@@ -2,26 +2,12 @@
     import { ref } from "vue"
     import utils from "@/scripts/utils"
     import theme from "@/scripts/themeUtils"
-    const themeSelect = ref(utils.themeMenu[localStorage.getItem('theme')]);
+    const themeSelect = ref(localStorage.getItem('theme'));
 
     const themeSelectChange = async (event) => {
-        if (event === '默认') {
-            localStorage.setItem('theme', 'default');
-            await utils.showToasts('success' ,'切换主题成功！');
-        } else 
-        if (event === '清爽') {
-            localStorage.setItem('theme', 'refresh');
-            await utils.showToasts('success' ,'切换主题成功！');
-        } else
-        if (event === '雅灰') {
-            localStorage.setItem('theme', 'pureshs');
-            await utils.showToasts('success' ,'切换主题成功！');
-        } else
-        if (event === '雅蓝') {
-            localStorage.setItem('theme', 'yalansh');
-            await utils.showToasts('success' ,'切换主题成功！');
-        }
+        localStorage.setItem('theme', event);
         await theme.setDeviceTheme();
+        await utils.showToasts('success' ,'切换主题成功');
     }
 </script>
 

@@ -14,19 +14,6 @@ const backMainChannel = async () => {
     location.href = "/";
 };
 
-const returnLoadingSvg = () => {
-    return `
-        <path class="path" d="  
-          M 30 15  
-          L 28 17  
-          M 25.61 25.61  
-          A 15 15, 0, 0, 1, 15 30  
-          A 15 15, 0, 1, 1, 27.99 7.5  
-          L 15 15  
-        " style="stroke-width: 4px; stroke: rgba(32, 165, 58, 1); fill: rgba(0, 0, 0, 0)"/>
-    `;
-}
-
 const showToasts = async (type, text) => {
     if (type === 'info') {
         !isMobile() && ElMessage({ message: text, type: 'info', plain: true });
@@ -142,15 +129,12 @@ const playNoticeVoice = async () => {
     audioRef.play().catch(() => {});
 }
 
-const uploadFileError = (data) => {
-    if (data !== null && data.response !== null) showToasts('error' , data.message);
-}
-
 const getClientToken = () => {
     return localStorage.getItem("handsock_token");
 }
 
-const audioMenu = { default: '默认', apple: '苹果', momo: '陌陌', huaji: '滑稽' };
-const themeMenu = { default: '默认', refresh: '清爽', pureshs: '雅灰', yalansh: '雅蓝' };
+const uploadFileError = (data) => {
+    if (data !== null && data.response !== null) showToasts('error' , data.message);
+}
 
-export default { queryUserInfo, isMobile, audioMenu, themeMenu, showToasts, showErrorToasts, openAboutThisProject, playNoticeVoice, useApplicationStore, useOnelDialogStore, returnLoadingSvg, openUserLogoutDialog, openGithubSite, backMainChannel, openUserLoginForms, openPersonalDialog, openSearchDialog, openSettingDialog, openForMobileDrawer, uploadFileError, getClientToken };
+export default { queryUserInfo, isMobile, showToasts, showErrorToasts, openAboutThisProject, playNoticeVoice, useApplicationStore, useOnelDialogStore, openUserLogoutDialog, openGithubSite, backMainChannel, openUserLoginForms, openPersonalDialog, openSearchDialog, openSettingDialog, openForMobileDrawer, uploadFileError, getClientToken };
