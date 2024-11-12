@@ -29,23 +29,23 @@ const returnLoadingSvg = () => {
 
 const showToasts = async (type, text) => {
     if (type === 'info') {
-        !isMobile() && ElMessage({ message: text, type: 'info' });
+        !isMobile() && ElMessage({ message: text, type: 'info', plain: true });
     } else 
     if (type === 'error') {
         isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error' });
     } else 
     if (type === 'success') {
-        ElMessage({ message: text, type: 'success' });
+        ElMessage({ message: text, type: 'success', plain: true });
     } else 
     if (type === 'warning') {
-        !isMobile() && ElMessage({ message: text, type: 'warning' });
+        !isMobile() && ElMessage({ message: text, type: 'warning', plain: true });
     }
 }
 
 const showErrorToasts = (type, text1, text2) => {
     if (!isMobile()) {
-        if (type === 'error') ElMessage({ message: text2, type: 'error' });
-        if (type === 'warning') ElMessage({ message: text2, type: 'warning' });
+        if (type === 'error') ElMessage({ message: text2, type: 'error', plain: true });
+        if (type === 'warning') ElMessage({ message: text2, type: 'warning', plain: true });
     } else showFailToast(text1);
 }
 
