@@ -11,7 +11,7 @@ div.content-frame div.chat-content-box {
   position: relative;
   flex-direction: column;
   width: calc(100% - 40px);
-  height: calc(100% - 120px);
+  height: calc(100% - 130px);
 }
 div.content-frame div.chat-content-box div.empty-box {
   transform: scale(1.25);

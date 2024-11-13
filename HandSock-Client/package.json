@@ -11,12 +11,14 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
+    "device-detector-js": "^3.0.3",
     "disable-devtool": "^0.3.8",
     "element-plus": "^2.8.7",
     "pace-js": "^1.2.4",
     "pinia": "^2.1.7",
     "socket.io-client": "^4.8.0",
     "sweetalert2": "^11.14.4",
+    "ua2obj": "^1.0.0",
     "vant": "^4.8.5",
     "vue-router": "^4.2.5"
   },

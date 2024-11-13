@@ -17,16 +17,16 @@ const backMainChannel = async () => {
 const showToasts = async (type, text) => {
     if (type === 'info') {
         !isMobile() && ElMessage({ message: text, type: 'info', plain: true });
-    } else 
-    if (type === 'error') {
-        isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error', plain: true });
-    } else 
-    if (type === 'success') {
-        ElMessage({ message: text, type: 'success', plain: true });
-    } else 
-    if (type === 'warning') {
-        !isMobile() && ElMessage({ message: text, type: 'warning', plain: true });
-    }
+    } else
+        if (type === 'error') {
+            isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error', plain: true });
+        } else
+            if (type === 'success') {
+                ElMessage({ message: text, type: 'success', plain: true });
+            } else
+                if (type === 'warning') {
+                    !isMobile() && ElMessage({ message: text, type: 'warning', plain: true });
+                }
 }
 
 const showErrorToasts = (type, text1, text2) => {
@@ -36,27 +36,11 @@ const showErrorToasts = (type, text1, text2) => {
     } else showFailToast(text1);
 }
 
-const openUserLogoutDialog = async () => {
-    const applicationStore = useApplicationStore();
-    await checkLoginWork(() => {
-        ElMessageBox.confirm('确定要退出登录吗，你的聊天记录将会丢失？', '系统提示', {
-            type: 'warning',
-            cancelButtonText: '取消',
-            confirmButtonText: '退出登录'
-        }).then(async () => {
-            applicationStore.setLoginStatus(false);
-            await removeLocalStorage(['handsock_uid', 'handsock_token', 'handsock_username']);
-            applicationStore.socketIo.emit("[USER:LOGOUT]", null);
-            ElMessage({ message: '退出登录成功！', type: 'success' });
-        }).catch(() => {});
-    });
-}
-
 const openUserLoginForms = async () => {
     const applicationStore = useApplicationStore();
     if (applicationStore.connection) {
         applicationStore.setLoginFormStatus(true)
-    } else showErrorToasts('error', '服务器崩了', '与通信服务器的连接已断开！');   
+    } else showErrorToasts('error', '服务器崩了', '与通信服务器的连接已断开！');
 }
 
 const openPersonalDialog = async () => {
@@ -92,7 +76,7 @@ const openGithubSite = () => window.open('https://github.com/yichen9247/HandSock
 const openAboutThisProject = () => {
     ElMessageBox.alert('HandSock 是一款有趣的聊天应用，基于 Mybatis-Plus，Springboot, Vue3 和 Socket.io，Redis 等技术开发', '关于项目', {
         confirmButtonText: '朕已知晓',
-        callback: () => {},
+        callback: () => { },
     });
 }
 
@@ -126,7 +110,7 @@ const playNoticeVoice = async () => {
     audioRef.src = audioFile.default;
     audioRef.load();
     if (!audioRef.paused) audioRef.pause();
-    audioRef.play().catch(() => {});
+    audioRef.play().catch(() => { });
 }
 
 const getClientToken = () => {
@@ -134,7 +118,7 @@ const getClientToken = () => {
 }
 
 const uploadFileError = (data) => {
-    if (data !== null && data.response !== null) showToasts('error' , data.message);
+    if (data !== null && data.response !== null) showToasts('error', data.message);
 }
 
-export default { queryUserInfo, isMobile, showToasts, showErrorToasts, openAboutThisProject, playNoticeVoice, useApplicationStore, useOnelDialogStore, openUserLogoutDialog, openGithubSite, backMainChannel, openUserLoginForms, openPersonalDialog, openSearchDialog, openSettingDialog, openForMobileDrawer, uploadFileError, getClientToken };
+export default { queryUserInfo, isMobile, showToasts, showErrorToasts, openAboutThisProject, playNoticeVoice, useApplicationStore, useOnelDialogStore, openGithubSite, backMainChannel, openUserLoginForms, openPersonalDialog, openSearchDialog, openSettingDialog, openForMobileDrawer, uploadFileError, getClientToken };

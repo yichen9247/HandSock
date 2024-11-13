@@ -10,16 +10,18 @@ onresize = async () => {
 }
 
 export const useApplicationStore = defineStore('applicationStore',() => {
+
+    const defaultAvatar = "https://dn-qiniu-avatar.qbox.me/avatar/";
     const channelId = new URLSearchParams(location.search).get("channel");
     
     const userInfo = reactive({
         uid: localStorage.getItem("handsock_uid"), nick: null, email: null, username: null,
-        avatar: "https://dn-qiniu-avatar.qbox.me/avatar/"
+        avatar: defaultAvatar
     });
 
     const groupInfo = reactive({
         gid: (channelId === null || !/^[-+]?\d+$/.test(channelId)) ? 0 : Number(channelId), name: "聊天室初始化中",
-        avatar: "https://dn-qiniu-avatar.qbox.me/avatar/", notice: "暂未获取到通知公告", open: true
+        avatar: defaultAvatar, notice: "暂未获取到通知公告", open: true
     });
     
     
@@ -60,6 +62,6 @@ export const useApplicationStore = defineStore('applicationStore',() => {
 
     return ({ 
         userInfo, serverUUID, loginFormStatus,  isDeviceMobile, isSiteReadyStatus, loginStatus, groupInfo, groupClosed, userList, messageList, onlineUserList, connection, chantInput, socketIo, sendst, chatGroupList,
-        setServerUUID, setIsDeviceMobile, setLoginFormStatus, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt
+        setServerUUID, setIsDeviceMobile, setLoginFormStatus, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt, defaultAvatar
     });
 });

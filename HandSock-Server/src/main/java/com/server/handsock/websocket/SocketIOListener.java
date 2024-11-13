@@ -2,9 +2,9 @@ package com.server.handsock.websocket;
 
 import com.corundumstudio.socketio.*;
 import org.springframework.stereotype.Service;
+import com.server.handsock.websocket.listener.*;
 import com.server.handsock.console.ConsolePrints;
 import com.server.handsock.service.ClientService;
-import com.server.handsock.websocket.listener.*;
 import com.server.handsock.websocket.eventer.OnlineEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,12 +27,20 @@ public class SocketIOListener {
 
         server.addConnectListener(client -> {
             ClientService clientService = new ClientService(service);
+            client.getNamespace().getRoomOperations().sendEvent("[123]", 123);
             onlineEvent.sendUserConnect(server, client, clientService.getRemoteAddress(client));
         });
 
         server.addDisconnectListener(client -> {
             ClientService clientService = new ClientService(service);
             onlineEvent.sendUserDisconnect(server, client, clientService.getRemoteAddress(client));
+        });
+
+        server.addEventListener("[ONLINE:LOGIN]", Map.class, (client, data, ackSender) -> {
+            ackSender.sendAckData(Map.of("code", 200));
+            @SuppressWarnings("unchecked")
+            Map<String, Object> typedData = (Map<String, Object>) data;
+            onlineEvent.sendUserOnlineLogin(server, client, typedData);
         });
 
         try {

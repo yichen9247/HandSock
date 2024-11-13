@@ -2,7 +2,7 @@
     import { reactive, ref } from 'vue'
     import utils from '@/scripts/utils'
     import { saveLocalStorage } from '@/scripts/storageUtils'
-    import { sendSocketEmit, toggleConnectStatus } from "@/socket/socketClient"
+    import { sendSocketEmit, toggleConnectStatus, resetOnlineUsers } from "@/socket/socketClient"
 
     const activeTab = ref('login');
     const applicationStore = utils.useApplicationStore();
@@ -44,6 +44,7 @@
                 await saveLocalStorage(["handsock_uid", "handsock_token", "handsock_username"], [response.data.userinfo.uid, response.data.token, response.data.userinfo.username]).then(async () => {
                     setTimeout(async () => {
                         await toggleConnectStatus([]);
+                        await resetOnlineUsers(1);
                     }, 300);
                     applicationStore.userInfo = response.data.userinfo;
                 });

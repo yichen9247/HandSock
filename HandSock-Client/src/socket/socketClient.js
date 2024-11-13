@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 
+import ua2obj from 'ua2obj'
 import Swal from 'sweetalert2'
 import utils from "@/scripts/utils"
 import { io } from "socket.io-client"
@@ -7,6 +8,8 @@ import config from "@/scripts/config"
 import { removeLocalStorage } from "@/scripts/storageUtils"
 
 let toggleStatus = false;
+const userAgentObj = ua2obj();
+
 export const openRegisterDialog = async () => {
     const applicationStore = utils.useApplicationStore();
     applicationStore.setLoginFormStatus(true);
@@ -48,6 +51,7 @@ export const startSocketIo = async () => {
                 if (data.code === 200) {
                     applicationStore.setLoginStatus(true);
                     applicationStore.userInfo = data.data.userinfo;
+                    await resetOnlineUsers(1);
                 } else await removeClient();
             });
         }
@@ -167,6 +171,11 @@ export const toggleConnectStatus = async (func) => {
     Promise.all(func);
 }
 
+export const resetOnlineUsers = async (status) => {
+    const applicationStore = utils.useApplicationStore();
+    applicationStore.socketIo.emit("[ONLINE:LOGIN]", { uid: localStorage.getItem("handsock_uid"), platform: userAgentObj.osName + " " + userAgentObj.osVersion, status: status }, () => {});
+}
+
 export const initChatGroup = async () => {
     const applicationStore = utils.useApplicationStore();
     const channelId = new URLSearchParams(location.search).get("channel");
@@ -207,6 +216,24 @@ export const initChatHistoryList = async () => {
         if (data.code !== 200) return ElMessage({ message: data.message, type: 'error' });
         applicationStore.messageList = data.data;
         setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
+    });
+}
+
+export const openUserLogoutDialog = async () => {
+    const applicationStore = utils.useApplicationStore();
+    await checkLoginWork(() => {
+        ElMessageBox.confirm('确定要退出登录吗，你的聊天记录将会丢失？', '系统提示', {
+            type: 'warning',
+            cancelButtonText: '取消',
+            confirmButtonText: '退出登录'
+        }).then(async () => {
+            await resetOnlineUsers(0);
+            applicationStore.setLoginStatus(false);
+            applicationStore.userInfo.avatar = applicationStore.defaultAvatar;
+            await removeLocalStorage(['handsock_uid', 'handsock_token', 'handsock_username']);
+            applicationStore.socketIo.emit("[USER:LOGOUT]", null);
+            ElMessage({ message: '退出登录成功！', type: 'success' });
+        }).catch(() => { });
     });
 }
 

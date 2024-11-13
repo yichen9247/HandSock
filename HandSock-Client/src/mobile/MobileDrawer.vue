@@ -1,13 +1,15 @@
 <script setup>
     import utils from "@/scripts/utils"
     import config from "@/scripts/config"
+    import { openUserLogoutDialog } from "@/socket/socketClient"
+
     const applicationStore = utils.useApplicationStore();
 </script>
 
 <template>
     <div id="drawer-main">
         <div class="side-out-image"></div>
-        <el-button class="side-bright-button" @click="utils.openUserLogoutDialog">
+        <el-button class="side-bright-button" @click="openUserLogoutDialog">
             <svg t="1731123338802" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6964"><path d="M574.8 923.6H222c-67.2 0-121.8-54.7-121.8-121.8V223c0-67.2 54.7-121.8 121.8-121.8h352.8c67.2 0 121.8 54.7 121.8 121.8v50.6c0 22.9-18.5 41.4-41.4 41.4s-41.4-18.5-41.4-41.4V223c0-21.5-17.5-39-39-39H222c-21.5 0-39 17.5-39 39v578.8c0 21.5 17.5 39 39 39h352.8c21.5 0 39-17.5 39-39v-44.5c0-22.9 18.5-41.4 41.4-41.4s41.4 18.5 41.4 41.4v44.5c0 67.1-54.7 121.8-121.8 121.8z" p-id="6965"></path><path d="M860.6 553.8H470.3c-22.9 0-41.4-18.5-41.4-41.4s18.5-41.4 41.4-41.4h390.4c22.9 0 41.4 18.5 41.4 41.4s-18.6 41.4-41.5 41.4z" p-id="6966"></path><path d="M747.6 693.1c-10.6 0-21.2-4-29.3-12.1-16.2-16.2-16.2-42.4 0-58.6l110-110-110-110c-16.2-16.2-16.2-42.4 0-58.6 16.2-16.2 42.4-16.2 58.6 0l139.2 139.3c16.2 16.2 16.2 42.4 0 58.6L776.9 680.9c-8.1 8.1-18.7 12.2-29.3 12.2z" p-id="6967"></path></svg>
         </el-button>
         <div class="side-out-autho drawer-card" @click="utils.openPersonalDialog">

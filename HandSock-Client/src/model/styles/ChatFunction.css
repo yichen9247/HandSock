@@ -22,7 +22,7 @@ div.chat-function div.function-box {
   overflow-y: scroll;
   position: relative;
   width: calc(100% - 40px);
-  height: calc(100% - 105px);
+  height: calc(100% - 190px);
 }
 div.chat-function div.function-box div.van-notice-bar {
   color: #ffffff;
@@ -31,6 +31,52 @@ div.chat-function div.function-box div.van-notice-bar {
 }
 div.chat-function div.function-box div.van-notice-bar div.van-notice-bar__content {
   color: #ffffff;
+}
+div.chat-function div.function-box div.online-list {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+div.chat-function div.function-box div.online-list div.user-item {
+  width: 100%;
+  height: 38px;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.35);
+}
+div.chat-function div.function-box div.online-list div.user-item div.item-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+div.chat-function div.function-box div.online-list div.user-item div.item-content img.user-avatar {
+  width: 38px;
+  height: 100%;
+}
+div.chat-function div.function-box div.online-list div.user-item div.item-content span.user-nick {
+  color: #ffffff;
+  margin-left: 10px;
+}
+div.chat-function div.function-box div.online-list div.user-item div.item-content span.user-radio {
+  width: 8px;
+  height: 8px;
+  right: 15px;
+  border-radius: 5px;
+  position: absolute;
+  background-color: var(--dominColor);
+}
+div.chat-function button.report-button {
+  height: 50px;
+  margin: 0 auto;
+  display: block;
+  font-size: 1rem;
+  margin-top: 10px;
+  width: calc(100% - 40px);
 }
 @media (max-width: 1450px) {
   div.chat-function {

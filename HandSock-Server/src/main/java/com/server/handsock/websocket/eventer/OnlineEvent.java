@@ -7,15 +7,13 @@ import com.server.handsock.console.ConsolePrints;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.SocketIOClient;
 
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 @Service
 public class OnlineEvent {
 
     private final ConsolePrints consolePrints = new ConsolePrints();
+    private final List<Long> uidList = Collections.synchronizedList(new ArrayList<>());
     public final List<String> clientList = Collections.synchronizedList(new ArrayList<>());
     public final List<Map<String, Object>> userList = Collections.synchronizedList(new ArrayList<>());
 
@@ -26,7 +24,13 @@ public class OnlineEvent {
 
     private String getUserPlatform(SocketIOClient client) {
         String userAgent = client.getHandshakeData().getHttpHeaders().get("User-Agent");
+        System.out.println(client.getHandshakeData().getHttpHeaders());
         return userAgent != null ? userAgent.split(" ")[0] : "Unknown";
+    }
+
+    private Map<String, Object> getUserFromList(Long uid) {
+        for (Map<String, Object> user : userList) if (uid.equals(user.get("uid"))) return user;
+        return null;
     }
 
     public void sendUserConnect(SocketIOServer server, SocketIOClient client, String address) {
@@ -34,10 +38,6 @@ public class OnlineEvent {
         if (!clientList.contains(uuid)) {
             synchronized (clientList) {
                 clientList.add(uuid);
-            }
-
-            synchronized (userList) {
-                userList.add(Map.of("uuid", uuid, "platform", getUserPlatform(client)));
             }
 
             client.sendEvent("[TOKENS]", Map.of("data", uuid));
@@ -53,13 +53,49 @@ public class OnlineEvent {
                 clientList.remove(uuid);
             }
 
-            synchronized (userList) {
-                userList.removeIf(map -> map.get("uuid").equals(uuid));
+            @SuppressWarnings("unchecked")
+            Map<String, Object> clientObject = (Map<String, Object>) client.getHandshakeData().getAuthToken();
+            if (clientObject.get("uid") != null) {
+                Long uid = Long.parseLong(clientObject.get("uid").toString());
+                for (Long uidS: uidList) {
+                    if (uid.equals(uidS)) {
+                        if (uidList.stream().filter(item -> item.equals(uidS)).count() == 1) userList.removeIf(obj -> obj.get("uid").equals(uid));
+                        uidList.remove(uidS);
+                        break;
+                    }
+                }
             }
-
             sendMessage(server);
             logConnectionEvent(address, uuid, "New visitor leave");
         }
+    }
+
+    public void sendUserOnlineLogin(SocketIOServer server, SocketIOClient client, Map<String, Object> data) {
+        Long uid;
+        int status;
+        try {
+            uid = Long.parseLong(data.get("uid").toString());
+            status = Integer.parseInt(data.get("status").toString());
+        } catch (NumberFormatException e) {
+            consolePrints.printErrorLog(e);
+            return;
+        }
+        if (status == 0) {
+            uidList.remove(uid);
+            userList.removeIf(obj -> obj.get("uid").equals(uid));
+        } else {
+            uidList.add(uid);
+            Map<String, Object> user = getUserFromList(uid);
+            if (user == null) {
+                user = new HashMap<>();
+                user.put("uid", uid);
+                user.put("uuid", getClientUUID(client));
+                user.put("login", true);
+                user.put("platform", data.get("platform"));
+                userList.add(user);
+            }
+        }
+        sendMessage(server);
     }
 
     private void sendMessage(SocketIOServer server) {

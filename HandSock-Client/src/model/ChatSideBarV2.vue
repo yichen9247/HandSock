@@ -2,7 +2,7 @@
     import utils from "@/scripts/utils"
     import config from "@/scripts/config"
     import { useRouter } from 'vue-router'
-    import { toggleChatChannel } from '@/socket/socketClient'
+    import { toggleChatChannel, openUserLogoutDialog } from '@/socket/socketClient'
 
     const router = useRouter();
     const onelDialogStore = utils.useOnelDialogStore();
@@ -41,7 +41,7 @@
                     <svg t="1703494205002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8280" width="36" height="36"><path d="M469.333333 60.693333a85.333333 85.333333 0 0 1 85.333334 0l326.826666 188.714667a85.333333 85.333333 0 0 1 42.666667 73.898667v377.386666a85.333333 85.333333 0 0 1-42.666667 73.898667L554.666667 963.306667a85.333333 85.333333 0 0 1-85.333334 0L142.506667 774.592a85.333333 85.333333 0 0 1-42.666667-73.898667v-377.386666a85.333333 85.333333 0 0 1 42.666667-73.898667z m42.666667 73.898667L185.173333 323.306667v377.386666L512 889.408l326.826667-188.714667v-377.386666L512 134.592zM512 341.333333a170.666667 170.666667 0 1 1 0 341.333334 170.666667 170.666667 0 0 1 0-341.333334z m0 85.333334a85.333333 85.333333 0 1 0 0 170.666666 85.333333 85.333333 0 0 0 0-170.666666z" fill="#ffffff" p-id="8281"></path></svg>
                 </div>
     
-                <div class="button-item" title="退出登录" @click="utils.openUserLogoutDialog">
+                <div class="button-item" title="退出登录" @click="openUserLogoutDialog">
                     <svg t="1729505518099" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17831" width="36" height="36"><path d="M663.68 247.253333L701.653333 170.666667A427.605333 427.605333 0 0 1 938.666667 553.770667C938.666667 789.888 747.648 981.333333 512 981.333333S85.333333 789.888 85.333333 553.770667C85.333333 389.717333 178.346667 242.346667 322.346667 170.666667l37.973333 76.586666A342.101333 342.101333 0 0 0 170.666667 553.770667c0 188.928 152.832 342.058667 341.333333 342.058666s341.333333-153.173333 341.333333-342.058666a342.101333 342.101333 0 0 0-189.653333-306.517334z" fill="#ffffff" p-id="17832"></path><path d="M469.333333 42.666667h85.333334v341.333333h-85.333334z" fill="#ffffff" p-id="17833"></path></svg>
                 </div>
             </div>
