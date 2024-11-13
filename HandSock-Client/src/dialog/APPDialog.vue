@@ -3,12 +3,6 @@
     import utils from "@/scripts/utils"
     import { useRouter } from 'vue-router'
     import { ElMessageBox } from 'element-plus'
-    import UserCenter from "@/center/UserCenter.vue"
-    import EmojeCenter from "./CenterDialog/EmojeCenter.vue"
-    import LoginCenter from "./CenterDialog/LoginCenter.vue"
-    import MobileSettings from "@/mobile/MobileSettings.vue"
-    import UploadCenter from "./CenterDialog/UploadCenter.vue"
-    import PCSettingCenter from "./SettingCenter/PCSettingCenter.vue"
     import { toggleChatChannel, sendSocketEmit } from '@/socket/socketClient'
 
     const router = useRouter();

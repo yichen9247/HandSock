@@ -2,7 +2,7 @@
 
 <script setup>
     import utils from '@/scripts/utils'
-    import { onMounted, reactive } from 'vue';
+    import { onMounted, reactive } from 'vue'
     import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
     const systemConfig = reactive({

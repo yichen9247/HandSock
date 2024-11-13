@@ -1,7 +1,6 @@
 <script setup>
     import utils from '@/scripts/utils'
     import { useRouter } from 'vue-router'
-    import ChatFootBox from './ChatFootBox.vue'
     import Message from "@/model/ChatMessage.vue"
     import { toggleChatChannel } from '@/socket/socketClient'
 

@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import viteCompression from 'vite-plugin-compression'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
@@ -24,7 +25,7 @@ export default defineConfig({
       treeshake: true, output: {
         manualChunks(id) { if (id.includes('node_modules')) { return id.toString().split('node_modules/')[1].split('/')[0].toString(); } },
         chunkFileNames: 'static/js/[name]-[hash].js', entryFileNames: 'static/js/[name]-[hash].js', assetFileNames: 'static/[ext]/[name]-[hash].[ext]', commonjsOptions: { requireReturnsDefault: 'namespace' }
-      }
+      },chunkSizeWarningLimit: 1500
     },
     terseroptions: { compress: { drop_console: true, drop_debugger: true } },
     minify: true, brotliSize: false, assetsDir: 'assets', assetsInlineLimit: 5 * 1024 * 1024,
@@ -33,8 +34,12 @@ export default defineConfig({
   plugins: [
     base64SetPlugin(),
     AutoImport({ imports: ['vue'], resolvers: [ElementPlusResolver()] }),
-    Components({ resolvers: [ElementPlusResolver(), NaiveUiResolver()] }),
+    Components({ 
+      resolvers: [ElementPlusResolver(), NaiveUiResolver()],
+      dirs: ['src'], extensions: ['vue','jsx'], dts: 'handsock.d.ts',
+    }),
     vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith('mdui-') } } }),
+    viteCompression({ verbose: true, disable: false, deleteOriginFile: false, threshold: 5120, algorithm: 'gzip', ext: '.gz' }),
   ],
   css: { modules: { generateScopedName: '[name]-[hash:base64:5]' } },
   resolve: {

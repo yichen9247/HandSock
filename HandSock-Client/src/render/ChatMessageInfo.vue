@@ -3,8 +3,6 @@
 <script setup>
     import utils from "@/scripts/utils"
     import config from "@/scripts/config"
-    import ChatPngMessage from "./ChatPngMessage.vue"
-    import ChatFilesMessage from "./ChatFilesMessage.vue"
     import { checkLoginWork } from "@/socket/socketClient"
     
     let mousetime = 0, mousedown = null;

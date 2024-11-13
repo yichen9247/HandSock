@@ -1,7 +1,6 @@
 <script setup>
     import { onMounted } from "vue"
     import utils from "@/scripts/utils"
-    import MainLayout from "@/layout/MainLayout.vue"
     import { startSocketIo } from "@/socket/socketClient.js"
     
     onMounted(async () => await startSocketIo());

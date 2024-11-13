@@ -2,7 +2,6 @@
 
 <script setup>
     import utils from '@/scripts/utils'
-    import FrameDrawer from '../FrameDrawer.vue'
     import { onMounted, onUnmounted, reactive, ref } from 'vue'
     import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 

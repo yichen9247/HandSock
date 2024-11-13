@@ -1,11 +1,6 @@
 <script setup>
     import { ref } from "vue"
     import utils from "@/scripts/utils.js"
-    import AdminPage from "@/dialog/SettingDialog/AdminPage.vue"
-    import PrivacyPage from "@/dialog/SettingDialog/PrivacyPage.vue"
-    import UserSetting from "@/dialog/SettingDialog/UserSetting.vue"
-    import ChatSetting from "@/dialog/SettingDialog/ChatSetting.vue"
-    import ThemeSetting from "@/dialog/SettingDialog/ThemeSetting.vue"
     import { User, PieChart, Setting, ChatLineRound, Notification, Document } from '@element-plus/icons-vue'
 
     const settingIndex = ref(1);

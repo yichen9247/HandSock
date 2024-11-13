@@ -1,6 +1,5 @@
 <script setup>
     import utils from "@/scripts/utils"
-    import MobileDrawer from "@/mobile/MobileDrawer.vue"
 
     const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();

@@ -1,13 +1,6 @@
 <script setup>
     import utils from "@/scripts/utils.js"
-    import AdminFrame from "@/frame/AdminFrame.vue"
     import { Menu } from "@element-plus/icons-vue"
-    import APPDialog from "@/dialog/APPDialog.vue"
-    import ChatContent from "@/model/ChatContent.vue"
-    import ChatFunction from '@/model/ChatFunction.vue'
-    import ChantChannel from '@/model/ChantChannel.vue'
-    import ChatSideBarV2 from '@/model/ChatSideBarV2.vue'
-    import MobileContain from "@/mobile/MobileContain.vue"
     
     const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();

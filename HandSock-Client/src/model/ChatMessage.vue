@@ -1,7 +1,7 @@
 <script setup>
     import utils from "@/scripts/utils"
     const chatMessage = defineProps({ message: Object });
-    import ChatMessageInfo from "@/render/ChatMessageInfo.vue"
+
 </script>
 
 <template>

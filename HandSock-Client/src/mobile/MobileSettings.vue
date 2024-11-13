@@ -1,11 +1,6 @@
 <script setup>
     import { ref } from 'vue'
     import utils from '@/scripts/utils'
-    import AdminPage from "@/dialog/SettingDialog/AdminPage.vue"
-    import UserSetting from "@/dialog/SettingDialog/UserSetting.vue"
-    import PrivacyPage from "@/dialog/SettingDialog/PrivacyPage.vue"
-    import ChatSetting from "@/dialog/SettingDialog/ChatSetting.vue"
-    import ThemeSetting from "@/dialog/SettingDialog/ThemeSetting.vue"
     
     const active = ref(0);
     const applicationStore = utils.useApplicationStore();
