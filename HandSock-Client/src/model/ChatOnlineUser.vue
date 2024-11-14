@@ -10,7 +10,7 @@
     <div class="user-item" v-if="props.user.login && applicationStore.userList.some(item => item.uid === props.user.uid)">
         <el-tooltip class="box-item" effect="handsock" placement="right" :content="props.user.platform" >
             <div class="item-content">
-                <img class="user-avatar" :src="config.serverAdress + config.serverApi.downloadAvatar + utils.queryUserInfo(props.user.uid).avatar">
+                <img class="user-avatar" :src="config.serverAdress + config.serverApi.downloadAvatar + utils.queryUserInfo(props.user.uid).avatar" draggable="false">
                 <span class="user-nick">{{ utils.queryUserInfo(props.user.uid).nick }}</span>
                 <span class="user-radio"></span>
             </div>
