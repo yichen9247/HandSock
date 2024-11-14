@@ -22,12 +22,6 @@ public class OnlineEvent {
         return new MD5Encoder().toMD5(sessionId);
     }
 
-    private String getUserPlatform(SocketIOClient client) {
-        String userAgent = client.getHandshakeData().getHttpHeaders().get("User-Agent");
-        System.out.println(client.getHandshakeData().getHttpHeaders());
-        return userAgent != null ? userAgent.split(" ")[0] : "Unknown";
-    }
-
     private Map<String, Object> getUserFromList(Long uid) {
         for (Map<String, Object> user : userList) if (uid.equals(user.get("uid"))) return user;
         return null;
