@@ -51,7 +51,7 @@
             <UserCenter/>
         </el-dialog>
 
-        <el-dialog :class="`setting-center ${applicationStore.isDeviceMobile ? 'center-mobile' : 'center-pc'}`" v-model="onelDialogStore.settinglCenter" width="650px" align-center destroy-on-close center v-if="!applicationStore.isDeviceMobile">
+        <el-dialog :class="`setting-center ${applicationStore.isDeviceMobile ? 'center-mobile' : 'center-pc'}`" v-model="onelDialogStore.settinglCenter" width="650px" align-center destroy-on-close center v-if="!applicationStore.isDeviceMobile" style="padding: 0;">
             <PCSettingCenter/>
         </el-dialog>
         
