@@ -12,5 +12,5 @@
 </template>
 
 <style>
-@import url("./styles/MobileContain.css");
+    @import url("./styles/MobileContain.css");
 </style>
