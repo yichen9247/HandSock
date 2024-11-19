@@ -39,7 +39,7 @@ NodeJs: 16.20.2及以上
 首次运行需要修改管理员账号和密码，以防账号被别人登录：
 
 ```text
-账号：handosck
+账号：handsock
 密码：handsock123
 ```
 

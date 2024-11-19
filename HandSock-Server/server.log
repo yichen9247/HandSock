@@ -1,0 +1,217 @@
+[HandSock 2024-11-18T12:28:10.465+08:00]Socket.IO server started!
+[HandSock 2024-11-18T12:28:10.467+08:00]Springboot server started!
+[HandSock 2024-11-18T12:28:10.795+08:00]Mysql server connect success!
+[HandSock 2024-11-18T12:28:11.193+08:00]Redis server connect success!
+[HandSock 2024-11-18T12:28:11.194+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-18T12:28:11.540+08:00]Database table check success!
+[HandSock 2024-11-18T12:30:49.814+08:00]New visitor 11.47.17.166:53833 9fea82fc4d1d3d4e189b2afdd55e5a00
+[HandSock 2024-11-18T12:31:00.898+08:00]User Login 11.47.17.166:53833 2400442120 e41952e9e503883ff35aa889694059d0
+[HandSock 2024-11-18T12:31:01.209+08:00]New visitor leave 11.47.17.166:53833 9fea82fc4d1d3d4e189b2afdd55e5a00
+[HandSock 2024-11-18T12:31:01.217+08:00]New visitor 11.47.17.166:53865 4a0dd6190e6f227ae8c7d5e03c10846a
+[HandSock 2024-11-18T13:21:03.590+08:00]New visitor 11.47.17.166:56909 fe8b49058b4282dd748b7b0f7d9ad183
+[HandSock 2024-11-18T15:01:31.067+08:00]New visitor leave 11.47.17.166:56909 fe8b49058b4282dd748b7b0f7d9ad183
+[HandSock 2024-11-18T19:24:34.147+08:00]org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+[HandSock 2024-11-18T19:25:02.686+08:00]Socket.IO server started!
+[HandSock 2024-11-18T19:25:02.704+08:00]Springboot server started!
+[HandSock 2024-11-18T19:25:03.138+08:00]Mysql server connect success!
+[HandSock 2024-11-18T19:25:03.486+08:00]Redis server connect success!
+[HandSock 2024-11-18T19:25:03.487+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-18T19:25:03.851+08:00]Database table check success!
+[HandSock 2024-11-18T19:25:05.911+08:00]New visitor 11.47.17.166:60398 394bb39f9da5d3d5db06413a60bb2728
+[HandSock 2024-11-18T19:25:57.061+08:00]New visitor leave 11.47.17.166:60398 394bb39f9da5d3d5db06413a60bb2728
+[HandSock 2024-11-19T19:48:05.735+08:00]Socket.IO server started!
+[HandSock 2024-11-19T19:48:05.943+08:00]Springboot server started!
+[HandSock 2024-11-19T19:48:54.666+08:00]Mysql server connect success!
+[HandSock 2024-11-19T19:48:55.439+08:00]Redis server connect success!
+[HandSock 2024-11-19T19:48:55.441+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-19T19:48:56.848+08:00]Database table check success!
+[HandSock 2024-11-19T19:54:19.507+08:00]Socket.IO server started!
+[HandSock 2024-11-19T19:54:19.525+08:00]Springboot server started!
+[HandSock 2024-11-19T19:54:19.748+08:00]Mysql server connect success!
+[HandSock 2024-11-19T19:54:20.248+08:00]Redis server connect success!
+[HandSock 2024-11-19T19:54:20.249+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-19T19:54:20.330+08:00]Database table check success!
+[HandSock 2024-11-19T19:54:30.186+08:00]New visitor 11.47.17.166:56273 cf685dd5cfa90a0aa732c1bbf5218dba
+[HandSock 2024-11-19T19:54:30.608+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/admin/dao/OR_UserDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,taboo,avatar,reg_time,username,password,is_robot  FROM handsock_user      WHERE  (uid = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.619+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (home = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.624+08:00]New visitor leave 11.47.17.166:56273 cf685dd5cfa90a0aa732c1bbf5218dba
+[HandSock 2024-11-19T19:54:30.772+08:00]New visitor 11.47.17.166:56280 159c125718e9f29a369533f912e28735
+[HandSock 2024-11-19T19:54:30.815+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/admin/dao/OR_UserDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,taboo,avatar,reg_time,username,password,is_robot  FROM handsock_user      WHERE  (uid = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.825+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (home = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.835+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OD_UerDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,is_admin,is_robot,email,avatar,username  FROM handsock_user
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.845+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (active = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:30.872+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChatDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  sid,uid,gid,deleted,type,time,address,content  FROM handsock_message      WHERE  (gid = ?) ORDER BY time ASC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:33.297+08:00]New visitor leave 11.47.17.166:56280 159c125718e9f29a369533f912e28735
+[HandSock 2024-11-19T19:54:33.522+08:00]New visitor 11.47.17.166:56311 b73394852c66e2fa2087160dff4bbc8d
+[HandSock 2024-11-19T19:54:33.570+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (home = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:33.577+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OD_UerDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,is_admin,is_robot,email,avatar,username  FROM handsock_user
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:33.582+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (active = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:54:33.590+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChatDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  sid,uid,gid,deleted,type,time,address,content  FROM handsock_message      WHERE  (gid = ?) ORDER BY time ASC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:15.632+08:00]Socket.IO server started!
+[HandSock 2024-11-19T19:57:15.653+08:00]Springboot server started!
+[HandSock 2024-11-19T19:57:15.928+08:00]New visitor 11.47.17.166:56632 67502bc7ef86e099e4b61d51472216e7
+[HandSock 2024-11-19T19:57:16.011+08:00]Mysql server connect success!
+[HandSock 2024-11-19T19:57:16.331+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (home = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:16.331+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OD_UerDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,is_admin,is_robot,email,avatar,username  FROM handsock_user
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:16.345+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (active = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:16.355+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChatDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  sid,uid,gid,deleted,type,time,address,content  FROM handsock_message      WHERE  (gid = ?) ORDER BY time ASC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:16.520+08:00]Redis server connect success!
+[HandSock 2024-11-19T19:57:16.522+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-19T19:57:16.587+08:00]Database table check success!
+[HandSock 2024-11-19T19:57:18.097+08:00]New visitor leave 11.47.17.166:56632 67502bc7ef86e099e4b61d51472216e7
+[HandSock 2024-11-19T19:57:18.324+08:00]New visitor 11.47.17.166:56633 3a92c6bfb0a2b140c8837f1c1b50e8a6
+[HandSock 2024-11-19T19:57:18.358+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (home = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:18.365+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OD_UerDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  uid,nick,is_admin,is_robot,email,avatar,username  FROM handsock_user
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_user' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:18.371+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChanDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  gid,name,open,home,notice,avatar  FROM handsock_channel      WHERE  (active = ?)
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_channel' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:18.377+08:00]org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+### The error may exist in com/server/handsock/sockets/dao/OP_ChatDao.java (best guess)
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT  sid,uid,gid,deleted,type,time,address,content  FROM handsock_message      WHERE  (gid = ?) ORDER BY time ASC
+### Cause: java.sql.SQLSyntaxErrorException: Table 'handsocktest.handsock_message' doesn't exist
+; bad SQL grammar []
+[HandSock 2024-11-19T19:57:40.151+08:00]New visitor leave 11.47.17.166:56633 3a92c6bfb0a2b140c8837f1c1b50e8a6
+[HandSock 2024-11-19T19:57:48.551+08:00]Socket.IO server started!
+[HandSock 2024-11-19T19:57:48.555+08:00]Springboot server started!
+[HandSock 2024-11-19T19:57:48.805+08:00]Mysql server connect success!
+[HandSock 2024-11-19T19:57:49.302+08:00]Redis server connect success!
+[HandSock 2024-11-19T19:57:49.305+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-19T19:57:49.346+08:00]Database table check success!
+[HandSock 2024-11-19T19:58:43.955+08:00]Socket.IO server started!
+[HandSock 2024-11-19T19:58:43.978+08:00]Springboot server started!
+[HandSock 2024-11-19T19:58:44.173+08:00]Mysql server connect success!
+[HandSock 2024-11-19T19:58:44.630+08:00]Redis server connect success!
+[HandSock 2024-11-19T19:58:44.696+08:00]Please ignore the error of BadSqlGrammarException, because we will retrieve and fix it.
+[HandSock 2024-11-19T19:58:45.451+08:00]Database table check success!
+[HandSock 2024-11-19T19:58:49.897+08:00]New visitor 11.47.17.166:60389 7845deb125bbceb0e417c29ce1641852
+[HandSock 2024-11-19T19:59:00.619+08:00]User Login 11.47.17.166:60389 2400442120 1c79eb56344d1042fdecd710e740d49a
+[HandSock 2024-11-19T19:59:00.937+08:00]New visitor leave 11.47.17.166:60389 7845deb125bbceb0e417c29ce1641852
+[HandSock 2024-11-19T19:59:00.950+08:00]New visitor 11.47.17.166:60411 71558b60a58afeb692487e9e3d4b310f
+[HandSock 2024-11-19T20:02:16.699+08:00]New visitor leave 11.47.17.166:60411 71558b60a58afeb692487e9e3d4b310f
