@@ -1,6 +1,6 @@
 # [HandSock](https://github.com/yichen9247/HandSock) &middot; [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/yichen9247/HandSock/blob/main/LICENSE.txt) [![author](https://img.shields.io/badge/author-Hua-blue.svg)](https://github.com/yichen9247) [![Node.js Version](https://img.shields.io/badge/node.js-16.20.2-blue.svg)](http://nodejs.org/download)
 
-HandSock 是一款有趣的聊天应用，基于 Mybatis-Plus，Springboot, Vue3 和 Socket.io，Redis 等技术开发
+HandSock 是一款有趣的聊天应用，基于 Typescript，Mybatis-Plus，Springboot, Vue3 和 Socket.io，Redis 等技术开发。
 
 <div style="display: flex">
 
