@@ -19,9 +19,7 @@ public class UserListener {
         });
 
         server.addEventListener("[USER:LOGOUT]", Map.class, (client, data, ackSender) -> {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> typedData = (Map<String, Object>) data;
-            userHandler.handleUserLogout(client, typedData, onlineEvent, ackSender);
+            userHandler.handleUserLogout(client, server, onlineEvent, ackSender);
         });
 
         server.addEventListener("[USER:REGISTER]", Map.class, (client, data, ackSender) -> {

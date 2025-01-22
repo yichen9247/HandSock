@@ -15,8 +15,8 @@
 
     const sendChatMessageV2 = async () => {
         await checkLoginWork(async () => {
-            if (applicationStore.groupClosed) return utils.showErrorToasts('error', '频道未开启', '该频道暂未开启！');
-            if (applicationStore.chantInput === "") return utils.showErrorToasts('warning', '格式不正确', '请参照正确的聊天内容格式！');
+            if (applicationStore.groupClosed) return utils.showToasts('error', '频道未开启');
+            if (applicationStore.chantInput === "") return utils.showToasts('warning', '格式不正确');
             await sendChatMessage();
         });
     }

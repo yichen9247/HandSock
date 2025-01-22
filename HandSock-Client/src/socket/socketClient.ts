@@ -15,9 +15,9 @@ const userAgentObj: any = ua2obj();
 export const checkLoginWork = async (func: any): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
     if (!applicationStore.connection)
-        return utils.showErrorToasts('error', '服务器崩了', '与通信服务器的连接已断开');
+        return utils.showToasts('error', '连接服务器失败');
     if (!applicationStore.loginStatus)
-        return utils.showErrorToasts('warning', '用户未登录', '用户未登录');
+        return utils.showToasts('warning', '用户未登录');
     await func();
 }
 
@@ -119,7 +119,7 @@ export const startSocketIo = async (): Promise<void> => {
     applicationStore.socketIo.on(socket.rece.Re.RehistoryClear, async (): Promise<void> => {
         applicationStore.messageList.length = 0;
         if (applicationStore.loginStatus && applicationStore.userList.length > 0 && applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin) return;
-        utils.showErrorToasts('warning', '聊天记录重置', '服务端聊天记录已重置！');
+        utils.showToasts('warning', '聊天记录重置');
     });
 
     applicationStore.socketIo.on(socket.rece.Online, async (messageObject: restfulType): Promise<void> => {
@@ -217,18 +217,8 @@ export const openUserLogoutDialog = async (): Promise<void> => {
             applicationStore.userInfo.avatar = applicationStore.defaultAvatar;
             await removeLocalStorage(['handsock_uid', 'handsock_token', 'handsock_username']);
             applicationStore.socketIo.emit("[USER:LOGOUT]", null);
-            ElMessage({ message: '退出登录成功！', type: 'success' });
+            utils.showToasts('success', '退出登录成功！');
         }, '取消', '退出登录');
-    });
-}
-
-export const sendJoinMessage = async (): Promise<void> => {
-    const applicationStore = utils.useApplicationStore();
-    applicationStore.socketIo.emit(socket.send.SendMessage, {
-        type: 'join',
-        content: `${applicationStore.userInfo.nick} 加入到了聊天室`
-    }, (response: restfulType): any => {
-        if (response.code !== 200) return ElMessage({ message: response.message, type: 'error' });
     });
 }
 
@@ -246,8 +236,8 @@ export const sendChatMessage = async (): Promise<void> => {
 export const removeClient = async (): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
     applicationStore.resetUserInfo();
+    utils.showToasts('error', '请重新登录');
     applicationStore.setLoginFormStatus(true);
-    utils.showErrorToasts('error', '请重新登录', '请重新登录账号');
     await removeLocalStorage(['handsock_uid', 'handsock_username', 'handsock_token']);
 }
 

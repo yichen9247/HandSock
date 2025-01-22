@@ -37,7 +37,7 @@ public class UserHandler {
         }
     }
 
-    public void handleUserLogout(SocketIOClient client, Map<String, Object> data, OnlineEvent onlineEvent, AckRequest ackSender) {
+    public void handleUserLogout(SocketIOClient client, SocketIOServer server, OnlineEvent onlineEvent, AckRequest ackSender) {
         ClientService clientService = new ClientService(service);
         if (clientService.validClientToken(client)) {
             try {
@@ -46,12 +46,13 @@ public class UserHandler {
                 } else {
                     TokenService tokenService = (TokenService) service.get("tokenService");
                     tokenService.removeUserToken(clientService.getRemoteUID(client));
+                    onlineEvent.sendUserDisconnect(server, client, clientService.getRemoteAddress(client));
                     new ConsolePrints().printInfoLogV2("User Logout " + clientService.getRemoteAddress(client) + " " + clientService.getRemoteUID(client));
                 }
             } catch (Exception e) {
                 clientService.handleException(e, ackSender);
             }
-        } else ackSender.sendAckData(handleResults.handleResultByCode(403, null, "请重新登录"));
+        } else ackSender.sendAckData(handleResults.handleResultByCode(403, null, "已是退出状态"));
     }
 
     public void handleUserRegister(SocketIOServer server, SocketIOClient client, Map<String, Object> data, OnlineEvent onlineEvent, AckRequest ackSender) {

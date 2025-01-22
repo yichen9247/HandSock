@@ -18,27 +18,31 @@
             在线人数：{{ onlineCount }}
         </div>
         <div class="function-box">
-            <van-notice-bar 
-                class="mobile-bg"
-                left-icon="volume-o" 
-                :text="applicationStore.groupInfo.notice"
-            />
-
-            <div class="online-list">
-                <ChatOnlineBox
-                    v-for="(item, index) in applicationStore.onlineUserList"
-                    :key="index" :user="item"
+            <div class="function-main">
+                <van-notice-bar 
+                    class="mobile-bg"
+                    left-icon="volume-o" 
+                    :text="applicationStore.groupInfo.notice"
                 />
+
+                <div class="online-list">
+                    <ChatOnlineBox
+                        v-for="(item, index) in applicationStore.onlineUserList"
+                        :key="index" :user="item"
+                    />
+                </div>
+            </div>
+
+            <div class="button-box">
+                <el-button
+                    type="primary"
+                    class="report-button"
+                    @click="setReportDialog(true)"
+                >
+                    举报聊天记录
+                </el-button>
             </div>
         </div>
-
-        <el-button
-            type="primary"
-            class="report-button"
-            @click="setReportDialog(true)"
-        >
-            举报聊天记录
-        </el-button>
     </div>
 </template>
 

@@ -49,13 +49,6 @@ const showConfirms = async (type: any, title: string, message: string, callback:
     }).catch(() => {});
 }
 
-const showErrorToasts = (type: string, text1: string, text2: string): void => {
-    if (!isMobile()) {
-        if (type === 'error') ElMessage({ message: text2, type: 'error', plain: true });
-        if (type === 'warning') ElMessage({ message: text2, type: 'warning', plain: true });
-    } else showFailToast(text1);
-}
-
 const queryUserInfo = (uid: string): userInfoType => {
     const applicationStore = useApplicationStore();
     return applicationStore.userList.find(item => item.uid === uid);
@@ -98,4 +91,4 @@ const showSwalFire = (icon: SweetAlertIcon, title: string, text: string): void =
     });
 }
 
-export default { queryUserInfo, queryMessageInfo, getMessageType, previewImage, isMobile, showToasts, showConfirms, showErrorToasts, useApplicationStore, useOnelDialogStore, showSwalFire, uploadFileError, getClientToken, getFileSize };
+export default { queryUserInfo, queryMessageInfo, getMessageType, previewImage, isMobile, showToasts, showConfirms, useApplicationStore, useOnelDialogStore, showSwalFire, uploadFileError, getClientToken, getFileSize };
