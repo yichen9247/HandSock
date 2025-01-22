@@ -6,7 +6,7 @@ HandSock 是一款有趣的聊天应用，基于 Mybatis-Plus，Springboot, Vue3
 
 [项目文档](https://doc.handsock.xiaokolomi.cn)
 &nbsp;
-[演示站点](https://doc.handsock.xiaokolomi.cn)
+[演示站点](https://handsock.xiaokolomi.cn)
 
 </div>
 
