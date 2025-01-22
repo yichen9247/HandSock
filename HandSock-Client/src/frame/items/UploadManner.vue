@@ -13,7 +13,7 @@
 
     const applicationStore = utils.useApplicationStore();
     onMounted(async (): Promise<void> => await getUploadList());
-    const fileType: any = { file: '文件', avatar: '头像', images: '图片'}; 
+    const fileType: any = { files: '文件', avatar: '头像', images: '图片'}; 
     const showToast = async (type: string, message: string): Promise<void> => await utils.showToasts(type, message);
     
 
@@ -69,7 +69,7 @@
         if (item.type === 'images' || item.type === 'avatar') {
             utils.previewImage({ src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.path, html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` });
         } else
-        if (item.type === 'file') open(socket.server.config.serverUrl + socket.server.downloadFile + item.path);
+        if (item.type === 'files') open(socket.server.config.serverUrl + socket.server.downloadFile + item.path);
     }
 </script>
 

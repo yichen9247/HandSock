@@ -84,11 +84,11 @@ public class OU_UploadService {
             return handleResults.handleResultByCode(402, null, "操作频率过快");
         } else cacheService.writeRedisUploadCache(Long.parseLong(gidHeader.get(0)));
 
-        if (Objects.equals(type, "file") && !or_chanService.getChanOpenStatus(Long.parseLong(gidHeader.get(0)))) {
+        if (Objects.equals(type, "files") && !or_chanService.getChanOpenStatus(Long.parseLong(gidHeader.get(0)))) {
             return handleResults.handleResultByCode(402, null, "该频道未开启");
         }
 
-        if (Objects.equals(type, "file") && ou_systemService.getSystemKeyStatus("taboo") && !op_userService.getUserAdminStatusByUid(Long.parseLong(uidHeader.get(0)))) {
+        if (Objects.equals(type, "files") && ou_systemService.getSystemKeyStatus("taboo") && !op_userService.getUserAdminStatusByUid(Long.parseLong(uidHeader.get(0)))) {
             return handleResults.handleResultByCode(402, null, "全频禁言开启中");
         }
 
@@ -96,7 +96,7 @@ public class OU_UploadService {
             return handleResults.handleResultByCode(402, null, "上传权限未开放");
         }
 
-        if (Objects.equals(type, "file") && or_userService.getUserTabooStatus(Long.parseLong(uidHeader.get(0))) && !op_userService.getUserAdminStatusByUid(Long.parseLong(uidHeader.get(0)))) {
+        if (Objects.equals(type, "files") && or_userService.getUserTabooStatus(Long.parseLong(uidHeader.get(0))) && !op_userService.getUserAdminStatusByUid(Long.parseLong(uidHeader.get(0)))) {
             return handleResults.handleResultByCode(402, null, "你正在被禁言中");
         }
 

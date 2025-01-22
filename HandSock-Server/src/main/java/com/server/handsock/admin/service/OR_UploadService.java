@@ -57,11 +57,13 @@ public class OR_UploadService {
 
     private void deleteUploadFile(String fid) {
         try {
+
             OR_UploadModel or_uploadModel = or_uploadDao.selectById(fid);
-            File uploadFile = new File("upload/files/" + or_uploadModel.getPath());
+            File uploadFile = new File("upload/" + or_uploadModel.getType() + "/" + or_uploadModel.getPath());
             if (uploadFile.exists() && uploadFile.delete()) {
                 new ConsolePrints().printInfoLogV2("File deleted " + fid);
-            } else new ConsolePrints().printInfoLogV2("File delete failed " + fid);
+                new ConsolePrints().printInfoLogV2(or_uploadModel.getPath() + " deleted");
+            } else new ConsolePrints().printErrorLog("File delete failed " + fid);
         } catch (Exception e) {
             consolePrints.printErrorLog(e);
         }

@@ -42,7 +42,7 @@ public class UploadController {
     @PostMapping("/file")
     public Map<String, Object> clientUploadFile(HttpEntity<String> entity, @RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) return new HandleResults().handleResultByCode(400, null, "禁止上传空文件");
-        return OUUploadService.clientUploadFile(entity.getHeaders(), file, "file");
+        return OUUploadService.clientUploadFile(entity.getHeaders(), file, "files");
     }
 
     @PostMapping("/avatar")

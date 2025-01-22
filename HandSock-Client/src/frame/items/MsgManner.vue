@@ -50,7 +50,7 @@
     }
 
     const openContentAlert = async (item: any): Promise<void> => {
-        if (item.type === 'file') {
+        if (item.type === 'files') {
             open(socket.server.config.serverUrl + socket.server.downloadFile + item.content);
         } else if (item.type === 'image') {
             utils.previewImage({ src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.content, html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` });
