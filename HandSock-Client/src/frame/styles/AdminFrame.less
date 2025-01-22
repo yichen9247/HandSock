@@ -1,0 +1,117 @@
+
+@dominColor: var(--dominColor);
+
+div.admin-frame {
+    top: 0;
+    height: 100%;
+    padding: 25px 20px;
+    padding-left: 0px;
+    position: absolute;
+    width: calc(100% - 105px);
+    transition: transform 0.5s;
+    background-color: #f7f9fe;
+    transform: translateX(-100%);
+
+    div.frame-header {
+        width: 100%;
+        height: 65px;
+        padding: 0 20px;
+        font-size: 22px;
+        overflow: hidden;
+        color: #363636;
+        line-height: 60px;
+        border-radius: 5px;
+        text-align: center;
+        border: 1px solid #e3e8f7;
+        background-color: #ffffff;
+    }
+
+    div.frame-content {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        margin-top: 25px;
+        overflow-y: scroll;
+        height: calc(100% - 90px);
+        justify-content: space-between;
+
+        div.frame-sidebar {
+            width: 165px;
+            overflow: hidden;
+            border-radius: 5px;
+            border: 1px solid #e3e8f7;
+            background-color: #ffffff;
+
+            ul.el-menu-vertical-admin {
+                border-right: unset;
+                background-color: unset;
+
+                li.el-menu-item {
+                    font-size: 16px;
+                    color: rgba(60, 60, 67, 0.65);
+
+                    &:hover {
+                        background-color: #f5f7fa;
+                    }
+                }
+
+                li.el-menu-item.is-active {
+                    color: @dominColor;
+                    background-color: #f5f7fa;
+                }
+            }
+        }
+
+        div.item-content {
+            flex: 1;
+            padding: 20px;
+            overflow: hidden;
+            margin-left: 20px;
+            border-radius: 5px;
+            position: relative;
+            border: 1px solid #e3e8f7;
+            background-color: #ffffff;
+
+            div.content-box {
+                width: 100%;
+                height: 100%;
+
+                div.button-sheet {
+                    display: flex;
+                    margin-bottom: 25px;
+                    align-items: center;
+    
+                    button.el-button {
+                        margin-right: 5px;
+                    }
+                }
+            }
+
+            .el-table--border:before {
+                content: unset;
+            }
+
+            div.el-table--fit * {
+                text-align: center;
+            }
+
+            div.el-table--fit {
+                border-radius: 5px;
+                background-color: rgba(255, 255, 255, 0.35);
+
+                tbody tr td div.cell {
+                    line-clamp: 1;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 1;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                }
+            }
+
+            div.pagination {
+                margin-top: 25px;
+                justify-content: center;
+            }
+        }
+    }
+}

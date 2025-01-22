@@ -1,0 +1,138 @@
+
+div.setting-center,div.search-center {
+    header.el-dialog__header {
+        display: none;
+    }
+}
+
+div.search-center {
+    p.center-title {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+div.personCenter {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+
+    div.info-line {
+        width: 100%;
+        display: flex;
+        margin-bottom: 15px;
+
+        div.flex-line {
+            width: 100%;
+            display: flex;
+            align-items: center;
+
+            span.title-text {
+                width: 60px;
+                font-size: 15px;
+                margin-right: 15px;
+                white-space: nowrap;
+            }
+
+            div.flex-line {
+                width: 100%;
+                display: flex;
+                margin-left: 15px;
+                align-items: center;
+                justify-content: space-between;
+
+                div.el-input {
+                    flex: 1;
+                }
+            }
+
+            button.el-button {
+                margin-left: 15px;
+            }
+
+        }
+
+        div.el-image {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            border: 5px solid #ffffff;
+            box-shadow: var(--el-box-shadow-light);
+        }
+
+        div.avatar-edit-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            margin-left: 15px;
+            flex-direction: column;
+            justify-content: space-between;
+
+            span.title-text {
+                font-size: 18px;
+            }
+            
+            div.el-input {
+                flex: 1;
+            }
+        }
+    }
+}
+
+div.setting-center {
+    background-color: #f7f9fe;
+}
+
+div.handsock-dialog {
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        top: 0;
+        left: 0;
+        z-index: 0;
+        content: "";
+        position: absolute;
+        width: calc(100% - 1rem);
+    }
+
+    header.el-dialog__header {
+        height: 0;
+        padding: 0;
+        margin-top: 0;
+        z-index: 9999999;
+        position: relative;
+    }
+
+    div.el-dialog__body {
+        z-index: 9999;
+        padding: 25px;
+        position: relative;
+    }
+}
+
+div.info-lines {
+    display: flex;
+    position: relative;
+}
+
+@media (max-width: 720px) {
+    div.handsock-dialog {
+        --el-dialog-width: 95%!important;
+    
+        div.el-dialog__body {
+            padding-top: 10px!important;
+            padding: 25px 15px!important;
+        }
+    }
+    
+
+    div.personCenter div.info-line div.flex-line div.el-input.el-input--suffix {
+        width: 155px;
+    }
+}

@@ -1,0 +1,29 @@
+
+div.content-frame {
+    width: 100%;
+    overflow: hidden;
+    height: calc(100% - 60px);
+
+    div.chat-content-box {
+        width: 100%;
+        padding: 20px;
+        overflow: hidden;
+        display: flex;
+        overflow-y: scroll;
+        position: relative;
+        flex-direction: column;
+        height: calc(100% - 90px);
+
+        div.empty-box {
+            transform: scale(1.25);
+        }
+    }
+}
+
+div.content-frame.frame-mobile {
+    background-color: #eeeeee;
+
+    div.chat-content-box {
+        height: calc(100% - 55px);
+    }
+}

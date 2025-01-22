@@ -1,0 +1,67 @@
+* {
+    --el-text-color-primary: #606266!important;
+    --el-color-primary: var(--dominColor)!important;
+}
+
+.el-table {
+    --el-table-text-color: rgba(0, 0, 0, 0.5)!important;
+    --el-table-header-text-color: var(--dominColor)!important;
+    --el-table-tr-bg-color: rgba(255, 255, 255, 0.35)!important;
+    --el-table-header-bg-color: rgba(255, 255, 255, 0.35)!important;
+}
+
+::selection {
+    color: #ffffff;
+    background-color: var(--dominColor);
+}
+
+.el-menu-item {
+    --el-menu-active-color: var(--dominColor)!important;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.el-button--primary {
+    border: none!important;
+}
+
+.el-tag--plain.el-tag--success {
+
+    --el-tag-text-color: var(--dominColor)!important;
+    --el-tag-hover-color: var(--dominColor)!important;
+    --el-tag-border-color: var(--dominColor)!important;
+}
+
+.el-button--primary {
+    --el-button-outline-color: none!important;
+    --el-button-hover-bg-color: var(--dominColor)!important;
+    --el-button-active-bg-color: var(--dominColor)!important;
+}
+
+.el-tabs__item:focus-visible {
+    box-shadow: none!important;
+}
+
+.el-link.el-link--primary {
+    --el-link-hover-text-color: var(--dominColor)!important;
+}
+
+div:where(.swal2-container) div:where(.swal2-loader) {
+    border-color: var(--dominColor) rgba(0, 0, 0, 0) var(--dominColor) rgba(0, 0, 0, 0)!important;
+}
+
+div.swal2-container {
+    z-index: 999999999!important;
+}
+
+div.van-dialog {
+    border-radius: 8px;
+
+    div.van-dialog__header {
+        margin: 15px 0;
+        font-size: 20px;
+        padding-top: 5px!important;
+    }
+}

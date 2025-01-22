@@ -1,0 +1,47 @@
+
+div.image-message {
+    width: 220px;
+    display: grid;
+    cursor: pointer;
+    border-radius: 0.25rem;
+
+    div.image-lazy {
+        width: 100%;
+        height: 70px;
+        padding: 10px;
+        display: flex;
+        
+        div.icon-box {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            min-width: 50px;
+            transition: 0.5s;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.35);
+    
+            svg {
+                width: 75%;
+                height: 75%;
+                margin: auto;
+            }
+        }
+    
+        div.content-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+            font-size: 1.25rem;
+            align-items: center;
+            justify-content: center;
+            transition: margin-top 0.5s;
+        }
+    }
+}
+
+div.content-frame.frame-mobile {
+    div.image-message {
+        width: 100%;
+    }
+}

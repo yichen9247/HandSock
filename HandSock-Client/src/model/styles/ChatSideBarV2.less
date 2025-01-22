@@ -1,0 +1,57 @@
+
+div.sidebar-container {
+    z-index: 99;
+    height: 100%;
+    display: flex;
+    padding-left: 20px;
+    position: relative;
+    background-color: #f7f9fe;
+
+    div.sidebar {
+        width: 64px;
+        height: inherit;
+        overflow: hidden;
+        position: relative;
+
+        div.avatar-box {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            margin: 0 auto;
+            cursor: pointer;
+            overflow: hidden;
+    
+            span.avatar-info {
+                width: inherit;
+                height: inherit;
+            }
+        }
+    
+        div.button-box {
+            bottom: 0;
+            display: flex;
+            width: inherit;
+            position: absolute;
+            flex-direction: column;
+    
+            div.button-item {
+                width: 64px;
+                height: 64px;
+                display: grid;
+                cursor: pointer;
+                margin: 10px auto;
+                border-radius: 5px;
+                background-color: #ffffff;
+                border: 1px solid #e3e8f7;
+
+                svg {
+                    margin: auto;
+                }
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

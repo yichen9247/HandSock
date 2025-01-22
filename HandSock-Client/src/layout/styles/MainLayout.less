@@ -1,0 +1,113 @@
+
+@dominColor: var(--dominColor);
+
+div.main-container {
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    display: flex;
+    overflow: hidden;
+    min-height: 620px;
+    position: relative;
+    padding: 25px 20px;
+    padding-left: 0px;
+    border-radius: 0.5rem;
+    background-color: #f7f9fe;
+    box-shadow: var(--el-box-shadow-dark);
+
+    div.chat-content {
+        width: 55%;
+        height: 100%;
+        margin: 0 20px;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        border: 1px solid #e3e8f7;
+        background-color: #ffffff;
+
+        div.content-head {
+            width: 100%;
+            height: 65px;
+            font-size: 20px;
+            color: #ffffff;
+            overflow: hidden;
+            line-height: 65px;
+            border-bottom: 1px solid #e3e8f7;
+            background-color: rgba(255, 255, 255, 0.35);
+
+            span.group-name {
+                color: #363636;
+                margin-left: 20px;
+            }
+
+            button.h-button {
+                outline: none;
+                border: unset;
+                color: #ffffff;
+                position: absolute;
+                background-color: unset;
+        
+                i {
+                    transform: scale(1.75);
+                }
+
+                svg {
+                    width: 26px;
+                    height: 26px;
+                }
+            }
+
+            button.h-button-left {
+                left: 20px;
+            }
+
+            button.h-button-right {
+                right: 20px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1500px) {
+    div.main-container {
+        div.chat-content {
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+}
+
+@media (max-width: 1600px) {
+    div.main-container {
+        width: 100%;
+        height: 100%;
+        border-radius: unset;
+    }
+}
+
+div.main-container.container-mobile {
+    width: 100%;
+    height: 100%;
+    padding: unset;
+    border-radius: unset;
+    background-color: @dominColor;
+
+    div.chat-content {
+        width: 100%;
+        margin: unset;
+        border-radius: unset;
+
+        div.content-head {
+            height: 65px;
+            display: flex;
+            font-size: 1.5rem;
+            text-align: center;
+            align-items: center;
+            border-bottom: unset;
+            justify-content: center;
+         
+            span.group-name {
+                margin-left: unset;
+            }
+        }
+    }
+}

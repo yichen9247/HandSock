@@ -1,0 +1,137 @@
+
+@dominColor: var(--dominColor);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,li {
+    list-style: none;
+}
+
+img {
+    user-select: none;
+}
+
+span {
+    user-select: none;
+}
+
+html {
+    width: 100vw;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    width: 100%;
+    overflow: hidden;
+    height: 100%!important;
+    background-color: #f7f9fe;
+    transition: background-image 0.5s;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    font-family: 'MiSans',Inter,'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','微软雅黑',Arial,sans-serif!important;
+}
+
+body {
+    align-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: var(--background);
+}
+
+svg.icon > path {
+    stroke-width: 20;
+    stroke-dashoffset: 0;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+svg.icon > path[data="true"] {
+    fill: none;
+    stroke:#42d392;
+    stroke-dasharray: 0, 1370;
+    animation: lineMove 2s ease-in forwards;
+}
+
+svg.vcon {
+    stroke-width: 20;
+    stroke-dashoffset: 0;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+svg.vcon[data="true"] {
+    stroke:#42d392;
+    stroke-dasharray: 0, 1370;
+    animation: lineMove 2s ease-in forwards;
+
+    path {
+        fill: none;
+    }
+}
+
+div#application {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    overflow: hidden;
+}
+
+div.van-popup {
+    z-index: 999999999!important;
+}
+
+div.el-dialog {
+    border-radius: 5px;
+}
+
+div.el-message-box__container {
+    width: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+div.el-mention__popper {
+    overflow: hidden;
+    border: 1px solid @dominColor!important;
+}
+
+ul.el-mention-dropdown__list {
+    min-width: 150px;
+    overflow: hidden;
+    max-height: 150px;
+    overflow-y: scroll;
+}
+
+@media (max-width: 720px) {
+    body {
+        background-image: unset;
+    }
+}
+
+@media (max-width: 1500px) {
+    body {
+        background-image: unset;
+    }
+}
+
+@media (max-width: 1600px) {
+    body {
+        background-image: unset;
+    }
+}
+
+@font-face {
+    font-family: "MiSans";
+    src: url("./fonts/MiSans/MiSans-Normal.ttf");
+}
+
+@import url("./various/variour.css");

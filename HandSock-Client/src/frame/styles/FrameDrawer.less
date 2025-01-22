@@ -1,0 +1,67 @@
+
+@dominColor: var(--dominColor);
+
+div.admin-content-sidebar {
+    top: 0;
+    right: 0;
+    z-index: 9;
+    height: 100%;
+    width: 320px;
+    padding: 0 20px;
+    overflow: hidden;
+    position: absolute;
+    transition: transform 0.3s;
+    background-color: #ffffff;
+    transform: translateX(320px);
+    box-shadow: var(--el-box-shadow-light);
+
+    div.header-box {
+        width: 100%;
+        height: 75px;
+        display: flex;
+        font-size: 20px;
+        line-height: 75px;
+        text-align: center;
+        align-items: center;
+        color: var(--dominColor);
+
+        p.title-text {
+            width: 100%;
+            text-align: center;
+        }
+
+        i.el-icon {
+            width: 23px;
+            height: 28px;
+            cursor: pointer;
+            position: absolute;
+
+            svg {
+                width: inherit;
+                height: inherit;
+            }
+        }
+    }
+
+    div.el-divider {
+        margin: unset;
+        border-top: 1px solid @dominColor;
+    }
+
+    div.sidbar-content {
+        padding: 20px 0;
+        overflow: hidden;
+        position: relative;
+        overflow-y: scroll;
+        height: calc(100% - 117px);
+
+        form.el-form div.el-form-item {
+            flex-direction: column;
+
+            label {
+                margin-bottom: 10px;
+                color: @dominColor;
+            }
+        }
+    }
+}
