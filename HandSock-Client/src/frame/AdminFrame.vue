@@ -24,19 +24,19 @@
         key: 'chan',
         name: '频道管理',
         component: markRaw(ChanManner)
-    }, {
+    },{
         key: 'file',
         name: '上传管理',
         component: markRaw(UploadManner)
     }, {
         key: 'report',
         name: '举报管理',
-        component: markRaw(ReportManner)
-    }, {
+        component: markRaw(ReportManner) 
+    },{
         key: 'logs',
         name: '系统日志',
         component: markRaw(SystemLogs)
-    }, {
+    },{
         key: 'system',
         name: '系统管理',
         component: markRaw(SystemManner)

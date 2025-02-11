@@ -7,7 +7,7 @@
 <script setup>
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
-    import { setEmjoeDialog, setUploadDialog, setUserLoginForm } from "@/scripts/action"
+    import { setEmjoeDialog, setUserLoginForm } from "@/scripts/action"
     import { sendChatMessage, checkLoginWork, sendSocketEmit } from "@/socket/socketClient"
 
     const userList = reactive([{}]);
@@ -21,17 +21,6 @@
         });
     }
 
-    const uploadFileSuccess = async (data) => {
-        if (data.code === 200) {
-            await sendSocketEmit(socket.send.SendMessage, {
-                type: "image",
-                content: data.data.path
-            }, (response) => {
-                if (response.code !== 200) utils.showToasts('error', response.message);
-            });
-        } else utils.showToasts('error', data.message);
-    }
-
     watch(applicationStore, () => {
         userList.length = 0;
         for (const item of applicationStore.userList) {
@@ -41,6 +30,19 @@
             });
         }
     }, { deep: true });
+
+    const handleUploadSuccess = async (data, type) => {
+        if (data.code !== 200) return await utils.showToasts('error', data.message);
+        await sendSocketEmit(socket.send.SendMessage, {
+            type,
+            content: data.data.path
+        }, (response) => {
+            if (response.code !== 200) utils.showToasts('error', response.message);
+        });
+    };
+
+    const uploadFileSuccess = async (data) => await handleUploadSuccess(data, 'file');
+    const uploadImageSuccess = async (data) => await handleUploadSuccess(data, 'image');
 </script>
 
 <template>
@@ -104,13 +106,26 @@
                         <el-dropdown-item @click="setEmjoeDialog(true)">
                             键入表情
                         </el-dropdown-item>
-                        <el-dropdown-item @click="setUploadDialog(true)">
-                            发送文件
-                        </el-dropdown-item>
                         <el-upload 
                             ref="uploadRef" 
                             class="upload-avatar"
                             @success="uploadFileSuccess"
+                            @error="utils.uploadFileError"
+                            :headers="{
+                                uid: applicationStore.userInfo.uid,
+                                gid: applicationStore.groupInfo.gid,
+                                token: utils.getClientToken()
+                            }"
+                            :action="socket.server.config.serverUrl + socket.server.uploadFile"
+                        >
+                            <template #trigger>
+                                <el-dropdown-item>发送文件</el-dropdown-item>
+                            </template>
+                        </el-upload>
+                        <el-upload 
+                            ref="uploadRef" 
+                            class="upload-avatar"
+                            @success="uploadImageSuccess"
                             @error="utils.uploadFileError"
                             :headers="{
                                 uid: applicationStore.userInfo.uid,

@@ -3,7 +3,6 @@ import socket from './socket'
 import Swal from 'sweetalert2'
 import utils from "@/scripts/utils"
 import { io } from "socket.io-client"
-import { ElMessage } from 'element-plus'
 import { setSearchDialog } from '@/scripts/action'
 import { playNoticeVoice } from '@/scripts/audioUtils'
 import { messageType, restfulType } from '../../types'
@@ -53,7 +52,7 @@ export const startSocketIo = async (): Promise<void> => {
             await initChatUserList(),
             await initChatGroupList(),
             await checkClientVersion(),
-            await initChatHistoryList(),
+            // await initChatHistoryList(),
         ]);
     });
 
@@ -129,17 +128,37 @@ export const startSocketIo = async (): Promise<void> => {
     applicationStore.socketIo.on(socket.rece.Message, async (messageObject: messageType): Promise<void> => {
         if (applicationStore.groupInfo.gid !== messageObject.gid) return;
         applicationStore.messageList.push(messageObject);
-        if (applicationStore.userInfo.uid !== messageObject.uid) {
-            if (messageObject.type === 'text' || messageObject.type === 'clap') {
-                if (localStorage.getItem('audio-switch') === 'true') await playNoticeVoice();
-                if (localStorage.getItem('audio-switch') !== 'true' && localStorage.getItem('audio-switch') !== 'false') {
-                    await playNoticeVoice();
-                    localStorage.setItem('audio-switch', 'true');
-                }
-            }
-        }
+        playNotificationSound(messageObject);
         setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
     });
+
+    applicationStore.socketIo.on(socket.rece.AI.CreateMessage, async (response: restfulType): Promise<void> => {
+        if (response.code === 200) {
+            if (response.data.event === "CREATE-MESSAGE") {
+                await playNotificationSound(response.data.result);
+                const applicationStore = utils.useApplicationStore();
+                applicationStore.aiMessageList.push(response.data.result);
+            }
+            if (response.data.event === "PUSH-STREAM") {
+                if (applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content === "正在请求中") applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content = "";
+                applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content += response.data.content;
+            }
+            setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
+        } else utils.showToasts('error', response.message);
+    });
+}
+
+const playNotificationSound = async (messageObject: messageType): Promise<void> => {
+    const applicationStore = utils.useApplicationStore();
+    if (applicationStore.userInfo.uid !== messageObject.uid) {
+        if (messageObject.type === 'text' || messageObject.type === 'clap') {
+            if (localStorage.getItem('audio-switch') === 'true') await playNoticeVoice();
+            if (localStorage.getItem('audio-switch') !== 'true' && localStorage.getItem('audio-switch') !== 'false') {
+                await playNoticeVoice();
+                localStorage.setItem('audio-switch', 'true');
+            }
+        }
+    }
 }
 
 const checkClientVersion = async (): Promise<void> => {
@@ -160,8 +179,10 @@ const initChatGroup = async (): Promise<void> => {
     }, (response: restfulType): void => {
         if (response.code === 200) {
             document.title = response.data.name;
+            applicationStore.setGroupClosed(false); // 判断是否AI频道
             applicationStore.groupInfo = response.data;
-            applicationStore.setGroupClosed(false);
+            applicationStore.groupInfo.aiRole = response.data.aiRole === 1;
+            initChatHistoryList(response.data.aiRole == 1);
         } else {
             document.title = "对应频道未开放";
             applicationStore.setGroupClosed(true);
@@ -183,13 +204,15 @@ const initChatGroupList = async (): Promise<void> => {
     });
 }
 
-const initChatHistoryList = async (): Promise<void> => {
-    const channelId = new URLSearchParams(location.search).get("channel");
+const initChatHistoryList = async (aiRole: boolean): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
+    applicationStore.messageList.length = 0;
+    if (aiRole) return;
+    const channelId = new URLSearchParams(location.search).get("channel");
     applicationStore.socketIo.emit(socket.send.Search.SearchHistoryAll, {
         gid: (channelId === null || !/^[-+]?\d+$/.test(channelId)) ? 0 : Number(channelId)
     }, (response: restfulType): any => {
-        if (response.code !== 200) return ElMessage({ message: response.message, type: 'error' });
+        if (response.code !== 200) return utils.showToasts('error', response.message);
         applicationStore.messageList = response.data;
         setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
     });
@@ -224,14 +247,39 @@ export const openUserLogoutDialog = async (): Promise<void> => {
 
 export const sendChatMessage = async (): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
-    await sendSocketEmit(socket.send.SendMessage, {
-        type: 'text',
-        content: applicationStore.chantInput
-    }, (response: restfulType): void => {
-        if (response.code !== 200) ElMessage({ message: response.message, type: 'error' });
-    });
+    const messageContent = applicationStore.chantInput.trim();
+    if (!messageContent) return utils.showToasts('warning', '消息内容不能为空');
+
+    const sendMessage = async (type: string, event: string, callback?: (response: restfulType) => void) => {
+        await sendSocketEmit(event, {
+            type: 'text',
+            content: messageContent
+        }, async (response: restfulType): Promise<void> => {
+            if (response.code !== 200) return utils.showToasts('error', '消息内容不能为空');
+            if (callback) callback(response);
+        });
+    };
+
+    if (applicationStore.groupInfo.aiRole) {
+        await sendMessage(socket.send.SendAIChatMessage, socket.send.SendAIChatMessage, (response: restfulType) => {
+            applicationStore.aiMessageList.push(response.data);
+            scrollToChatBottom();
+        });
+    } else await sendMessage(socket.send.SendMessage, socket.send.SendMessage);
     applicationStore.setChantInput("");
-}
+};
+
+const scrollToChatBottom = () => {
+    setTimeout(() => {
+        const chatContentBox = document.querySelector(".chat-content-box");
+        if (chatContentBox) {
+            chatContentBox.scrollTo({
+                top: chatContentBox.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+    }, 100);
+};
 
 export const removeClient = async (): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
@@ -245,7 +293,7 @@ let interval = 0;
 export const sendSocketEmit = async (event: any, data: any, callback: any): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
     if (interval === 0) {
-        interval = 3;
+        interval = 2;
         let intervalTimer = setInterval(() => {
             interval--;
             if (interval === 0) clearInterval(intervalTimer);
@@ -272,7 +320,6 @@ export const toggleChatChannel = async (router: any, gid: any): Promise<void> =>
             }
             await toggleConnectStatus([
                 await initChatGroup(),
-                await initChatHistoryList(),
             ]);
         }
     });

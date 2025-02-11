@@ -18,14 +18,23 @@
 
 <script setup lang="ts">
     import utils from "@/scripts/utils"
+    import { useRouter } from 'vue-router'
+    import { groupInfoType } from "../../types"
+    import { toggleChatChannel } from "@/socket/socketClient"
+
+    const router = useRouter();
     const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();
-
-    import Swal from "sweetalert2";
 
     const isAdmin = (): any => {
         return applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid )?.isAdmin;
     }
+    const actionShow: Ref<boolean> = ref(false);
+
+    const onHeadClick = (): void => {
+        if (applicationStore.isDeviceMobile) actionShow.value = true;
+    }
+    const onActionSelect = async (item: groupInfoType): Promise<void> => toggleChatChannel(router, item.gid);
 </script>
 
 <template>
@@ -35,7 +44,7 @@
 
         <!-- Main chat content area -->
         <div class="chat-content">
-            <div class="content-head">
+            <div class="content-head" @click="onHeadClick()">
                 <span class="group-name">{{ applicationStore.groupInfo.name }}</span>
             </div>
             <ChatContent/>
@@ -55,6 +64,8 @@
             }"
             v-if="applicationStore.loginStatus && !applicationStore.isDeviceMobile && applicationStore.userList.length > 0 && isAdmin()"
         />
+
+        <van-action-sheet v-if="applicationStore.isDeviceMobile" v-model:show="actionShow" :actions="applicationStore.chatGroupList" cancel-text="取消" close-on-click-action @select="onActionSelect"/>
     </div>
 </template>
 

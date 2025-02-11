@@ -2,13 +2,14 @@
     import { Reactive } from 'vue'
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
-    import { restfulType } from '../../../types'
+    import { restfulType, adminSystemMannerType } from '../../../types'
     import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
-    const systemConfig = reactive({
+    const systemConfig: Reactive<adminSystemMannerType> = reactive({
         taboo: false,
         upload: false,
-        playlist: ""
+        playlist: "",
+        register: false
     });
     const loading: Ref<boolean> = ref(false);
     const applicationStore = utils.useApplicationStore();
@@ -23,9 +24,10 @@
     onMounted(async (): Promise<void> => {
         applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminSystemConfig, null, (response: restfulType) => {
             if (response.code === 200) {
+                systemConfig.playlist = response.data.find((item: { name: string }) => item.name === 'playlist').value;
                 systemConfig.taboo = response.data.find((item: { name: string }) => item.name === 'taboo').value === 'open';
                 systemConfig.upload = response.data.find((item: { name: string }) => item.name === 'upload').value === 'open';
-                systemConfig.playlist = response.data.find((item: { name: string }) => item.name === 'playlist').value;
+                systemConfig.register = response.data.find((item: { name: string }) => item.name === 'register').value === 'open';
             } else utils.showToasts('error', response.message);
         });
         loading.value = false;
@@ -56,6 +58,21 @@
                 } else {
                     utils.showToasts('success', response.message);   
                     systemConfig.upload = response.data.status === 'open';
+                }
+            });
+        });
+    }
+
+    const setSystemRegister = async (): Promise<void> => {
+        await checkLoginWork(() => {
+            sendSocketEmit(socket.send.Admin.Set.System.SetSystemConfigRegister, {
+                value: systemConfig.register ? "close" : "open"
+            }, (response: restfulType): void => {
+                if (response.code !== 200) {
+                    utils.showToasts('error', response.message);   
+                } else {
+                    utils.showToasts('success', response.message);   
+                    systemConfig.register = response.data.status === 'open';
                 }
             });
         });
@@ -107,9 +124,10 @@
         <p class="set-title">其它设置</p>
         <el-button type="primary" size="large" @click="adminSystemSender('[RE:FORCE:CONNECT]', 0)">强制刷新用户连接（软重连）</el-button>
         <el-button type="primary" size="large" @click="adminSystemSender('[RE:FORCE:LOAD]', 1)">强制刷新用户前端（硬重连）</el-button>
-        <el-button type="primary" size="large" @click="adminSystemSender('[RE:HISTORY:CLEAR]', 2)">清理所有聊天记录</el-button>
+        <el-button type="primary" size="large" @click="adminSystemSender('[RE:HISTORY:CLEAR]', 2)">清理聊天记录</el-button>
         <el-button type="primary" size="large" @click="setSystemTaboo">{{ systemConfig.taboo ? '关闭全频禁言' : '开启全频禁言' }}</el-button>
         <el-button type="primary" size="large" @click="setSystemUpload">{{ systemConfig.upload ? '关闭文件上传' : '开启文件上传' }}</el-button>
+        <el-button type="primary" size="large" @click="setSystemRegister">{{ systemConfig.register ? '关闭用户注册' : '开启用户注册' }}</el-button>
     </div>
 </template>
 

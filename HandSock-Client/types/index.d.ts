@@ -14,6 +14,7 @@ export type groupInfoType = {
     open: boolean
     avatar: string,
     notice: string,
+    aiRole: boolean
 }
 
 export type messageType = {
@@ -21,6 +22,7 @@ export type messageType = {
     gid: number,
     sid: string,
     type: string,
+    time: string,
     deleted: number,
     address: string,
     content: string
@@ -60,7 +62,8 @@ export type adminChanFormType = {
     gid: number,
     name: string,
     notice: string,
-    avatar: string
+    avatar: string,
+    aiRole: boolean
 }
 
 export type adminUserFormType = {
@@ -82,4 +85,11 @@ export type adminSystemInfoType = {
     systemUptime: string,
     logicalCount: number,
     memoryUsageInfo: string
+}
+
+export type adminSystemMannerType =  {
+    taboo: boolean,
+    upload: boolean,
+    playlist: string,
+    register: boolean
 }

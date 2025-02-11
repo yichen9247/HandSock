@@ -14,7 +14,7 @@
     const tableData: Reactive<Array<any>> = reactive([]);
 
     const formData: Reactive<adminChanFormType> = reactive({
-        gid: null, name: "", avatar: "", notice: ""
+        gid: null, name: "", avatar: "", notice: "", aiRole: false, aiContent: ""
     });
     
     const applicationStore = utils.useApplicationStore();
@@ -31,6 +31,7 @@
             if (response.code !== 200) {
                 showToast('error', response.message);
             } else {
+                console.log(response)
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
 
@@ -113,6 +114,7 @@
         formData.gid = null,
         formData.name = "";
         formData.avatar = "";
+        formData.aiRole = false;
         formData.notice = "暂无聊天室公告";
         rightDrawer.value = true;
     }
@@ -122,7 +124,9 @@
         formData.gid = row.gid,
         rightDrawer.value = true;
         formData.name = row.name;
+        formData.notice = row.notice;
         formData.avatar = row.avatar;
+        formData.aiRole = row.aiRole === 1;
     }
 
     const refreshList = async (): Promise<void> => {
@@ -165,6 +169,12 @@
                 </template>
             </el-table-column>
 
+            <el-table-column prop="deleted" label="AI频道">
+                <template #default="scope">
+                    <span>{{ scope.row.aiRole === 1 ? '是' : '否' }}</span>
+                </template>
+            </el-table-column>
+
             <el-table-column prop="notice" label="频道公告" />
 
             <el-table-column label="更多操作" width="260">
@@ -196,6 +206,7 @@
                 <el-form-item label="频道公告">
                     <el-input type="textarea" v-model="formData.notice" :rows="2" placeholder="请输入频道公告（可以为空）"/>
                 </el-form-item>
+                <el-checkbox v-model="formData.aiRole">设置为AI频道</el-checkbox>
             </el-form>
             <el-button type="primary" size="large" style="width: 100%; margin-top: 10px;" @click="sendCreateChannel">确认{{ formModel ? "创建" : "修改" }}</el-button>
         </FrameDrawer>

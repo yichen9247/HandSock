@@ -36,7 +36,7 @@
 <template>
     <div class="dialog-content">
         <!-- Core dialog components -->
-        <LoginCenter/><EmojeCenter/><UploadCenter/>
+        <LoginCenter/><EmojeCenter/>
 
         <!-- Channel search dialog -->
         <el-dialog 

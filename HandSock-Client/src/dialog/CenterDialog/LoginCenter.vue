@@ -33,7 +33,7 @@
         const lengthRange = { min: 5, max: 20 };
 
         if (!username || !password) {
-            utils.showToasts('error', '输入格式不合规！');
+            utils.showToasts('error', '输入格式不合规');
             return false;
         }
 

@@ -5,6 +5,7 @@ export default {
         OnlineLogin: '[ONLINE:LOGIN]',
         SendMessage: '[SEND:MESSAGE]',
         ClientCheck: '[CLIENT:CHECK]',
+        SendAIChatMessage: '[SEND:AI:CHAT:MESSAGE]',
 
         Re: {
             ReforceLoad: '[RE:FORCE:LOAD]',
@@ -71,7 +72,8 @@ export default {
                 System: {
                     SetSystemConfigTaboo: '[SET:SYSTEM:CONFIG:TABOO]',
                     SetSystenConfigUpload: '[SET:SYSTEM:CONFIG:UPLOAD]',
-                    SetSystemConfigPlayList: '[SET:SYSTEM:CONFIG:PLAYLIST]'
+                    SetSystemConfigPlayList: '[SET:SYSTEM:CONFIG:PLAYLIST]',
+                    SetSystemConfigRegister: '[SET:SYSTEM:CONFIG:REGISTER]'
                 }
             },
 
@@ -103,6 +105,10 @@ export default {
                 ReforceConnect: '[RE:FORCE:CONNECT]'
             },
             RehistoryClear: '[RE:HISTORY:CLEAR]'
+        },
+
+        AI: {
+            CreateMessage: '[AI:CHAT:CREATE:MESSAGE]'
         }
     },
 
@@ -149,7 +155,7 @@ export default {
 
     application: {
         appName: 'HandSock',
-        appVersion: '2.0.1-B250101',
+        appVersion: '2.1.2-B250211',
         author: 'https://github.com/yichen9247',
         authorName: 'yichen9247（Hua）',
         github: 'https://github.com/yichen9247/HandSock',
@@ -157,22 +163,22 @@ export default {
 
         updateLog: [{
             type: '新增',
-            content: '新增了举报系统，管理员支持禁言和删除内容等操作'
+            content: '新增了AI频道及相关功能'
         }, {
-            type: '新增',
-            content: '管理后台新增查看系统日志和清空系统日志功能'
+            type: '完善',
+            content: '完善了机器人在频道的相关功能'
         },  {
-            type: '新增',
-            content: '设置界面新增背景音乐，后台可进行管理'
+            type: '修改',
+            content: '修改消息盒子宽度为自适应'
         }, {
-            type: '修复',
-            content: '修复了部分情况下在线用户常驻的问题'
+            type: '新增',
+            content: '管理后台新增了开启/关闭注册按钮'
         }, {
             type: '重构',
-            content: '重构了大部分界面和配色布局风格'
+            content: '模块化重构了后端代码'
         }, {
-            type: '移除',
-            content: '移除了桌面端设置弹窗内管理后台入口'
+            type: '新增',
+            content: '移动端新增了切换频道功能'
         }]
     }
 }

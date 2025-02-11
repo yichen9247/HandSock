@@ -100,7 +100,7 @@
 
             <!-- Message content -->
             <div :class="`message-content ${message.uid === applicationStore.userInfo.uid ? 'chatCode-T' : 'chatCode-O'}`"
-                 v-text="message.content" 
+                 v-html="message.content" 
                  v-if="message.type === 'text'">
             </div>
 

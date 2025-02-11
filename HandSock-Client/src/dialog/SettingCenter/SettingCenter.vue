@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
     import utils from "@/scripts/utils"
-    import socket from "@/socket/socket"
     import { 
         PieChart, 
         Setting, 
@@ -126,7 +125,7 @@
                     <span class="page-title">背景音乐</span>
                 </div>
                 <div class="page-content">
-                    <BackMusic/>
+                    <MusicPage/>
                 </div>
             </li>
 
@@ -156,31 +155,7 @@
                     <span class="page-title">关于项目</span>
                 </div>
                 <div class="page-content">
-                    <el-text class="mx-1" style="text-align: justify;">
-                        <p style="line-height: 26px;">{{ socket.application.description }}</p>
-                        <br/>
-                        <p style="display: flex; align-items: center; flex-wrap: wrap;">
-                            项目作者：
-                            <el-link 
-                                type="primary" 
-                                target="_blank"
-                                :href="socket.application.author" 
-                            >
-                                {{ socket.application.authorName }}
-                            </el-link>
-                        </p>
-                        <br/>
-                        <p style="display: flex; align-items: center; flex-wrap: wrap;">
-                            项目地址：
-                            <el-link 
-                                type="primary" 
-                                target="_blank"
-                                :href="socket.application.github" 
-                            >
-                                {{ socket.application.github }}
-                            </el-link>
-                        </p>
-                    </el-text>
+                    <AboutPage/>
                 </div>
             </li>
         </ul>

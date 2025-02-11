@@ -19,10 +19,6 @@ img {
     user-select: none;
 }
 
-span {
-    user-select: none;
-}
-
 html {
     width: 100vw;
     height: 100%;
@@ -45,37 +41,6 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-image: var(--background);
-}
-
-svg.icon > path {
-    stroke-width: 20;
-    stroke-dashoffset: 0;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-svg.icon > path[data="true"] {
-    fill: none;
-    stroke:#42d392;
-    stroke-dasharray: 0, 1370;
-    animation: lineMove 2s ease-in forwards;
-}
-
-svg.vcon {
-    stroke-width: 20;
-    stroke-dashoffset: 0;
-    stroke-linecap:round;
-    stroke-linejoin:round;
-}
-
-svg.vcon[data="true"] {
-    stroke:#42d392;
-    stroke-dasharray: 0, 1370;
-    animation: lineMove 2s ease-in forwards;
-
-    path {
-        fill: none;
-    }
 }
 
 div#application {

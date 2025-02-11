@@ -1,6 +1,6 @@
 package com.server.handsock;
 
-import com.server.handsock.checker.ServerChecker;
+import com.server.handsock.checks.ServerChecker;
 import com.server.handsock.console.ConsolePrints;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

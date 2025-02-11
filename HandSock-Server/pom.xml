@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.handsock.server</groupId>
     <artifactId>handsock</artifactId>
-    <version>2.0.1</version>
+    <version>2.1.2</version>
     <name>Handsock</name>
     <description>Handsock</description>
     <url/>
@@ -32,6 +32,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -63,6 +70,12 @@
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
             <version>6.4.0</version>
+        </dependency>
+
+        <!-- Spring Webflux集成 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
         <!-- Jdbc、Mysql集成 -->

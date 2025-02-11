@@ -46,13 +46,11 @@
             </el-main>
 
             <!-- Display message list when channel is open -->
-            <ChatMessage 
-                v-else
-                v-for="(message, index) in applicationStore.messageList" 
-                :key="index" 
-                :message="message"
+            <ChatMessage v-else :key="index" :message="message"
+                v-for="(message, index) in applicationStore.groupInfo.aiRole ? applicationStore.aiMessageList : applicationStore.messageList" 
             />
-            <el-empty style="margin: auto;" description="暂无更多消息记录" v-if="applicationStore.loginStatus && applicationStore.messageList.length === 0 && applicationStore.groupInfo.open" />
+            <el-empty style="margin: auto;" description="暂无更多消息记录" v-if="applicationStore.loginStatus && applicationStore.messageList.length === 0 && applicationStore.groupInfo.open && !applicationStore.groupInfo.aiRole && !(applicationStore.groupClosed || !applicationStore.groupInfo.open)" />
+            <el-empty style="margin: auto;" description="暂无更多消息记录" v-if="applicationStore.loginStatus && applicationStore.aiMessageList.length === 0 && applicationStore.groupInfo.open && applicationStore.groupInfo.aiRole && !(applicationStore.groupClosed || !applicationStore.groupInfo.open)" />
         </div>
         <ChatFootBox/>
     </div>

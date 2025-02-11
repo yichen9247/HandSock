@@ -7,9 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutPage: typeof import('./src/dialog/SettingDialog/AboutPage.vue')['default']
     AdminFrame: typeof import('./src/frame/AdminFrame.vue')['default']
     APPDialog: typeof import('./src/dialog/APPDialog.vue')['default']
-    BackMusic: typeof import('./src/dialog/SettingDialog/BackMusic.vue')['default']
     ChanManner: typeof import('./src/frame/items/ChanManner.vue')['default']
     ChatChannel: typeof import('./src/model/ChatChannel.vue')['default']
     ChatContent: typeof import('./src/model/ChatContent.vue')['default']
@@ -71,6 +71,7 @@ declare module 'vue' {
     LoginCenter: typeof import('./src/dialog/CenterDialog/LoginCenter.vue')['default']
     MainLayout: typeof import('./src/layout/MainLayout.vue')['default']
     MsgManner: typeof import('./src/frame/items/MsgManner.vue')['default']
+    MusicPage: typeof import('./src/dialog/SettingDialog/MusicPage.vue')['default']
     PrivacyPage: typeof import('./src/dialog/SettingDialog/PrivacyPage.vue')['default']
     ReportManner: typeof import('./src/frame/items/ReportManner.vue')['default']
     ReportUser: typeof import('./src/center/ReportUser.vue')['default']

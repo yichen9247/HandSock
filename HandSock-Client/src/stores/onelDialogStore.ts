@@ -4,7 +4,6 @@
  * Manages dialog and modal states using Pinia store
  * Controls visibility of various UI components like sidebars, panels and modals
  */
-
 import { defineStore } from "pinia"
 
 export const useOnelDialogStore = defineStore('onelDialogStore', () => {
@@ -15,7 +14,6 @@ export const useOnelDialogStore = defineStore('onelDialogStore', () => {
     const emojeListCenter: Ref<boolean> = ref(false);
     const adminFrameStatus: Ref<boolean> = ref(false);
     const reportUserCenter: Ref<boolean> = ref(false);
-    const uploadFileCenter: Ref<boolean> = ref(false);
 
     // State setters
     const setPersonalCenter = (value: boolean) => personalCenter.value = value;
@@ -23,10 +21,9 @@ export const useOnelDialogStore = defineStore('onelDialogStore', () => {
     const setSettinglCenter = (value: boolean) => settinglCenter.value = value;
     const setEmojeListCenter = (value: boolean) => emojeListCenter.value = value;
     const setReportUserCenter = (value: boolean) => reportUserCenter.value = value;
-    const setUploadFileCenter = (value: boolean) => uploadFileCenter.value = value;
 
     // Toggle functions
     const toggleAdminFrameStatus = (): boolean => adminFrameStatus.value = !adminFrameStatus.value;
 
-    return ({ personalCenter, searchalCenter, reportUserCenter, settinglCenter, emojeListCenter, uploadFileCenter, adminFrameStatus, setPersonalCenter, setSearchalCenter, setSettinglCenter, setEmojeListCenter, setUploadFileCenter, setReportUserCenter, toggleAdminFrameStatus });
+    return ({ personalCenter, searchalCenter, reportUserCenter, settinglCenter, emojeListCenter, adminFrameStatus, setPersonalCenter, setSearchalCenter, setSettinglCenter, setEmojeListCenter, setReportUserCenter, toggleAdminFrameStatus });
 });

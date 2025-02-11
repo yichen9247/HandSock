@@ -8,6 +8,19 @@ span.chat-message[data-type="clap"],span.chat-message[data-type="join"] {
 
 span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.chat-message[data-type="image"] {
     margin-bottom: 30px;
+    text-align: justify;
+    word-break: break-all;
+
+    think {
+        margin: 5px 0;
+        padding: 15px;
+        display: block;
+        font-size: 14px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #f1f1f1;
+        font-family: 'MiSans',Inter,'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','微软雅黑',Arial,sans-serif!important;
+    }
 
     &:last-child {
         margin-bottom: 20px;
@@ -103,7 +116,6 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             div.message-content {
                 min-height: 40px;
                 font-weight: 700;
-                min-width: 120px;
                 max-width: 420px;
                 line-height: 28px;
                 white-space: normal;
@@ -170,7 +182,6 @@ div.content-frame.frame-mobile {
                 div.message-content {
                     border: unset;
                     max-width: unset;
-                    width: calc(85% + 25px);
                 }
             }
         }

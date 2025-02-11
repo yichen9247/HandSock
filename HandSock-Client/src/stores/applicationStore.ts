@@ -36,10 +36,11 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     // Group information state 
     const groupInfo: Reactive<groupInfoType> = reactive({
         gid: (channelId === null || !/^[-+]?\d+$/.test(channelId)) ? 0 : Number(channelId),
+        open: true,
+        aiRole: false,
         name: "聊天室初始化中",
         avatar: defaultAvatar,
         notice: "暂未获取到通知公告",
-        open: true
     });
 
     // Chat and message states
@@ -47,6 +48,7 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     const chantInput: Ref<string> = ref("");
     const userList: Reactive<Array<userInfoType>> = reactive([]);
     const messageList: Reactive<Array<messageType>> = reactive([]);
+    const aiMessageList: Reactive<Array<messageType>> = reactive([]);
     const chatGroupList: Reactive<Array<groupInfoType>> = reactive([]);
     const onlineUserList: Reactive<Array<onlineUserType>> = reactive([]);
 
@@ -82,5 +84,5 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     }
 
     // Return store properties and methods
-    return ({ userInfo, serverUUID, loginFormStatus, isDeviceMobile, isSiteReadyStatus, loginStatus, groupInfo, groupClosed, userList, messageList, onlineUserList, connection, chantInput, socketIo, sendst, chatGroupList, setServerUUID, setIsDeviceMobile, setLoginFormStatus, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt, defaultAvatar });
+    return ({ userInfo, serverUUID, loginFormStatus, isDeviceMobile, isSiteReadyStatus, loginStatus, groupInfo, groupClosed, userList, messageList, aiMessageList, onlineUserList, connection, chantInput, socketIo, sendst, chatGroupList, setServerUUID, setIsDeviceMobile, setLoginFormStatus, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt, defaultAvatar });
 });
