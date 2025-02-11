@@ -1,0 +1,10 @@
+[HandSock 2025-02-11T14:54:59.737+08:00]java.nio.channels.UnresolvedAddressException
+[HandSock 2025-02-11T14:54:59.739+08:00]Springboot server started!
+[HandSock 2025-02-11T14:54:59.892+08:00]Mysql server connect success!
+[HandSock 2025-02-11T14:55:00.184+08:00]Redis server connect success!
+[HandSock 2025-02-11T14:55:00.205+08:00]Database table check success!
+[HandSock 2025-02-11T14:55:32.195+08:00]java.net.BindException: Cannot assign requested address: bind
+[HandSock 2025-02-11T14:55:32.196+08:00]Springboot server started!
+[HandSock 2025-02-11T14:55:32.320+08:00]Mysql server connect success!
+[HandSock 2025-02-11T14:55:32.596+08:00]Redis server connect success!
+[HandSock 2025-02-11T14:55:32.619+08:00]Database table check success!
