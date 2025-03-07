@@ -8,6 +8,12 @@
     @import url("./assets/paces/pace.less");
     
     .swal2-image {
-        border-radius: 5px;
+        border-radius: 4px;
+    }
+
+    div.swal2-modal {
+        max-height: 95vh;
+        overflow: hidden;
+        overflow-y: scroll;
     }
 </style>

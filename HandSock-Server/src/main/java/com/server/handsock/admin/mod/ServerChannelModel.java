@@ -8,12 +8,12 @@ import lombok.Data;
 @TableName("handsock_channel")
 public class ServerChannelModel {
     @TableId
-    private Long gid;
-    private String name;
-    private Integer home;
-    private Integer open;
-    private String notice;
-    private String avatar;
-    private Integer active;
-    private Integer aiRole;
+    public Long gid;
+    public String name;
+    public Integer home;
+    public Integer open;
+    public String notice;
+    public String avatar;
+    public Integer active;
+    public Integer aiRole;
 }

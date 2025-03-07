@@ -2,15 +2,25 @@ package com.server.handsock.sockets.listener;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.server.handsock.sockets.handler.SysConfigHandler;
+import com.server.handsock.utils.GlobalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
 public class SysConfigListener {
-    public void addEventListener(SocketIOServer server, Map<String, Object> service, Map<String, Object> clientServiceList, Map<String, Object> serverServiceList) {
-        SysConfigHandler sysConfigHandler = new SysConfigHandler(service, clientServiceList, serverServiceList);
 
+    private final SocketIOServer server;
+    private final SysConfigHandler sysConfigHandler;
+
+    @Autowired
+    public SysConfigListener(SysConfigHandler sysConfigHandler) {
+        this.sysConfigHandler = sysConfigHandler;
+        this.server = GlobalService.INSTANCE.getSocketIOServer();
+    }
+
+    public void addEventListener() {
         server.addEventListener("[GET:SYSTEM:CONFIG]", Map.class, (client, data, ackSender) -> {
             sysConfigHandler.handleGetAllSystemConfig(client, ackSender);
         });
@@ -37,10 +47,10 @@ public class SysConfigListener {
             sysConfigHandler.handleSetSystemRegister(client, typedData, ackSender);
         });
 
-        server.addEventListener("[SET:SYSTEM:CONFIG:PLAYLIST]", Map.class, (client, data, ackSender) -> {
+        server.addEventListener("[SET:SYSTEM:CONFIG:VALUE]", Map.class, (client, data, ackSender) -> {
             @SuppressWarnings("unchecked")
             Map<String, Object> typedData = (Map<String, Object>) data;
-            sysConfigHandler.handleSetSystemPlaylist(client, typedData, ackSender);
+            sysConfigHandler.handleSetSystemConfigValue(client, typedData, ackSender);
         });
     }
 }

@@ -1,26 +1,26 @@
 package com.server.handsock.clients.man;
 
-import com.server.handsock.console.ConsolePrints;
 import com.server.handsock.admin.mod.ServerUserModel;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class ClientUserManage {
+
     public Map<String, Object> updateNick(ServerUserModel server_userModel, long uid, String nick) {
         server_userModel.setUid(uid);
         server_userModel.setNick(nick);
-        return new HashMap<>(){{
+        return new HashMap<>() {{
             put("uid", server_userModel.getUid());
-           put("nick", server_userModel.getNick());
+            put("nick", server_userModel.getNick());
         }};
     }
 
     public Map<String, Object> updateAvatar(ServerUserModel server_userModel, long uid, String path) {
         server_userModel.setUid(uid);
         server_userModel.setAvatar(path);
-        return new HashMap<>(){{
+        return new HashMap<>() {{
             put("uid", server_userModel.getUid());
             put("avatar", server_userModel.getAvatar());
         }};
@@ -29,7 +29,7 @@ public class ClientUserManage {
     public Map<String, Object> updateUserName(ServerUserModel server_userModel, long uid, String username) {
         server_userModel.setUid(uid);
         server_userModel.setUsername(username);
-        return new HashMap<>(){{
+        return new HashMap<>() {{
             put("uid", server_userModel.getUid());
             put("username", server_userModel.getUsername());
         }};
@@ -46,10 +46,9 @@ public class ClientUserManage {
         server_userModel.setAvatar("0/default/" + new Random().nextInt(7) + ".png");
         server_userModel.setUsername(username);
         server_userModel.setPassword(password);
-        new ConsolePrints().printInfoLogV2("User Register " + address + " " + server_userModel.getUid());
 
-        return new HashMap<>(){{
-            put("userinfo", new HashMap<>(){{
+        return new HashMap<>() {{
+            put("userinfo", new HashMap<>() {{
                 put("uid", uid);
                 put("isAdmin", 0);
                 put("isRobot", 0);

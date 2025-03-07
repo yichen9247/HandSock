@@ -9,8 +9,8 @@ public class ServerSystemManage {
 
     public Map<String, Object> setSystemKeyStatus(ServerSystemModel OUSystemModel, String value) {
         OUSystemModel.setValue(value);
-        return new HashMap<>(){{
-           put("status", OUSystemModel.getValue());
+        return new HashMap<>() {{
+            put("status", OUSystemModel.getValue());
         }};
     }
 }

@@ -7,6 +7,7 @@
 <script setup>
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
+    import HandUtils from "@/scripts/HandUtils"
 
     const props = defineProps({
         user: {
@@ -15,7 +16,7 @@
     });
 
     const applicationStore = utils.useApplicationStore();
-    const userInfo = computed(() => utils.queryUserInfo(props.user.uid));
+    const userInfo = computed(() => HandUtils.getUserInfoByUid(props.user.uid));
     
     const avatarUrl = computed(() => 
         socket.server.config.serverUrl + socket.server.downloadAvatar + userInfo.value.avatar
@@ -61,8 +62,8 @@
 <style lang="less">
     div.el-popper.is-handsock {
         background: #ffffff;
+        border: 1px solid #c5ccdf;
         color: rgba(60, 60, 67, 0.65);
-        border: 1px solid rgba(60, 60, 67, 0.65);
     }
 
     div.el-popper.is-handsock span.el-popper__arrow::before {

@@ -13,8 +13,8 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType } from '../../../types'
-    import { sendSocketEmit } from "@/socket/socketClient"
 
     const applicationStore = utils.useApplicationStore();
 
@@ -24,14 +24,18 @@
 
     // Handle socket events and update store
     const handleSocketEmit = async (event: string, data: any, field: string): Promise<void> => {
-        await sendSocketEmit(event, data, (response: restfulType): void => {
+        await HandUtils.sendClientSocketEmit({
+            data: data,
+            event: event,
+            callback: (response: restfulType): void => {
             if (response.code === 200) {
-                utils.showToasts('success', response.message);
-                const { nick, avatar } = response.data;
-                if (field === 'nick') {
-                    applicationStore.userInfo.nick = nick;
-                } else if (field === 'avatar') applicationStore.userInfo.avatar = avatar;
-            } else utils.showToasts('error', response.message);
+                    utils.showToasts('success', response.message);
+                    const { nick, avatar } = response.data;
+                    if (field === 'nick') {
+                        applicationStore.userInfo.nick = nick;
+                    } else if (field === 'avatar') applicationStore.userInfo.avatar = avatar;
+                } else utils.showToasts('error', response.message);
+            }
         });
     };
 

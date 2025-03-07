@@ -2,9 +2,9 @@
     import { Reactive } from 'vue'
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import HandUtils from '@/scripts/HandUtils'
     import { Plus, Refresh } from '@element-plus/icons-vue'
     import { adminChanFormType, restfulType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
     
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -50,17 +50,21 @@
     }
     
     const sendSocketRequest = async (action: any, data: any, callback: any): Promise<void> => {
-        await checkLoginWork(async (): Promise<void> => {
-            await sendSocketEmit(action, data, async (response: restfulType) => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getChanList();
-                    showToast('success', response.message);
+        await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
+            await HandUtils.sendClientSocketEmit({
+                data: data,
+                event: action,
+                callback: async (response: restfulType) => {
+                    if (response.code !== 200) {
+                        showToast('error', response.message);
+                    } else {
+                        await getChanList();
+                        showToast('success', response.message);
+                    }
+                    callback && await callback(response);
                 }
-                callback && await callback(response);
             });
-        })
+        });
     };
     
     const handleDeleteChan = (gid: number): void => {
@@ -75,35 +79,41 @@
             ElMessageBox.confirm(`是否${status === 1 ? '关闭' : '开启'}编号为 ${gid} 的频道`, `${status === 1 ? '关闭' : '开启'}频道`, {
                 confirmButtonText: '确认',
                 cancelButtonText: '取消',
-            }).then(async (): Promise<void> => await sendSocketEmit(actionType, {
-                gid,
-                status: status === 1 ? 0 : 1
-            }, async (response: restfulType): Promise<void> => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getChanList();
-                    showToast('success', response.message);
+            }).then(async (): Promise<void> => await HandUtils.sendClientSocketEmit({
+                event: actionType,
+                data: {
+                    gid,
+                    status: status === 1 ? 0 : 1
+                },
+                callback: async (response: restfulType): Promise<void> => {
+                    if (response.code !== 200) {
+                        showToast('error', response.message);
+                    } else {
+                        await getChanList();
+                        showToast('success', response.message);
+                    }
                 }
-            }));
-        } else 
-        if (actionType === "[SET:ADMIN:CHAN:ACTIVE:STATUS]") {
+            })
+        )} else if (actionType === "[SET:ADMIN:CHAN:ACTIVE:STATUS]") {
             ElMessageBox.confirm(`是否${status === 1 ? '隐藏' : '展示'}编号为 ${gid} 的频道`, `${status === 1 ? '隐藏' : '展示'}频道`, {
                 confirmButtonText: '确认',
                 cancelButtonText: '取消',
-            }).then(async (): Promise<void> => await sendSocketEmit(actionType, {
-                gid,
-                status: status === 1 ? 0 : 1
-            }, async (response: restfulType): Promise<void> => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getChanList();
-                    showToast('success', response.message);
+            }).then(async (): Promise<void> => await HandUtils.sendClientSocketEmit({
+                event: actionType,
+                data: {
+                    gid,
+                    status: status === 1 ? 0 : 1
+                },
+                callback: async (response: restfulType): Promise<void> => {
+                    if (response.code !== 200) {
+                        showToast('error', response.message);
+                    } else {
+                        await getChanList();
+                        showToast('success', response.message);
+                    }
                 }
-            }));
-        }
-        
+            })
+        )}
     };
     
     const handleSetChanOpenStatus = async (gid: number, status: number): Promise<void> => await handleStatusChange(gid, status, "[SET:ADMIN:CHAN:OPEN:STATUS]");
@@ -187,7 +197,6 @@
             </el-table-column>
         </el-table>
         <el-pagination class="pagination" background layout="prev, pager, next" :total="total" :hide-on-single-page="true" @currentChange="currentChange" v-if="tableData.length > 0"/>
-    
         
         <FrameDrawer :title="`${formModel ? '创建' : '修改'}频道`" :show="rightDrawer" @close="drawerOnClose">
             <el-form :model="formData" label-width="auto">

@@ -50,6 +50,8 @@ export default {
                 GetAdminChatList: '[GET:ADMIN:CHAT:LIST]',
                 GetAdminUserList: '[GET:ADMIN:USER:LIST]',
                 GetAdminRepoList: '[GET:ADMIN:REPO:LIST]',
+                GetAdminBannerList: '[GET:ADMIN:BANNER:LIST]',
+                GetAdminNoticeList: '[GET:ADMIN:NOTICE:LIST]',
                 GetAdminSystemLogs: '[GET:ADMIN:SYSTEM:LOGS]',
                 GetAdminUploadList: '[GET:ADMIN:UPLOAD:LIST]',
                 GetAdminChatContent: '[GET:ADMIN:CHAT:CONTENT]',
@@ -57,11 +59,15 @@ export default {
             },
 
             Add: {
-                AddAdminChan: '[ADD:ADMIN:CHAN]'
+                AddAdminChan: '[ADD:ADMIN:CHAN]',
+                AddAdminBanner: '[ADD:ADMIN:BANNER]',
+                AddAdminNotice: '[ADD:ADMIN:NOTICE]'
             },
 
             Set: {
                 SetAdminChanInfo: '[SET:ADMIN:CHAN:INFO]',
+                SetAdminBannerInfo: '[SET:ADMIN:BANNER:INFO]',
+                SetAdminNoticeInfo: '[SET:ADMIN:NOTICE:INFO]',
 
                 User: {
                     SetAdminUserInfo: '[SET:ADMIN:USER:INFO]',
@@ -71,8 +77,8 @@ export default {
 
                 System: {
                     SetSystemConfigTaboo: '[SET:SYSTEM:CONFIG:TABOO]',
+                    SetSystemConfigValue: '[SET:SYSTEM:CONFIG:VALUE]',
                     SetSystenConfigUpload: '[SET:SYSTEM:CONFIG:UPLOAD]',
-                    SetSystemConfigPlayList: '[SET:SYSTEM:CONFIG:PLAYLIST]',
                     SetSystemConfigRegister: '[SET:SYSTEM:CONFIG:REGISTER]'
                 }
             },
@@ -82,6 +88,8 @@ export default {
                 DelAdminChat: '[DEL:ADMIN:CHAT]',
                 DelAdminRepo: '[DEL:ADMIN:REPO]',
                 DelAdminUser: '[DEL:ADMIN:USER]',
+                DelAdminBanner: '[DEL:ADMIN:BANNER]',
+                DelAdminNotice: '[DEL:ADMIN:NOTICE]',
                 DelAdminUpload: '[DEL:ADMIN:UPLOAD]',
                 DELAdminSystemLogs: '[DEL:ADMIN:SYSTEM:LOGS]'
             }
@@ -155,30 +163,28 @@ export default {
 
     application: {
         appName: 'HandSock',
-        appVersion: '2.1.2-B250211',
+        appVersion: '2.2.0-B2503107',
         author: 'https://github.com/yichen9247',
         authorName: 'yichen9247（Hua）',
+        appDownload: 'https://doc.handsock.xiaokolomi.cn/apk/app-release.apk',
         github: 'https://github.com/yichen9247/HandSock',
         description: "HandSock 是一款有趣的聊天应用，基于 Typescript，Mybatis-Plus，Springboot, Vue3 和 Socket.io，Redis 等技术开发",
 
         updateLog: [{
-            type: '新增',
-            content: '新增了AI频道及相关功能'
+            type: '优化',
+            content: '优化了关于聊天相关界面配色及布局'
         }, {
-            type: '完善',
-            content: '完善了机器人在频道的相关功能'
+            type: '新增',
+            content: '新增针对软件平台的轮播和公告功能'
         },  {
-            type: '修改',
-            content: '修改消息盒子宽度为自适应'
+            type: '修复',
+            content: '修复部分情况下在线用户常驻的问题'
         }, {
             type: '新增',
-            content: '管理后台新增了开启/关闭注册按钮'
+            content: '新增了基于安卓原生定制化软件程序'
         }, {
             type: '重构',
-            content: '模块化重构了后端代码'
-        }, {
-            type: '新增',
-            content: '移动端新增了切换频道功能'
+            content: '前端和后端进行了大规模重构和改写'
         }]
     }
 }

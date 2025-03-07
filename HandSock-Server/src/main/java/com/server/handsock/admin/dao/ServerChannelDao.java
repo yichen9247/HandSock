@@ -5,4 +5,5 @@ import com.server.handsock.admin.mod.ServerChannelModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerChannelDao extends BaseMapper<ServerChannelModel> {}
+public interface ServerChannelDao extends BaseMapper<ServerChannelModel> {
+}

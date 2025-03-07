@@ -1,8 +1,7 @@
 <script setup>
     import utils from "@/scripts/utils"
-    import socket from "@/socket/socket"
+    import HandUtils from "@/scripts/HandUtils"
     import { setPersonalDialog } from "@/scripts/action"
-    import { checkLoginWork } from "@/socket/socketClient"
     
     let mousetime = 0;
     let mousedown = null;
@@ -16,7 +15,7 @@
      * Sends a "clap" message when user double clicks another user's avatar
      */
     const avatarClaps = async (sideName, userName) => {
-        await checkLoginWork(() => {
+        await HandUtils.checkClientLoginStatus(() => {
             applicationStore.socketIo.emit("[SEND:MESSAGE]", {
                 type: 'clap',
                 content: `${sideName} 拍了拍 ${userName}`
@@ -40,7 +39,7 @@
      * Starts mouse hold timer for @mention functionality
      */
     const avtMousedown = async (username) => {
-        await checkLoginWork(() => {
+        await HandUtils.checkClientLoginStatus(() => {
             mousedown = setInterval(() => {
                 if (mousetime >= 1) {
                     mousetime = 0;
@@ -52,6 +51,13 @@
             }, 300);
         });
     };
+
+    const meeesgaeInfo = computed(() => {
+        return {
+            'userinfo': HandUtils.getUserInfoByUid(chatMessage.message.uid),
+            'chatCode': chatMessage.message.uid === applicationStore.userInfo.uid,
+        }
+    });
 </script>
 
 <template>
@@ -62,11 +68,11 @@
         <!-- Avatar for other users -->
         <div class="avatar-info" 
              v-if="message.uid !== applicationStore.userInfo.uid"
-             :style="`background-image: url(${socket.server.config.serverUrl + socket.server.downloadAvatar + utils.queryUserInfo(message.uid).avatar})`"
-             @dblclick="avatarClaps(applicationStore.userInfo.nick, utils.queryUserInfo(message.uid).nick)"
-             @mousedown="avtMousedown(utils.queryUserInfo(message.uid).nick)"
+             :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"
+             @dblclick="avatarClaps(applicationStore.userInfo.nick, meeesgaeInfo.userinfo.nick)"
+             @mousedown="avtMousedown(meeesgaeInfo.userinfo.nick)"
              @mouseup="avtMouseup"
-             @touchstart="avtMousedown(utils.queryUserInfo(message.uid).nick)"
+             @touchstart="avtMousedown(meeesgaeInfo.userinfo.nick)"
              @touchend="avtMouseup">
         </div>
 
@@ -80,18 +86,18 @@
                     {{ message.time.split(' ')[1] }}
                 </span>
                 <span class="user-name" v-if="message.uid !== applicationStore.userInfo.uid">
-                    {{ utils.queryUserInfo(message.uid).nick }}
+                    {{ meeesgaeInfo.userinfo.nick }}
                 </span>
                 <span class="user-admi user-tags" 
-                      v-if="utils.queryUserInfo(message.uid).isAdmin === 1 && utils.queryUserInfo(message.uid).isRobot !== 1">
+                      v-if="meeesgaeInfo.userinfo.isAdmin === 1 && meeesgaeInfo.userinfo.isRobot !== 1">
                     管理员
                 </span>
                 <span class="user-robo user-tags" 
-                      v-if="utils.queryUserInfo(message.uid).isRobot === 1">
+                      v-if="meeesgaeInfo.userinfo.isRobot === 1">
                     机器人
                 </span>
                 <span class="user-name" v-if="message.uid === applicationStore.userInfo.uid">
-                    {{ utils.queryUserInfo(message.uid).nick }}
+                    {{ meeesgaeInfo.userinfo.nick }}
                 </span>
                 <span class="user-time" v-if="message.uid === applicationStore.userInfo.uid">
                     {{ message.time.split(' ')[1] }}
@@ -99,18 +105,18 @@
             </div>
 
             <!-- Message content -->
-            <div :class="`message-content ${message.uid === applicationStore.userInfo.uid ? 'chatCode-T' : 'chatCode-O'}`"
+            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
                  v-html="message.content" 
                  v-if="message.type === 'text'">
             </div>
 
-            <div :class="`message-content ${message.uid === applicationStore.userInfo.uid ? 'chatCode-T' : 'chatCode-O'}`"
+            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
                  v-if="message.type === 'file'" 
                  style="padding: 0;">
                 <ChatFilesMessage :message="message"/>
             </div>
 
-            <div :class="`message-content ${message.uid === applicationStore.userInfo.uid ? 'chatCode-T' : 'chatCode-O'}`"
+            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
                  v-if="message.type === 'image'" 
                  style="padding: 0;">
                 <ChatPngMessage :message="message"/>
@@ -120,7 +126,7 @@
         <!-- Avatar for current user -->
         <div class="avatar-info"
              v-if="message.uid === applicationStore.userInfo.uid" 
-             :style="`background-image: url(${socket.server.config.serverUrl + socket.server.downloadAvatar + utils.queryUserInfo(message.uid).avatar})`"
+             :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"
              @click="setPersonalDialog(true)">
         </div>
     </div>

@@ -1,14 +1,18 @@
 <script setup lang="ts">
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
+    import HandUtils from "@/scripts/HandUtils"
     import { restfulType } from '../../../types'
-    import { sendSocketEmit } from "@/socket/socketClient"
 
     const playlist: Ref<string> = ref(null);
-    sendSocketEmit(socket.send.Get.GetSystemPlaylist, null, (response: restfulType): void => {
-        if (response.code === 200) {
-            playlist.value = response.data;
-        } else utils.showToasts('error', response.message);
+    HandUtils.sendClientSocketEmit({
+        data: null,
+        event: socket.send.Get.GetSystemPlaylist,
+        callback: (response: restfulType): void => {
+            if (response.code === 200) {
+                playlist.value = response.data;
+            } else utils.showToasts('error', response.message);
+        }
     });
 </script>
 

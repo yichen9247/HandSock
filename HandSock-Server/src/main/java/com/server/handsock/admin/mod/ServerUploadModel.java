@@ -8,11 +8,11 @@ import lombok.Data;
 @TableName("handsock_upload")
 public class ServerUploadModel {
     @TableId
-    private String fid;
-    private Long uid;
-    private Long size;
-    private String time;
-    private String name;
-    private String path;
-    private String type;
+    public String fid;
+    public Long uid;
+    public Long size;
+    public String time;
+    public String name;
+    public String path;
+    public String type;
 }

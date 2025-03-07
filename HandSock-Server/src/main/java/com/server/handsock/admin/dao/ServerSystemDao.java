@@ -5,4 +5,5 @@ import com.server.handsock.admin.mod.ServerSystemModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerSystemDao extends BaseMapper<ServerSystemModel> {}
+public interface ServerSystemDao extends BaseMapper<ServerSystemModel> {
+}

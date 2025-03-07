@@ -7,17 +7,17 @@
 <script setup>
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
+    import HandUtils from "@/scripts/HandUtils"
     import { setEmjoeDialog, setUserLoginForm } from "@/scripts/action"
-    import { sendChatMessage, checkLoginWork, sendSocketEmit } from "@/socket/socketClient"
 
     const userList = reactive([{}]);
     const applicationStore = utils.useApplicationStore();
 
     const sendChatMessageV2 = async () => {
-        await checkLoginWork(async () => {
+        await HandUtils.checkClientLoginStatus(async () => {
             if (applicationStore.groupClosed) return utils.showToasts('error', '频道未开启');
             if (applicationStore.chantInput === "") return utils.showToasts('warning', '格式不正确');
-            await sendChatMessage();
+            await HandUtils.sendChatMessage();
         });
     }
 
@@ -33,11 +33,15 @@
 
     const handleUploadSuccess = async (data, type) => {
         if (data.code !== 200) return await utils.showToasts('error', data.message);
-        await sendSocketEmit(socket.send.SendMessage, {
-            type,
-            content: data.data.path
-        }, (response) => {
-            if (response.code !== 200) utils.showToasts('error', response.message);
+        await HandUtils.sendClientSocketEmit({
+            event: socket.send.SendMessage,
+            data: {
+                type,
+                content: data.data.path
+            },
+            callback: (response) => {
+                if (response.code !== 200) utils.showToasts('error', response.message);
+            }
         });
     };
 
@@ -50,12 +54,9 @@
         <!-- Logged in view -->
         <el-footer class="content-footer" v-if="applicationStore.loginStatus">
             <div class="input-box">
-                <el-mention 
-                    v-model="applicationStore.chantInput"
-                    :options="userList"
+                <el-mention @keydown.enter="sendChatMessageV2" 
+                    placement="top" v-model="applicationStore.chantInput" :options="userList"
                     :placeholder="applicationStore.isDeviceMobile ? '请在此输入聊天内容' : '请在此输入聊天内容，按Enter发送...'"
-                    @keydown.enter="sendChatMessageV2"
-                    placement="top"
                 >
                     <template #label="{ item }">
                         <div style="display: flex; align-items: center">
@@ -114,7 +115,7 @@
                             :headers="{
                                 uid: applicationStore.userInfo.uid,
                                 gid: applicationStore.groupInfo.gid,
-                                token: utils.getClientToken()
+                                token: HandUtils.getClientToken()
                             }"
                             :action="socket.server.config.serverUrl + socket.server.uploadFile"
                         >
@@ -130,7 +131,7 @@
                             :headers="{
                                 uid: applicationStore.userInfo.uid,
                                 gid: applicationStore.groupInfo.gid,
-                                token: utils.getClientToken()
+                                token: HandUtils.getClientToken()
                             }"
                             :action="socket.server.config.serverUrl + socket.server.uploadImages"
                         >

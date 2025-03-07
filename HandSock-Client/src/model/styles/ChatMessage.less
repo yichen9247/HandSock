@@ -1,7 +1,7 @@
 
 @dominColor: var(--dominColor);
 
-span.chat-message[data-type="clap"],span.chat-message[data-type="join"] {
+span.chat-message[data-type="clap"] {
     margin: 10px auto;
     margin-bottom: 35px;
 }
@@ -17,9 +17,12 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
         display: block;
         font-size: 14px;
         margin-bottom: 10px;
-        border-radius: 5px;
+        border-radius: 4px;
         background-color: #f1f1f1;
-        font-family: 'MiSans',Inter,'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','微软雅黑',Arial,sans-serif!important;
+    }
+
+    think + br {
+        display: none;
     }
 
     &:last-child {
@@ -126,11 +129,11 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             }
 
             div.message-content.chatCode-T {
-                border: 1px solid rgba(60, 60, 67, 0.5);
+                border: 1px solid #c5ccdf;
             }
 
             div.message-content.chatCode-O {
-                border: 1px solid rgba(60, 60, 67, 0.5);
+                border: 1px solid #c5ccdf;
             }
         }
 
@@ -140,7 +143,7 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             display: inline;
             min-width: 55px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px;
             background-color: rgba(218,232,241,1.00);
         }
 

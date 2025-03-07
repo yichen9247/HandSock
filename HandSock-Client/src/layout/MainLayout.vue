@@ -20,7 +20,7 @@
     import utils from "@/scripts/utils"
     import { useRouter } from 'vue-router'
     import { groupInfoType } from "../../types"
-    import { toggleChatChannel } from "@/socket/socketClient"
+    import HandUtils from "@/scripts/HandUtils"
 
     const router = useRouter();
     const onelDialogStore = utils.useOnelDialogStore();
@@ -34,7 +34,7 @@
     const onHeadClick = (): void => {
         if (applicationStore.isDeviceMobile) actionShow.value = true;
     }
-    const onActionSelect = async (item: groupInfoType): Promise<void> => toggleChatChannel(router, item.gid);
+    const onActionSelect = async (item: groupInfoType): Promise<void> => HandUtils.toggleChatChannel(router, item.gid);
 </script>
 
 <template>

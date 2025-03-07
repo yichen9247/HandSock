@@ -8,7 +8,7 @@
 -->
 
 <script setup lang="ts">
-    import utils from "@/scripts/utils"
+    import HandUtils from "@/scripts/HandUtils"
     
     const chatMessage = defineProps({
         message: { type: Object, required: true }
@@ -39,7 +39,7 @@
 
         <!-- User info if available -->
         <ChatMessageInfo 
-            v-if="utils.queryUserInfo(chatMessage.message.uid) !== null"
+            v-if="HandUtils.getUserInfoByUid(chatMessage.message.uid) !== null"
             :message="chatMessage.message"
         />
     </span>

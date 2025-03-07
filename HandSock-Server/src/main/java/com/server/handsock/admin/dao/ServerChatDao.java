@@ -5,4 +5,5 @@ import com.server.handsock.admin.mod.ServerChatModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerChatDao extends BaseMapper<ServerChatModel> {}
+public interface ServerChatDao extends BaseMapper<ServerChatModel> {
+}

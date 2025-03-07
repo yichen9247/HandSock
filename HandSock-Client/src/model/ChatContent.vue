@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
     import utils from '@/scripts/utils'
+    import HandUtils from '@/scripts/HandUtils'
     import { Router, useRouter } from 'vue-router'
-    import { toggleChatChannel } from '@/socket/socketClient'
 
     const router: Router = useRouter();
     const applicationStore = utils.useApplicationStore();
@@ -37,7 +37,7 @@
                     <template #extra>
                         <el-button 
                             type="primary" 
-                            @click="toggleChatChannel(router, 0)"
+                            @click="HandUtils.toggleChatChannel(router, 0)"
                         >
                             返回到主频道
                         </el-button>

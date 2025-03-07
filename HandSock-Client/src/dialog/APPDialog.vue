@@ -19,7 +19,7 @@
 <script setup>
     import utils from "@/scripts/utils"
     import { useRouter } from 'vue-router'
-    import { searchOfChannel } from '@/socket/socketClient'
+    import HandUtils from "@/scripts/HandUtils"
 
     const router = useRouter();
     const searchInput = ref("");
@@ -28,7 +28,7 @@
 
     // Search for and join a channel by ID
     const searchChannel = async () => {
-        await searchOfChannel(router, searchInput.value);
+        await HandUtils.searchChannelByGid(router, searchInput.value);
         searchInput.value = "";
     }
 </script>

@@ -5,4 +5,5 @@ import com.server.handsock.admin.mod.ServerUploadModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerUploadDao extends BaseMapper<ServerUploadModel> {}
+public interface ServerUploadDao extends BaseMapper<ServerUploadModel> {
+}

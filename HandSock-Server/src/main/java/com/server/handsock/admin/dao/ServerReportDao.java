@@ -1,8 +1,9 @@
 package com.server.handsock.admin.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import com.server.handsock.admin.mod.ServerReportModel;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.server.handsock.admin.mod.ServerReportModel;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerReportDao extends BaseMapper<ServerReportModel> {}
+public interface ServerReportDao extends BaseMapper<ServerReportModel> {
+}

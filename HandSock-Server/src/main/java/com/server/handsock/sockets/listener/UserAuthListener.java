@@ -2,30 +2,39 @@ package com.server.handsock.sockets.listener;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.server.handsock.sockets.handler.UserAuthHandler;
-import com.server.handsock.sockets.eventer.OnlineEvent;
+import com.server.handsock.utils.GlobalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
 public class UserAuthListener {
-    public void addEventListener(SocketIOServer server, OnlineEvent onlineEvent, Map<String, Object> service, Map<String, Object> clientServiceList, Map<String, Object> serverServiceList) {
-        UserAuthHandler userAuthHandler = new UserAuthHandler(service, clientServiceList, serverServiceList);
 
+    private final SocketIOServer server;
+    private final UserAuthHandler userAuthHandler;
+
+    @Autowired
+    public UserAuthListener(UserAuthHandler userAuthHandler) {
+        this.userAuthHandler = userAuthHandler;
+        this.server = GlobalService.INSTANCE.getSocketIOServer();
+    }
+
+    public void addEventListener() {
         server.addEventListener("[USER:LOGIN]", Map.class, (client, data, ackSender) -> {
             @SuppressWarnings("unchecked")
             Map<String, Object> typedData = (Map<String, Object>) data;
-            userAuthHandler.handleUserLogin(client, typedData, onlineEvent, ackSender);
+            userAuthHandler.handleUserLogin(client, typedData, ackSender);
         });
 
         server.addEventListener("[USER:LOGOUT]", Map.class, (client, data, ackSender) -> {
-            userAuthHandler.handleUserLogout(client, server, onlineEvent, ackSender);
+            userAuthHandler.handleUserLogout(client, server, ackSender);
         });
 
         server.addEventListener("[USER:REGISTER]", Map.class, (client, data, ackSender) -> {
             @SuppressWarnings("unchecked")
             Map<String, Object> typedData = (Map<String, Object>) data;
-            userAuthHandler.handleUserRegister(server, client, typedData, onlineEvent, ackSender);
+            userAuthHandler.handleUserRegister(client, typedData, ackSender);
         });
     }
 }

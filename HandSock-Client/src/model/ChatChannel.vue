@@ -12,12 +12,12 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import { useRouter } from 'vue-router'
-    import { toggleChatChannel } from '@/socket/socketClient'
+    import HandUtils from '@/scripts/HandUtils'
     
     const router = useRouter();
     const applicationStore = utils.useApplicationStore();
     const currentGroupId = (): number => applicationStore.groupInfo.gid;
-    const handleChannelClick = (gid: string): Promise<void> => toggleChatChannel(router, gid);
+    const handleChannelClick = (gid: string): Promise<void> => HandUtils.toggleChatChannel(router, gid);
 </script>
 
 <template>

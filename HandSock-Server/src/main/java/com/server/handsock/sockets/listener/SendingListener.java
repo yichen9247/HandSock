@@ -1,11 +1,13 @@
 package com.server.handsock.sockets.listener;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import com.server.handsock.console.AIProperties;
+import com.server.handsock.properties.AiProp;
 import com.server.handsock.services.ClientService;
 import com.server.handsock.sockets.eventer.RobotSender;
 import com.server.handsock.sockets.handler.AIChatHandler;
 import com.server.handsock.sockets.handler.SendingHandler;
+import com.server.handsock.utils.GlobalService;
+import com.server.handsock.utils.HandUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,37 +18,44 @@ import java.util.Map;
 @Service @Getter @Setter
 public class SendingListener {
 
-    private final AIProperties aiProperties;
+    private final SocketIOServer server;
+    private final RobotSender robotSender;
+    private final AiProp aiProp;
+    private final AIChatHandler aiChatHandler;
+    private final ClientService clientService;
+    private final SendingHandler sendingHandler;
 
     @Autowired
-    public SendingListener(AIProperties aiProperties) {
-        this.aiProperties = aiProperties;
+    public SendingListener(AiProp aiProp, SendingHandler sendingHandler, ClientService clientService, RobotSender robotSender, AIChatHandler aiChatHandler) {
+        this.robotSender = robotSender;
+        this.aiProp = aiProp;
+        this.clientService = clientService;
+        this.aiChatHandler = aiChatHandler;
+        this.sendingHandler = sendingHandler;
+        this.server = GlobalService.INSTANCE.getSocketIOServer();
     }
 
-    public void addEventListener(SocketIOServer server, Map<String, Object> service, Map<String, Object> clientServiceList, Map<String, Object> serverServiceList) {
-        AIChatHandler aiChatHandler = new AIChatHandler(service, clientServiceList, serverServiceList);
-        SendingHandler sendingHandler = new SendingHandler(service, clientServiceList, serverServiceList);
-
+    public void addEventListener(HandUtils handUtils) {
         server.addEventListener("[SEND:MESSAGE]", Map.class, (client, data, ackSender) -> {
             @SuppressWarnings("unchecked")
             Map<String, Object> typedData = (Map<String, Object>) data;
             sendingHandler.handleSendMessage(server, client, typedData, ackSender);
         });
 
-        ClientService clientService = new ClientService(service, clientServiceList);
         server.addEventInterceptor((client, eventName, args, ackRequest) -> {
             try {
-                Object dataEvent = args.get(0);
-                if (eventName.equals("[SEND:MESSAGE]") && dataEvent != null) new RobotSender(service, clientServiceList, serverServiceList).handleSendMessageOnBot(server, client, dataEvent, ackRequest);
+                Object dataEvent = !args.isEmpty() ? args.get(0) : null;
+                if (eventName.equals("[SEND:MESSAGE]") && dataEvent != null)
+                    robotSender.handleSendMessageOnBot(dataEvent, server, client, ackRequest);
             } catch (Exception e) {
-                clientService.handleException(e, ackRequest);
+                ackRequest.sendAckData(handUtils.printErrorLog(e));
             }
         });
 
         server.addEventListener("[SEND:AI:CHAT:MESSAGE]", Map.class, (client, data, ackSender) -> {
             @SuppressWarnings("unchecked")
             Map<String, Object> typedData = (Map<String, Object>) data;
-            aiChatHandler.handleAIChatMessage(client, typedData, ackSender, aiProperties);
+            aiChatHandler.handleAIChatMessage(client, typedData, ackSender, aiProp);
         });
     }
 }

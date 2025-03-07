@@ -1,28 +1,29 @@
 package com.server.handsock.sockets.listener;
 
-import com.corundumstudio.socketio.SocketIOServer;
-import com.server.handsock.console.AppProperties;
-import com.server.handsock.console.HandleResults;
+import com.server.handsock.properties.HandProp;
+import com.server.handsock.utils.GlobalService;
+import com.server.handsock.utils.HandUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class CheckListener {
 
-    private final AppProperties appProperties;
+    private final HandProp handProp;
 
     @Autowired
-    public CheckListener(AppProperties appProperties) {
-        this.appProperties = appProperties;
+    public CheckListener(HandProp handProp) {
+        this.handProp = handProp;
     }
 
-    public void addEventListener(SocketIOServer server, Map<String, Object> service) {
-        server.addEventListener("[CLIENT:CHECK]", Map.class, (client, data, ackSender) -> {
-            if (data.get("version").equals(appProperties.getAppVersion())) {
-                ackSender.sendAckData(new HandleResults().handleResultByCode(200, null, "服务正常"));
-            } else ackSender.sendAckData(new HandleResults().handleResultByCode(500, null, "服务异常"));
+    public void addEventListener(HandUtils handUtils) {
+        Objects.requireNonNull(GlobalService.INSTANCE.getSocketIOServer()).addEventListener("[CLIENT:CHECK]", Map.class, (client, data, ackSender) -> {
+            if (data.get("version").equals(handProp.getAppVersion())) {
+                ackSender.sendAckData(handUtils.handleResultByCode(200, null, "服务正常"));
+            } else ackSender.sendAckData(handUtils.handleResultByCode(500, null, "服务异常"));
         });
     }
 }

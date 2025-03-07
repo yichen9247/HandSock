@@ -3,7 +3,7 @@ server:
 
 handsock:
   port: 5120 # 通信端口
-  host: 192.168.0.102 # 通信主机
+  host: 192.168.0.101 # 通信主机
   name: HandSock # 应用名称
   origin: http://192.168.0.101:5173 # 跨域设置
   pingTimeout: 6000000 # PING超时

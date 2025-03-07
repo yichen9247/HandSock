@@ -10,10 +10,9 @@
     import { Reactive } from "vue"
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
+    import HandUtils from "@/scripts/HandUtils"
     import { sidebarListType } from "../../types"
     import { Router, useRouter } from 'vue-router'
-    import { toggleChatChannel } from '@/socket/socketClient'
-    import { openUserLogoutDialog } from "@/socket/socketClient"
     import { setSearchDialog, setSettingDialog, openAboutThisProject, openGithubSite, setPersonalDialog, toggleAdminFrame } from "@/scripts/action"
 
     const router: Router = useRouter();
@@ -22,7 +21,7 @@
 
     const sidebarList: Reactive<Array<sidebarListType>> = reactive([{
         name: '首页',
-        call: (): Promise<void> => toggleChatChannel(router, 0),
+        call: (): Promise<void> => HandUtils.toggleChatChannel(router, 0),
         icon: '<svg t="1736469030918" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20272" width="36" height="36"><path d="M668.59 914.92h-73.06V653.14H428.48v261.78h-73.06V634.07c0-29.77 24.22-53.99 53.99-53.99h205.18c29.77 0 53.99 24.22 53.99 53.99v280.85z" fill="#474747" p-id="20273"></path><path d="M811.49 944.62H212.51c-38.76 0-70.29-31.73-70.29-70.73V398.77h73.06v472.79h593.43V398.77h73.06v475.12c0 39-31.53 70.73-70.28 70.73z" fill="#474747" p-id="20274"></path><path d="M966.47 444.04L537.68 89.82c-7.03-6.91-16.33-10.47-25.68-10.44-9.35-0.02-18.64 3.53-25.68 10.44L57.53 444.04c-15.55 12.85-17.75 35.88-4.9 51.43 12.85 15.55 35.88 17.75 51.43 4.9L512 163.38l407.94 336.99c15.55 12.85 38.58 10.66 51.43-4.9 12.85-15.55 10.66-38.58-4.9-51.43z" fill="#474747" p-id="20275"></path></svg>'
     }, {
         name: '频道',
@@ -42,7 +41,7 @@
         icon: '<svg t="1703494205002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8280" width="36" height="36"><path d="M469.333333 60.693333a85.333333 85.333333 0 0 1 85.333334 0l326.826666 188.714667a85.333333 85.333333 0 0 1 42.666667 73.898667v377.386666a85.333333 85.333333 0 0 1-42.666667 73.898667L554.666667 963.306667a85.333333 85.333333 0 0 1-85.333334 0L142.506667 774.592a85.333333 85.333333 0 0 1-42.666667-73.898667v-377.386666a85.333333 85.333333 0 0 1 42.666667-73.898667z m42.666667 73.898667L185.173333 323.306667v377.386666L512 889.408l326.826667-188.714667v-377.386666L512 134.592zM512 341.333333a170.666667 170.666667 0 1 1 0 341.333334 170.666667 170.666667 0 0 1 0-341.333334z m0 85.333334a85.333333 85.333333 0 1 0 0 170.666666 85.333333 85.333333 0 0 0 0-170.666666z" fill="#474A54" p-id="8281"></path></svg>'
     }, {
         name: '退出登录',
-        call: (): Promise<void> => openUserLogoutDialog(),
+        call: (): Promise<void> => HandUtils.openUserLogoutDialog(),
         icon: '<svg t="1729505518099" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="17831" width="36" height="36"><path d="M663.68 247.253333L701.653333 170.666667A427.605333 427.605333 0 0 1 938.666667 553.770667C938.666667 789.888 747.648 981.333333 512 981.333333S85.333333 789.888 85.333333 553.770667C85.333333 389.717333 178.346667 242.346667 322.346667 170.666667l37.973333 76.586666A342.101333 342.101333 0 0 0 170.666667 553.770667c0 188.928 152.832 342.058667 341.333333 342.058666s341.333333-153.173333 341.333333-342.058666a342.101333 342.101333 0 0 0-189.653333-306.517334z" fill="#474A54" p-id="17832"></path><path d="M469.333333 42.666667h85.333334v341.333333h-85.333334z" fill="#474A54" p-id="17833"></path></svg>'
     }]);
 

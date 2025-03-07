@@ -66,6 +66,19 @@ export type adminChanFormType = {
     aiRole: boolean
 }
 
+export type adminBannerFormType = {
+    bid: number,
+    name: string,
+    href: string,
+    image: string
+}
+
+export type adminNoticeFormType = {
+    nid: number,
+    title: string,
+    content: string
+}
+
 export type adminUserFormType = {
     uid: string,
     nick: string,
@@ -91,5 +104,7 @@ export type adminSystemMannerType =  {
     taboo: boolean,
     upload: boolean,
     playlist: string,
-    register: boolean
+    register: boolean,
+    version: string,
+    download: string
 }

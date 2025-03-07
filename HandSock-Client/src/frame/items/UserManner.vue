@@ -3,8 +3,8 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType, adminUserFormType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -49,17 +49,19 @@
     }
 
     const sendSocketRequest = async (action: any, data: any, callback: any) => {
-        await checkLoginWork(async (): Promise<void> => {
-            await sendSocketEmit(action, data, async (response: restfulType) => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getUserList();
-                    showToast('success', response.message);
+        await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
+            await HandUtils.sendClientSocketEmit({
+                data: data,
+                event: action,
+                callback: async (response: restfulType) => {
+                    if (response.code === 200) {
+                        await getUserList();
+                        showToast('success', response.message);
+                    } else showToast('error', response.message);
+                    callback && await callback(response);
                 }
-                callback && await callback(response);
             });
-        })
+        });
     };
 
     const handleDeleteUser = (uid: string): void => {
@@ -104,18 +106,22 @@
             confirmButtonText: '确认',
             callback: async (action: Action) => {
                 if (action !== 'confirm') return;
-                await sendSocketEmit(socket.send.Admin.Set.User.SetAdminUserTabooStatus, {
-                    uid: uid,
-                    status: status === 'open' ? 'close' : 'open'
-                }, async (response: restfulType): Promise<void> => {
-                    if (response.code !== 200) {
-                        await utils.showToasts('error', response.message);
-                    } else {
-                        await getUserList();
-                        await utils.showToasts('success', response.message);   
+                await HandUtils.sendClientSocketEmit({
+                    event: socket.send.Admin.Set.User.SetAdminUserTabooStatus,
+                    data: {
+                        uid: uid,
+                        status: status === 'open' ? 'close' : 'open'
+                    },
+                    callback: async (response: restfulType): Promise<void> => {
+                        if (response.code !== 200) {
+                            await utils.showToasts('error', response.message);
+                        } else {
+                            await getUserList();
+                            await utils.showToasts('success', response.message);   
+                        }
                     }
                 });
-            },
+            }
         });
     }
 

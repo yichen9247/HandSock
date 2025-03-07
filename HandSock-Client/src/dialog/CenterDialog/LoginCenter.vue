@@ -13,9 +13,9 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import HandUtils from '@/scripts/HandUtils'
     import { saveLocalStorage } from '@/scripts/storageUtils'
     import { restfulType, loginFormType } from '../../../types'
-    import { sendSocketEmit, toggleConnectStatus, resetOnlineUsers } from "@/socket/socketClient"
 
     const activeTab = ref('login');
     const applicationStore = utils.useApplicationStore();
@@ -63,27 +63,27 @@
      */
     const handleAuth = async (mode: number, form: loginFormType) => {
         if (!validateInput(form.username, form.password)) return;
-        await sendSocketEmit(mode === 1 ? socket.send.User.UserLogin : socket.send.User.UserRegister, form, async (response: restfulType) => {
-            if (response.code !== 200) return utils.showToasts('error', response.message);
-            applicationStore.setLoginFormStatus(false);
-            utils.showToasts('success', response.message);
-            
-            const { userinfo, token } = response.data;
-            await saveLocalStorage([
-                "handsock_uid",
-                "handsock_token", 
-                "handsock_username"
-            ], [
-                userinfo.uid,
-                token,
-                userinfo.username
-            ]).then(async () => {
-                setTimeout(async (): Promise<void> => {
-                    await toggleConnectStatus([]);
-                    await resetOnlineUsers(1);
-                }, 300);
-                applicationStore.userInfo = userinfo;
-            });
+        await HandUtils.sendClientSocketEmit({
+            data: form,
+            event: mode === 1 ? socket.send.User.UserLogin : socket.send.User.UserRegister,
+            callback: async (response: restfulType) => {
+                if (response.code !== 200) return utils.showToasts('error', response.message);
+                applicationStore.setLoginFormStatus(false);
+                utils.showToasts('success', response.message);
+                
+                const { userinfo, token } = response.data;
+                await saveLocalStorage([
+                    "handsock_uid",
+                    "handsock_token", 
+                    "handsock_username"
+                ], [userinfo.uid, token, userinfo.username]).then(async () => {
+                    setTimeout(async (): Promise<void> => {
+                        await HandUtils.toggleConnectStatus([]);
+                        await HandUtils.resetOnlineUsers(1);
+                    }, 300);
+                    applicationStore.userInfo = userinfo;
+                });
+            }
         });
     }
 

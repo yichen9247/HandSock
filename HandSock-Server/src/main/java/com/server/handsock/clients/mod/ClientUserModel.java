@@ -8,14 +8,14 @@ import lombok.Data;
 @TableName("handsock_user")
 public class ClientUserModel {
     @TableId
-    private Long uid;
-    private String nick;
-    private int isAdmin;
-    private int isRobot;
-    private String taboo;
-    private String email;
-    private String avatar;
-    private Integer aiAuth;
-    private String regTime;
-    private String username;
+    public Long uid;
+    public String nick;
+    public int isAdmin;
+    public int isRobot;
+    public String taboo;
+    public String email;
+    public String avatar;
+    public Integer aiAuth;
+    public String regTime;
+    public String username;
 }

@@ -13,10 +13,9 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
-    import { sendSocketEmit } from "@/socket/socketClient"
+    import HandUtils from '@/scripts/HandUtils'
     import { EditPen, Check, Close } from '@element-plus/icons-vue'
 
-    const onelDialogStore = utils.useOnelDialogStore();;
     const applicationStore = utils.useApplicationStore()
     
     const editNickStatus = ref(false);
@@ -38,17 +37,17 @@
      */
     const handleSocketEmit = async (event: string, data: any, model: string) => {
         data.uid = applicationStore.userInfo.uid
-        await sendSocketEmit(event, data, (response: any) => {
-            if (response.code === 200) {
-                utils.showToasts('success', response.message)
-                if (model === 'nick') {
-                    applicationStore.userInfo.nick = response.data.nick
-                }
-            } else {
-                utils.showToasts('error', response.message)
+        await HandUtils.sendClientSocketEmit({
+            data: data,
+            event: event,
+            callback: (response: any) => {
+                if (response.code === 200) {
+                    utils.showToasts('success', response.message)
+                    if (model === 'nick') applicationStore.userInfo.nick = response.data.nick
+                } else utils.showToasts('error', response.message)
+                editNickStatus.value = false
             }
-            editNickStatus.value = false
-        })
+        });
     }
 
     /**
@@ -81,16 +80,20 @@
      */
     const uploadFileSuccess = async (data: any): Promise<void> => {
         if (data.code === 200) {
-            await sendSocketEmit(socket.send.Edit.EditUserAvatar, {
-                path: data.data.path
-            }, async (response: any): Promise<void> => {
-                if (response.code !== 200) {
-                    await utils.showToasts('error', data.message)
-                } else {
-                    await utils.showToasts('success', data.message)
-                    applicationStore.userInfo.avatar = data.data.path
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.Edit.EditUserAvatar,
+                data: {
+                    path: data.data.path
+                },
+                callback: async (response: any): Promise<void> => {
+                    if (response.code !== 200) {
+                        await utils.showToasts('error', data.message)
+                    } else {
+                        await utils.showToasts('success', data.message)
+                        applicationStore.userInfo.avatar = data.data.path
+                    }
                 }
-            })
+            });
         } else utils.showToasts('error', data.message)
     }
 </script>
@@ -104,27 +107,22 @@
                     class="upload-avatar"
                     @success="uploadFileSuccess"
                     @error="utils.uploadFileError"
-                    @change="onelDialogStore.setUploadFileCenter(false)"
                     :headers="{
+                        token: HandUtils.getClientToken(),
                         uid: applicationStore.userInfo.uid,
-                        gid: applicationStore.groupInfo.gid,
-                        token: utils.getClientToken()
+                        gid: applicationStore.groupInfo.gid
                     }"
                     :action="socket.server.config.serverUrl + socket.server.uploadAvatar"
                 >
                     <template #trigger>
                         <div 
                             class="trigger" 
-                            v-if="applicationStore.loginStatus && 
-                                  applicationStore.userList.length > 0 && 
-                                  applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin"
+                            v-if="applicationStore.loginStatus && applicationStore.userList.length > 0 && applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin"
                         >
                             管理员
                         </div>
                         <el-image 
-                            class="avatar" 
-                            shape="square" 
-                            size="small"
+                            class="avatar" shape="square" size="small"
                             :src="socket.server.config.serverUrl + socket.server.downloadAvatar + applicationStore.userInfo.avatar"
                         />
                     </template>

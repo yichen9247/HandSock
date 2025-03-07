@@ -3,8 +3,8 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
     
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -43,15 +43,17 @@
     }
     
     const sendSocketRequest = async (action: any, data: any, callback: any) => {
-        await checkLoginWork(async () => {
-            await sendSocketEmit(action, data, async (response: restfulType): Promise<void> => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getRepoList();
-                    showToast('success', response.message);
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                data: data,
+                event: action,
+                callback: async (response: restfulType): Promise<void> => {
+                    if (response.code === 200) {
+                        await getRepoList();
+                        showToast('success', response.message);
+                    } else showToast('error', response.message);
+                    callback && await callback(response);
                 }
-                callback && await callback(response);
             });
         })
     };
@@ -81,32 +83,43 @@
             confirmButtonText: '确认',
             callback: async (action: Action): Promise<void> => {
                 if (action !== 'confirm') return;
-                await sendSocketEmit(socket.send.Admin.Set.User.SetAdminUserTabooStatus, {
-                    uid: uid,
-                    status: 'open'
-                }, async (response: restfulType): Promise<void> => {
-                    if (response.code !== 200) {
-                        await utils.showToasts('error', response.message);
-                    } else await utils.showToasts('success', response.message);
+                await HandUtils.sendClientSocketEmit({
+                    event: socket.send.Admin.Set.User.SetAdminUserTabooStatus,
+                    data: {
+                        uid: uid,
+                        status: 'open'
+                    },
+                    callback: async (response: restfulType): Promise<void> => {
+                        if (response.code !== 200) {
+                            await utils.showToasts('error', response.message);
+                        } else await utils.showToasts('success', response.message);
+                    }
                 });
-            },
+            }
         });
     }
 
     const getChatContent = async (sid: string): Promise<void> => {
-        await sendSocketEmit(socket.send.Admin.Get.GetAdminChatContent, {
-            sid: sid
-        }, async (response: restfulType): Promise<void> => {
-            if (response.code === 200) {
-                if (response.data.type === 'file') {
-                    open(socket.server.config.serverUrl + socket.server.downloadFile + response.data.content);
-                } else if (response.data.type === 'image') {
-                    utils.previewImage({ src: socket.server.config.serverUrl + socket.server.downloadImages + response.data.content, html: `举报时间： <span style='color: var(--dominColor)'>${response.data.time}</span>` });
-                } else ElMessageBox.alert(response.data.content, '查看内容', {
-                    confirmButtonText: '确认',
-                    callback: (): void => {},
-                });
-            } else utils.showToasts('error', response.message);
+        await HandUtils.sendClientSocketEmit({
+            event: socket.send.Admin.Get.GetAdminChatContent,
+            data: {
+                sid: sid
+            },
+            callback: async (response: restfulType): Promise<void> => {
+                if (response.code === 200) {
+                    if (response.data.type === 'file') {
+                        open(socket.server.config.serverUrl + socket.server.downloadFile + response.data.content);
+                    } else if (response.data.type === 'image') {
+                        HandUtils.previewImageBySwal({ 
+                            src: socket.server.config.serverUrl + socket.server.downloadImages + response.data.content, 
+                            html: `举报时间： <span style='color: var(--dominColor)'>${response.data.time}</span>` 
+                        });
+                    } else ElMessageBox.alert(response.data.content, '查看内容', {
+                        confirmButtonText: '确认',
+                        callback: (): void => {},
+                    });
+                } else utils.showToasts('error', response.message);
+            }
         });
     }
 </script>

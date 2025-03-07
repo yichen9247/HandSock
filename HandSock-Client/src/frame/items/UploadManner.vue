@@ -3,8 +3,8 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -41,17 +41,21 @@
     }
 
     const sendSocketRequest = async (action: any, data: any, callback: any): Promise<void> => {
-        await checkLoginWork(async () => {
-            await sendSocketEmit(action, data, async (response: restfulType) => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getUploadList();
-                    showToast('success', response.message);
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                data: data,
+                event: action,
+                callback: async (response: restfulType) => {
+                    if (response.code !== 200) {
+                        showToast('error', response.message);
+                    } else {
+                        await getUploadList();
+                        showToast('success', response.message);
+                    }
+                    callback && await callback(response);
                 }
-                callback && await callback(response);
             });
-        })
+        });
     };
 
     const handleDeleteUpload = (uid: string, fid: string): void => {
@@ -67,7 +71,10 @@
 
     const openDownload = (item: any): void => {
         if (item.type === 'images' || item.type === 'avatar') {
-            utils.previewImage({ src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.path, html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` });
+            HandUtils.previewImageBySwal({ 
+                src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.path, 
+                html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` 
+            });
         } else
         if (item.type === 'files') open(socket.server.config.serverUrl + socket.server.downloadFile + item.path);
     }
@@ -81,7 +88,10 @@
             <el-table-column prop="name" label="文件名称" />
             <el-table-column prop="size" label="文件大小">
                 <template #default="scope">
-                    <span>{{ utils.getFileSize(scope.row.size, 'MB') }}MB</span>
+                    <span>{{ HandUtils.getFileSizeByUnit({
+                        mode: 'MB',
+                        fileSize: scope.row.size
+                    })}}MB</span>
                 </template>
             </el-table-column>
             <el-table-column prop="type" label="文件类型">

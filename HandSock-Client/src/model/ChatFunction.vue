@@ -14,7 +14,7 @@
 
 <template>
     <div class="chat-function" :class="applicationStore.isDeviceMobile ? 'device-mobile' : 'device-pc'">
-        <div class="head-box" :style="{ fontWeight: applicationStore.isDeviceMobile ? 'bold' : '100' }">
+        <div class="head-box">
             在线人数：{{ onlineCount }}
         </div>
         <div class="function-box">

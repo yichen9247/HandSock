@@ -5,6 +5,8 @@
     import DashManner from "./items/DashManner.vue"
     import SystemLogs from "./items/SystemLogs.vue"
     import ReportManner from "./items/ReportManner.vue"
+    import BannerManner from "./items/BannerManner.vue"
+    import NoticeManner from "./items/NoticeManner.vue"
     import UploadManner from "./items/UploadManner.vue"
     import SystemManner from "./items/SystemManner.vue"
 
@@ -24,7 +26,15 @@
         key: 'chan',
         name: '频道管理',
         component: markRaw(ChanManner)
-    },{
+    }, {
+        key: 'banner',
+        name: '轮播管理',
+        component: markRaw(BannerManner) 
+    }, {
+        key: 'notice',
+        name: '公告管理',
+        component: markRaw(NoticeManner) 
+    }, {
         key: 'file',
         name: '上传管理',
         component: markRaw(UploadManner)
@@ -32,11 +42,11 @@
         key: 'report',
         name: '举报管理',
         component: markRaw(ReportManner) 
-    },{
+    }, {
         key: 'logs',
         name: '系统日志',
         component: markRaw(SystemLogs)
-    },{
+    }, {
         key: 'system',
         name: '系统管理',
         component: markRaw(SystemManner)

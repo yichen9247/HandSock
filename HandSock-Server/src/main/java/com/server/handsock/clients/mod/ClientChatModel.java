@@ -7,13 +7,13 @@ import lombok.Data;
 @Data
 @TableName("handsock_message")
 public class ClientChatModel {
-    private Long uid;
-    private Long gid;
+    public Long uid;
+    public Long gid;
     @TableId
-    private String sid;
-    private int deleted;
-    private String type;
-    private String time;
-    private String address;
-    private String content;
+    public String sid;
+    public int deleted;
+    public String type;
+    public String time;
+    public String address;
+    public String content;
 }

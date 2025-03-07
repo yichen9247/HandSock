@@ -2,14 +2,16 @@
     import { Reactive } from 'vue'
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType, adminSystemMannerType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
     const systemConfig: Reactive<adminSystemMannerType> = reactive({
         taboo: false,
         upload: false,
         playlist: "",
-        register: false
+        register: false,
+        version: "",
+        download: ""
     });
     const loading: Ref<boolean> = ref(false);
     const applicationStore = utils.useApplicationStore();
@@ -28,85 +30,99 @@
                 systemConfig.taboo = response.data.find((item: { name: string }) => item.name === 'taboo').value === 'open';
                 systemConfig.upload = response.data.find((item: { name: string }) => item.name === 'upload').value === 'open';
                 systemConfig.register = response.data.find((item: { name: string }) => item.name === 'register').value === 'open';
+                systemConfig.version = response.data.find((item: { name: string }) => item.name === 'version').value;
+                systemConfig.download = response.data.find((item: { name: string }) => item.name === 'download').value;
             } else utils.showToasts('error', response.message);
         });
         loading.value = false;
     });
 
     const setSystemTaboo = async (): Promise<void> => {
-        await checkLoginWork(() => {
-            sendSocketEmit(socket.send.Set.SetSystemTabooStatus, {
-                value: systemConfig.taboo ? "close" : "open"
-            }, (response: restfulType): void => {
-                if (response.code !== 200) {
-                    utils.showToasts('error', response.message);   
-                } else {
-                    utils.showToasts('success', response.message);   
-                    systemConfig.taboo = response.data.status === 'open';
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.Set.SetSystemTabooStatus,
+                data: {
+                    value: systemConfig.taboo ? "close" : "open"
+                },
+                callback: (response: restfulType): void => {
+                    if (response.code === 200) {
+                        utils.showToasts('success', response.message);
+                        systemConfig.taboo = response.data.status === 'open';
+                    } else utils.showToasts('error', response.message);
                 }
             });
         });
     }
 
     const setSystemUpload = async (): Promise<void> => {
-        await checkLoginWork(() => {
-            sendSocketEmit(socket.send.Admin.Set.System.SetSystenConfigUpload, {
-                value: systemConfig.upload ? "close" : "open"
-            }, (response: restfulType): void => {
-                if (response.code !== 200) {
-                    utils.showToasts('error', response.message);   
-                } else {
-                    utils.showToasts('success', response.message);   
-                    systemConfig.upload = response.data.status === 'open';
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.Admin.Set.System.SetSystenConfigUpload,
+                data: {
+                    value: systemConfig.upload ? "close" : "open"
+                },
+                callback: (response: restfulType): void => {
+                    if (response.code !== 200) {
+                        utils.showToasts('error', response.message);   
+                    } else {
+                        utils.showToasts('success', response.message);   
+                        systemConfig.upload = response.data.status === 'open';
+                    }
                 }
             });
         });
     }
 
     const setSystemRegister = async (): Promise<void> => {
-        await checkLoginWork(() => {
-            sendSocketEmit(socket.send.Admin.Set.System.SetSystemConfigRegister, {
-                value: systemConfig.register ? "close" : "open"
-            }, (response: restfulType): void => {
-                if (response.code !== 200) {
-                    utils.showToasts('error', response.message);   
-                } else {
-                    utils.showToasts('success', response.message);   
-                    systemConfig.register = response.data.status === 'open';
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.Admin.Set.System.SetSystemConfigRegister,
+                data: {
+                    value: systemConfig.register ? "close" : "open"
+                },
+                callback: (response: restfulType): void => {
+                    if (response.code === 200) {
+                        utils.showToasts('success', response.message);
+                        systemConfig.register = response.data.status === 'open';
+                    } else utils.showToasts('error', response.message);
                 }
             });
         });
     }
 
     const adminSystemSender = async (event: string, index: number): Promise<void> => {
-        await checkLoginWork(async (): Promise<void> => {
+        await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
             ElMessageBox.alert(clientBoard[index].key, clientBoard[index].name, {
                 showCancelButton: true,
                 cancelButtonText: '取消',
                 confirmButtonText: '确认',
                 callback: async (action: any): Promise<void> => {
                     if (action === 'confirm') {
-                        await sendSocketEmit(event, null, async (response: restfulType) => {
-                            if (response.code !== 200) {
-                                showToast('error', response.message);
-                            } else showToast('success', response.message);
-                        })
+                        await HandUtils.sendClientSocketEmit({
+                            data: null,
+                            event: event,
+                            callback: async (response: restfulType) => {
+                                if (response.code !== 200) {
+                                    showToast('error', response.message);
+                                } else showToast('success', response.message);
+                            }
+                        });
                     }
-                },
+                }
             });
         });
     }
 
-    const setSystemPlaylist= async (): Promise<void> => {
-        await checkLoginWork(() => {
-            sendSocketEmit(socket.send.Admin.Set.System.SetSystemConfigPlayList, {
-                value: systemConfig.playlist
-            }, (response: restfulType): void => {
-                if (response.code !== 200) {
-                    utils.showToasts('error', response.message);   
-                } else {
-                    utils.showToasts('success', response.message);   
-                    systemConfig.playlist = response.data.status;
+    const setSystemConfigValue = async ({ name, value }): Promise<void> => {
+        await HandUtils.checkClientLoginStatus(async () => {
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.Admin.Set.System.SetSystemConfigValue,
+                data: { name, value },
+                callback: (response: restfulType): void => {
+                    if (response.code !== 200) {
+                        utils.showToasts('error', response.message);
+                        systemConfig.playlist = response.data.status;
+                    } else utils.showToasts('success', response.message);
                 }
             });
         });
@@ -118,7 +134,25 @@
         <p class="set-title">背景音乐</p>
         <div class="flex-line">
             <el-input v-model="systemConfig.playlist" placeholder="请输入网易云歌单ID" clearable/>
-            <el-button type="primary" @click="setSystemPlaylist">应用设置</el-button>
+            <el-button type="primary" @click="setSystemConfigValue({
+                name: 'playlist',
+                value: systemConfig.playlist
+            })">应用设置</el-button>
+        </div>
+
+        <p class="set-title">软件设置</p>
+        <div class="flex-line">
+            <el-input v-model="systemConfig.version" placeholder="请输入版本名称" clearable/>
+            <el-button type="primary" @click="setSystemConfigValue({
+                name: 'version',
+                value: systemConfig.version
+            })">设置最新版本</el-button>
+
+            <el-input v-model="systemConfig.download" placeholder="请输入下载链接" clearable/>
+            <el-button type="primary" @click="setSystemConfigValue({
+                name: 'download',
+                value: systemConfig.download
+            })">设置下载链接</el-button>
         </div>
 
         <p class="set-title">其它设置</p>
@@ -155,8 +189,8 @@
             }
 
             button.el-button {
-                width: 100px;
                 height: 38px;
+                min-width: 100px;
                 margin-left: 15px;
             }
         }

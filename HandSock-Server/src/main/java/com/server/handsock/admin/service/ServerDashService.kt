@@ -1,0 +1,88 @@
+package com.server.handsock.admin.service
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import com.baomidou.mybatisplus.core.mapper.BaseMapper
+import com.server.handsock.admin.dao.ServerChannelDao
+import com.server.handsock.admin.dao.ServerChatDao
+import com.server.handsock.admin.dao.ServerUserDao
+import com.server.handsock.properties.HandProp
+import com.server.handsock.utils.HandUtils
+import com.server.handsock.utils.SystemUtils
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.i18n.LocaleContextHolder
+import org.springframework.stereotype.Service
+import oshi.SystemInfo
+import java.io.IOException
+import java.net.InetAddress
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+
+@Service
+class ServerDashService @Autowired constructor(
+    private val serverChatDao: ServerChatDao,
+    private val serverChannelDao: ServerChannelDao,
+    private val serverUserDao: ServerUserDao,
+    private val handProp: HandProp
+) {
+    private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+    val dashboardData: Map<String, Any>
+        get() {
+            try {
+
+
+
+                val today = LocalDate.now()
+                val startOfDay = today.atStartOfDay()
+                val endOfDay = today.atTime(LocalTime.MAX)
+                val userTotal = serverUserDao.selectCount(null)
+                val chanTotal = serverChannelDao.selectCount(null)
+                val todayRegUser = countRecordsInRange(serverUserDao, "reg_time", startOfDay, endOfDay)
+                val todayChatTotal = countRecordsInRange(serverChatDao, "time", startOfDay, endOfDay)
+
+                val result: MutableMap<String, Any> = HashMap()
+                result["userTotal"] = userTotal
+                result["chanTotal"] = chanTotal
+                result["todayRegUser"] = todayRegUser
+                result["todayChatTotal"] = todayChatTotal
+                result["systemOsInfo"] = systemOsInfo
+                return HandUtils.handleResultByCode(200, result, "获取成功")
+            } catch (e: Exception) {
+                return HandUtils.printErrorLog(e)
+            }
+        }
+
+    @get:Throws(IOException::class)
+    val systemOsInfo: HashMap<String?, Any?>
+        get() {
+            val si = SystemInfo()
+            val hal = si.hardware
+            val processor = hal.processor
+            val localHost = InetAddress.getLocalHost()
+
+            return object : HashMap<String?, Any?>() {
+                init {
+                    put("osInfo", System.getProperty("os.name"))
+                    put("osArch", System.getProperty("os.arch"))
+                    put("locale", LocaleContextHolder.getLocale())
+                    put("hostName", localHost.hostName)
+                    put("appVersion", handProp.appVersion)
+                    put("timeZoneId", TimeZone.getDefault().id)
+                    put("hostAddress", localHost.hostAddress)
+                    put("systemUptime", SystemUtils.systemUptime)
+                    put("logicalCount", processor.logicalProcessorCount)
+                    put("memoryUsageInfo", SystemUtils.systemMemoryUsage)
+                }
+            }
+        }
+
+    private fun <T> countRecordsInRange(dao: BaseMapper<T>, timeField: String, start: LocalDateTime, end: LocalDateTime): Long {
+        val queryWrapper = QueryWrapper<T>()
+        queryWrapper.ge(timeField, start.format(dateFormatter))
+        queryWrapper.lt(timeField, end.format(dateFormatter))
+        return dao.selectCount(queryWrapper)
+    }
+}

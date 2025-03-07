@@ -8,10 +8,10 @@ import lombok.Data;
 @TableName("handsock_report")
 public class ServerReportModel {
     @TableId
-    private String rid;
-    private String sid;
-    private String time;
-    private String reason;
-    private Long reporterId;
-    private Long reportedId;
+    public String rid;
+    public String sid;
+    public String time;
+    public String reason;
+    public Long reporterId;
+    public Long reportedId;
 }

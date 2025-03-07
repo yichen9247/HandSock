@@ -8,8 +8,8 @@ import lombok.Data;
 @TableName("handsock_system")
 public class ServerSystemModel {
     @TableId
-    private Integer yid;
-    private String time;
-    private String name;
-    private String value;
+    public Integer yid;
+    public String time;
+    public String name;
+    public String value;
 }

@@ -2,9 +2,9 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType } from '../../../types'
     import { Delete } from '@element-plus/icons-vue'
-    import { sendSocketEmit } from '@/socket/socketClient'
     import { ref, onMounted, reactive, onUnmounted, Reactive } from 'vue'
 
     const logsLimit = 200;
@@ -57,13 +57,17 @@
             cancelButtonText: '取消',
             confirmButtonText: '确认',
             callback: async (action: Action): Promise<void> => {
-                if (action === 'confirm') await sendSocketEmit(socket.send.Admin.Del.DELAdminSystemLogs, null, (response: restfulType): void => {
+                if (action === 'confirm') await HandUtils.sendClientSocketEmit({
+                    data: null,
+                    event: socket.send.Admin.Del.DELAdminSystemLogs,
+                    callback: (response: restfulType): void => {
                     if (response.code === 200) {
-                        getSystemLogsList();
-                        loading.value = true;
-                        logLine.value = logsLimit;
-                        showToast('success', response.message);
-                    } else utils.showToasts('error', response.message);
+                            getSystemLogsList();
+                            loading.value = true;
+                            logLine.value = logsLimit;
+                            showToast('success', response.message);
+                        } else utils.showToasts('error', response.message);
+                    }
                 });
             }
         });

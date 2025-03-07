@@ -3,8 +3,8 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
+    import HandUtils from '@/scripts/HandUtils'
     import { restfulType } from '../../../types'
-    import { checkLoginWork, sendSocketEmit } from '@/socket/socketClient'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -53,7 +53,10 @@
         if (item.type === 'files') {
             open(socket.server.config.serverUrl + socket.server.downloadFile + item.content);
         } else if (item.type === 'image') {
-            utils.previewImage({ src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.content, html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` });
+            HandUtils.previewImageBySwal({ 
+                src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.content, 
+                html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` 
+            });
         } else ElMessageBox.alert(item.content, '查看内容', {
             confirmButtonText: '确认',
             callback: () => {},
@@ -61,18 +64,22 @@
     }
 
     const sendSocketRequest = async (action: any, data: any, callback: any): Promise<void> => {
-        await checkLoginWork(async (): Promise<void> => {
-            await sendSocketEmit(action, data, async (response: restfulType): Promise<void> => {
-                if (response.code !== 200) {
-                    showToast('error', response.message);
-                } else {
-                    await getChatList();
-                    showToast('success', response.message);
+        await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
+            await HandUtils.sendClientSocketEmit({
+                event: action,
+                data: data,
+                callback: async (response: restfulType): Promise<void> => {
+                    if (response.code !== 200) {
+                        showToast('error', response.message);
+                    } else {
+                        await getChatList();
+                        showToast('success', response.message);
+                    }
+                    callback && await callback(response);
                 }
-                callback && await callback(response);
             });
-        })
-    };
+        });
+    }
 
     const handleDeleteChat = (sid: string): void => {
         ElMessageBox.alert(`是否确认删除该条消息`, '删除消息', {
