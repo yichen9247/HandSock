@@ -17,9 +17,9 @@ class UserUpdateHandler @Autowired constructor(
     private val clientUserService: ClientUserService
 ) {
     fun handleEditUserInfo(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest, editType: String?) {
-        authService.validClientStatusBySocket(client) {
+        ackSender.sendAckData(authService.validClientStatusBySocket(client) {
             try {
-                val result = when (editType) {
+                when (editType) {
                     "USER:NICK" -> clientUserService.editForNick(
                         clientService.getRemoteUID(client), clientService.getClientData(data, "nick")
                     )
@@ -37,12 +37,9 @@ class UserUpdateHandler @Autowired constructor(
                     )
                     else -> HandUtils.handleResultByCode(400, null, "无效的编辑类型")
                 }
-                ackSender.sendAckData(result)
-                @Suppress("UNCHECKED_CAST")
-                if (clientService.getClientData(result as Map<String?, Any>, "code").toInt() == 200) ConsoleUtils.printInfoLog("User Info Edit $result")
             } catch (e: Exception) {
-                ackSender.sendAckData(HandUtils.printErrorLog(e))
+                HandUtils.printErrorLog(e)
             }
-        }
+        })
     }
 }

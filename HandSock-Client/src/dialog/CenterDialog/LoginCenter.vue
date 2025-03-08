@@ -19,7 +19,10 @@
 
     const activeTab = ref('login');
     const applicationStore = utils.useApplicationStore();
-    const loginForm = reactive({ username: '', password: '' });
+    const loginForm = reactive({ 
+        username: localStorage.getItem("handsock_username") ? localStorage.getItem("handsock_username") : "", 
+        password: localStorage.getItem("handsock_password") ? localStorage.getItem("handsock_password") : ""
+    });
     const registerForm = reactive({ username: '', password: '' });
 
     /**
@@ -75,8 +78,9 @@
                 await saveLocalStorage([
                     "handsock_uid",
                     "handsock_token", 
-                    "handsock_username"
-                ], [userinfo.uid, token, userinfo.username]).then(async () => {
+                    "handsock_username",
+                    "handsock_password"
+                ], [userinfo.uid, token, userinfo.username, loginForm.password]).then(async () => {
                     setTimeout(async (): Promise<void> => {
                         await HandUtils.toggleConnectStatus([]);
                         await HandUtils.resetOnlineUsers(1);

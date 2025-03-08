@@ -27,13 +27,12 @@ class AdminHandler @Autowired constructor(
     private val serverChannelService: ServerChannelService
 ) {
     fun handleAdminRequest(client: SocketIOClient, data: Map<String?, Any>?, ackSender: AckRequest, action: String?, uidKey: String, valueKey: String?) {
-        authService.validAdminStatusBySocket(client) {
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
             try {
                 val value = if (data != null) getClientData(data, uidKey) else "none"
                 val valueData = if (data != null && valueKey != null) getClientData(data, valueKey) else null
 
                 val actionMap = mutableMapOf<String, () -> Any>().apply {
-
                     // Admin Delete
                     put("deleteUser") { deleteUser(value) }
                     put("deleteChan") { deleteChan(value) }
@@ -75,22 +74,17 @@ class AdminHandler @Autowired constructor(
                 }
 
                 action?.let { actionKey ->
-                    actionMap[actionKey]?.let { handler ->
-                        sendAckData(ackSender, handler())
-                    } ?: sendAckData(ackSender, HandUtils.handleResultByCode(400, null, "未知操作"))
-                } ?: sendAckData(ackSender, HandUtils.handleResultByCode(400, null, "操作类型未指定"))
+                    actionMap[actionKey]?.let { handler -> handler()
+                    } ?: HandUtils.handleResultByCode(400, null, "未知操作")
+                } ?: HandUtils.handleResultByCode(400, null, "操作类型未指定")
             } catch (e: Exception) {
-                ackSender.sendAckData(HandUtils.printErrorLog(e))
+                HandUtils.printErrorLog(e)
             }
-        }
+        })
     }
 
     private fun getClientData(data: Map<String?, Any>, key: String): Any? {
         return data[key]
-    }
-
-    private fun sendAckData(ackSender: AckRequest, data: Any) {
-        ackSender.sendAckData(data)
     }
 
     private fun deleteUser(value: Any?): Any {

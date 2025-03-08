@@ -16,10 +16,10 @@ class ClientHandler @Autowired constructor(
     private val clientUserService: ClientUserService
 ) {
     fun handleClientInit(client: SocketIOClient, ackRequest: AckRequest) {
-        authService.validClientStatusBySocket(client) {
+        ackRequest.sendAckData(authService.validClientStatusBySocket(client) {
             val result: MutableMap<String, Any> = HashMap()
             result["userinfo"] = clientUserService.queryUserInfo(clientService.getRemoteUID(client))
-            ackRequest.sendAckData(HandUtils.handleResultByCode(200, result, "获取成功"))
-        }
+            HandUtils.handleResultByCode(200, result, "获取成功")
+        })
     }
 }

@@ -42,9 +42,9 @@ class UserAuthHandler @Autowired constructor(
     }
 
     fun handleUserLogout(client: SocketIOClient, server: SocketIOServer?, ackSender: AckRequest) {
-        authService.validClientStatusBySocket(client) {
+        ackSender.sendAckData(authService.validClientStatusBySocket(client) {
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
-                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+                HandUtils.handleResultByCode(403, null, "禁止访问")
             } else {
                 tokenService.removeUserToken(clientService.getRemoteUID(client))
                 onlineEvent.sendUserDisconnect(server!!, client)
@@ -52,7 +52,7 @@ class UserAuthHandler @Autowired constructor(
                     "User Logout ${clientService.getRemoteAddress(client)} ${clientService.getRemoteUID(client)}"
                 )
             }
-        }
+        })
     }
 
     fun handleUserRegister(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {

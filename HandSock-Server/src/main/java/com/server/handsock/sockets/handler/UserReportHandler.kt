@@ -16,15 +16,13 @@ class UserReportHandler(
 ) {
 
     fun handleReport(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
-        authService.validClientStatusBySocket(client) {
-            val call = clientReportService.addReport(
+        ackSender.sendAckData(authService.validClientStatusBySocket(client) {
+            clientReportService.addReport(
                 clientService.getClientData(data, "sid"),
                 clientService.getRemoteUID(client).toString().toLong(),
                 clientService.getClientData(data, "reported_id").toLong(),
                 clientService.getClientData(data, "reason")
             )
-            ackSender.sendAckData(call)
-            ConsoleUtils.printInfoLog("User Report $call $data")
-        }
+        })
     }
 }

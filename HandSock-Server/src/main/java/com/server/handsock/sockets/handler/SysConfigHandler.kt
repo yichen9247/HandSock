@@ -15,46 +15,46 @@ class SysConfigHandler @Autowired constructor(
     private val serverSystemService: ServerSystemService
 ) {
     fun handleSetSystemTaboo(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
             val value = clientService.getClientData(data, "value")
-            ackSender.sendAckData(serverSystemService.setSystemTabooStatus(value))
-        }
+            serverSystemService.setSystemTabooStatus(value)
+        })
     }
 
     fun handleSetSystemUpload(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
             val value = clientService.getClientData(data, "value")
-            ackSender.sendAckData(serverSystemService.setSystemUploadStatus(value))
-        }
+            serverSystemService.setSystemUploadStatus(value)
+        })
     }
 
     fun handleSetSystemRegister(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
             val value = clientService.getClientData(data, "value")
-            ackSender.sendAckData(serverSystemService.setSystemRegisterStatus(value))
-        }
+            serverSystemService.setSystemRegisterStatus(value)
+        })
     }
 
     fun handleSetSystemConfigValue(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
             val name = clientService.getClientData(data, "name")
             val value = clientService.getClientData(data, "value")
-            ackSender.sendAckData(serverSystemService.setSystemConfigValue(
+            serverSystemService.setSystemConfigValue(
                 name = name,
                 value = value
-            ))
-        }
+            )
+        })
     }
 
     fun handleGetSystemPlaylist(client: SocketIOClient, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
-            ackSender.sendAckData(serverSystemService.getSystemKeyConfig("playlist"))
-        }
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
+            serverSystemService.getSystemKeyConfig("playlist")
+        })
     }
 
     fun handleGetAllSystemConfig(client: SocketIOClient, ackSender: AckRequest) {
-        authService.validAdminStatusBySocket(client) {
-            ackSender.sendAckData(serverSystemService.allSystemConfig)
-        }
+        ackSender.sendAckData(authService.validAdminStatusBySocket(client) {
+            serverSystemService.allSystemConfig
+        })
     }
 }

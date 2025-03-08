@@ -63,31 +63,31 @@ class AuthService @Autowired constructor(
 
     fun validChatMessageStatusBySocket(client: SocketIOClient, ackRequest: AckRequest, call: () -> Any, data: Map<String?, Any>) {
         if (!validClientTokenBySocket(client)) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(403, null, "登录状态已失效"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(403, null, "登录状态已失效"))
             return
         }
         if (!cacheService.validRedisMessageCache(clientService.getRemoteUID(client))) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "操作频率过快"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "操作频率过快"))
             return
         }
         if (!clientUserService.getUserInnerStatus(clientService.getRemoteUID(client))) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "未查询到用户"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "未查询到用户"))
             return
         }
         if (!clientChannelService.getChanOpenStatus(clientService.getRemoteGID(client))) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "该频道暂未开启"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "该频道暂未开启"))
             return
         }
         if (serverSystemService.getSystemKeyStatus("taboo") && !clientService.getIsAdmin(client)) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "全频禁言开启中"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "全频禁言开启中"))
             return
         }
         if (clientUserService.getUserTabooStatus(clientService.getRemoteUID(client)) && !clientService.getIsAdmin(client)) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "你正在被禁言中"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "你正在被禁言中"))
             return
         }
         if (clientService.getClientData(data, "content").trim { it <= ' ' }.isEmpty()) {
-            ackRequest.sendAckData(ackRequest, HandUtils.handleResultByCode(402, null, "发送内容不能为空"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "发送内容不能为空"))
             return
         }
         call()

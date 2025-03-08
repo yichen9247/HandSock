@@ -14,13 +14,15 @@ ai:
   url: https://api.ppinfra.com # AI接口
   path: /v3/openai/chat/completions # AI接口路径
   model: deepseek/deepseek-r1/community # AI模型
-  token: Your Tokens # AI Token https://ppinfra.com/user/register?invited_by=UUC4HY
+  token: sk_GhrLBvnEiCMWBIIS-NzRzM8NBfnKGb_l1tM4AQvFZ-Y # AI Token https://ppinfra.com/user/register?invited_by=UUC4HY
 
 spring:
   data:
     redis:
       port: 6379 # Redis端口
       host: localhost # Redis主机
+      url: redis://localhost:6379 # Redis连接URL
+      password: yichen9247 # Redis密码（若有）
 
   servlet:
     multipart:

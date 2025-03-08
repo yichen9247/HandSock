@@ -122,7 +122,7 @@ class HandUtils {
 		applicationStore.resetUserInfo();
 		utils.showToasts('error', '请重新登录');
 		applicationStore.setLoginFormStatus(true);
-		await removeLocalStorage(['handsock_uid', 'handsock_username', 'handsock_token']);
+		await removeLocalStorage(['handsock_uid', 'handsock_username', 'handsock_token', 'handsock_password']);
 	}
 
 	static sendClientSocketEmit = async ({ event, data, callback }): Promise<void> => {
@@ -184,7 +184,7 @@ class HandUtils {
 				await HandUtils.resetOnlineUsers(0);
 				applicationStore.setLoginStatus(false);
 				applicationStore.userInfo.avatar = applicationStore.defaultAvatar;
-				await removeLocalStorage(['handsock_uid', 'handsock_token', 'handsock_username']);
+				await removeLocalStorage(['handsock_uid', 'handsock_token', 'handsock_username', 'handsock_password']);
 				applicationStore.socketIo.emit("[USER:LOGOUT]", null);
 				utils.showToasts('success', '退出登录成功');
 			}, '取消', '退出登录');
