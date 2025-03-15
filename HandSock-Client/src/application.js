@@ -17,7 +17,7 @@ import HandSock from './HandSock.vue'
 import DisableDevtool from 'disable-devtool'
 
 const application = createApp(HandSock);
-// if (import.meta.env.MODE === 'production') DisableDevtool(socket.devtool);
+if (import.meta.env.MODE === 'production') DisableDevtool(socket.devtool);
 
 Promise.all([
     application.use(Vant),
