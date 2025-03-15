@@ -83,7 +83,6 @@ declare module 'vue' {
     SystemLogs: typeof import('./src/frame/items/SystemLogs.vue')['default']
     SystemManner: typeof import('./src/frame/items/SystemManner.vue')['default']
     ThemeSetting: typeof import('./src/dialog/SettingDialog/ThemeSetting.vue')['default']
-    UploadCenter: typeof import('./src/dialog/CenterDialog/UploadCenter.vue')['default']
     UploadManner: typeof import('./src/frame/items/UploadManner.vue')['default']
     UserCenter: typeof import('./src/center/UserCenter.vue')['default']
     UserManner: typeof import('./src/frame/items/UserManner.vue')['default']

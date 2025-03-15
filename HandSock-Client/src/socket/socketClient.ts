@@ -28,7 +28,6 @@ export const startSocketIo = async (): Promise<void> => {
 			const token = localStorage.getItem("handsock_token");
 			if (token && uid) {
 				applicationStore.socketIo.emit(socket.send.ClientInit, { uid }, async (response: restfulType) => {
-					console.log(response)
                     if (response.code === 200) {
 						applicationStore.setLoginStatus(true);
 						applicationStore.userInfo = response.data.userinfo;

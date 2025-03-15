@@ -137,7 +137,8 @@ public class MysqlChecker {
                 INSERT INTO %s (`gid`, `name`, `open`, `home`, `active`, `avatar`, `ai_role`) VALUES
                     (0, '猪的神奇聊天室', 1, 1, 1, '/image/avatar.jpeg', 0),
                     (1, '猪的测试聊天室', 1, 0, 1, '/image/avatar.jpeg', 0),
-                    (2, '人工智能聊天室', 1, 0, 1, '/image/chatgpt.png', 1);
+                    (2, '人工智能聊天室', 1, 0, 1, '/image/chatgpt.png', 1),
+                    (3, '项目进展阅览室', 1, 0, 1, '/image/handsock.png', 0);
             """.formatted(CHANNEL_TABLE_NAME);
 
     private final String INSERT_BANNER_SQL = """

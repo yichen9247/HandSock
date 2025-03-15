@@ -1,0 +1,33 @@
+server:
+  port: 8081 # 后端端口
+
+handsock:
+  port: ${HANDSOCK_PORT} # 通信端口
+  host: ${HANDSOCK_HOST} # 通信主机
+  name: ${HANDSOCK_NAME} # 应用名称
+  origin: ${HANDSOCK_ORIGIN} # 跨域设置
+  pingTimeout: ${HANDSOCK_PINGTIMEOUT} # PING超时
+  pingInterval: ${HANDSOCK_PINGINTERVAL} # PING间隔
+  upgradeTimeout: ${HANDSOCK_UPGRADETIMEOUT} # 更新超时
+
+ai:
+  url: ${HANDSOCK_AI_URL} # AI接口
+  path: ${HANDSOCK_AI_PATH} # AI接口路径
+  model: ${HANDSOCK_AI_MODEL} # AI模型
+  token: ${HANDSOCK_AI_TOKEN} # AI Token https://ppinfra.com/user/register?invited_by=UUC4HY
+
+spring:
+  data:
+    redis:
+      url: redis://redis-cache:6379
+      host: localhost
+      port: 6379
+
+  servlet:
+    multipart:
+      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE} # 文件上传最大大小
+      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE} # 网络请求最大大小
+  datasource:
+    username: ${SPRING_DATASOURCE_USERNAME} #数据库用户
+    password: ${SPRING_DATASOURCE_PASSWORD} # 数据库密码
+    url: ${SPRING_DATASOURCE_URL} # 数据库连接URL（handsock为数据库名，必须为handsock）
