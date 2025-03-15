@@ -41,7 +41,7 @@ services:
     depends_on:
       - mysql-db
       - redis-cache
-  # MySQL数据库
+      
   mysql-db:
     image: mysql:8.0
     ports:
