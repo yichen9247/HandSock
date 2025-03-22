@@ -4,11 +4,7 @@ server:
 handsock:
   port: ${HANDSOCK_PORT} # 通信端口
   host: ${HANDSOCK_HOST} # 通信主机
-  name: ${HANDSOCK_NAME} # 应用名称
   origin: ${HANDSOCK_ORIGIN} # 跨域设置
-  pingTimeout: ${HANDSOCK_PINGTIMEOUT} # PING超时
-  pingInterval: ${HANDSOCK_PINGINTERVAL} # PING间隔
-  upgradeTimeout: ${HANDSOCK_UPGRADETIMEOUT} # 更新超时
 
 ai:
   url: ${HANDSOCK_AI_URL} # AI接口

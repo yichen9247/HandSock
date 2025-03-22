@@ -7,10 +7,14 @@ import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
 import java.util.regex.Pattern
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 import javax.imageio.ImageIO
 
 object HandUtils {
+    private const val CODE_KEY = "yichen9247-44052"
     private const val USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,16}$"
     private const val PASSWORD_PATTERN = "^[a-zA-Z0-9_@#$%^&*!-]{6,18}$"
 
@@ -106,5 +110,22 @@ object HandUtils {
             hexString.append(hex)
         }
         return hexString.toString()
+    }
+
+    fun encryptString(input: String): String {
+        val secretKey = SecretKeySpec(CODE_KEY.toByteArray(), "AES")
+        val cipher = Cipher.getInstance("AES")
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+        val encryptedBytes = cipher.doFinal(input.toByteArray())
+        return Base64.getEncoder().encodeToString(encryptedBytes)
+    }
+
+    fun decryptString(encrypted: String): String {
+        val secretKey = SecretKeySpec(CODE_KEY.toByteArray(), "AES")
+        val cipher = Cipher.getInstance("AES")
+        cipher.init(Cipher.DECRYPT_MODE, secretKey)
+        val decodedBytes = Base64.getDecoder().decode(encrypted)
+        val decryptedBytes = cipher.doFinal(decodedBytes)
+        return String(decryptedBytes)
     }
 }

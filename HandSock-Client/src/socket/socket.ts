@@ -26,7 +26,9 @@ export default {
         User: {
             UserLogin: '[USER:LOGIN]',
             UserLoginout: '[USER:LOGOUT]',
-            UserRegister: '[USER:REGISTER]'
+            UserRegister: '[USER:REGISTER]',
+            UserScanLogin: '[USER:SCAN:LOGIN]',
+            UserScanLoginStatus: '[USER:SCAN:LOGIN:STATUS]'
         },
 
         Edit: {
@@ -159,11 +161,14 @@ export default {
 
         // Yalansh theme colors
         yalanshDominColor: 'rgba(140, 200, 250, 1)',
+
+        // Roufenh theme colors
+        RoufenhDominColor: 'rgba(255, 119, 138, 1)',
     },
 
     application: {
         appName: 'HandSock',
-        appVersion: '2.2.0-B2503107',
+        appVersion: '2.2.1-B2503221',
         author: 'https://github.com/yichen9247',
         authorName: 'yichen9247（Hua）',
         appDownload: 'https://doc.handsock.xiaokolomi.cn/apk/app-release.apk',
@@ -172,19 +177,19 @@ export default {
 
         updateLog: [{
             type: '优化',
-            content: '优化了关于聊天相关界面配色及布局'
+            content: '优化了关于相关界面配色及布局'
         }, {
             type: '新增',
-            content: '新增针对软件平台的轮播和公告功能'
+            content: '登录界面新增了扫码登录的方式'
         },  {
             type: '修复',
-            content: '修复部分情况下在线用户常驻的问题'
+            content: '修复移动端注册时间异常的问题'
+        }, {
+            type: '优化',
+            content: '优化登录逻辑多设备可同时在线'
         }, {
             type: '新增',
-            content: '新增了基于安卓原生定制化软件程序'
-        }, {
-            type: '重构',
-            content: '前端和后端进行了大规模重构和改写'
+            content: '新增了项目容器化一键部署脚本'
         }]
     }
 }

@@ -42,8 +42,10 @@
                     draggable="false"
                     :alt="userInfo.nick"
                 >
-                <span class="user-nick">{{ userInfo.nick }}</span>
-                <span class="user-radio"></span>
+                <div class="content">
+                    <span class="user-nick">{{ userInfo.nick }}</span>
+                    <span class="user-radio"></span>
+                </div>
             </div>
         </el-tooltip>
         <div class="item-content" v-else>
@@ -53,14 +55,17 @@
                 draggable="false"
                 :alt="userInfo.nick"
             >
-            <span class="user-nick">{{ userInfo.nick }}</span>
-            <span class="user-radio"></span>
+            <div class="content">
+                <span class="user-nick">{{ userInfo.nick }}</span>
+                <span class="user-radio"></span>
+            </div>
         </div>
     </div>
 </template>
 
 <style lang="less">
     div.el-popper.is-handsock {
+        border-radius: 6px;
         background: #ffffff;
         border: 1px solid #c5ccdf;
         color: rgba(60, 60, 67, 0.65);

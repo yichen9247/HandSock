@@ -64,7 +64,7 @@
             <el-form-item label="举报理由">
                 <el-input type="textarea" :rows="3" v-model="formData.reason" placeholder="请输入举报理由" />
             </el-form-item>
-            <el-button type="primary" style="width: 100%; height: 40px; font-size: 1rem; margin-top: 10px;" @click="onReportSubmit">确认举报</el-button>
+            <el-button class="report-button" type="primary" @click="onReportSubmit">确认举报</el-button>
         </el-form>
     </div>
 </template>

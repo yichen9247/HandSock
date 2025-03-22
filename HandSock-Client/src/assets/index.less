@@ -55,7 +55,7 @@ div.van-popup {
 }
 
 div.el-dialog {
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 div.el-message-box__container {
@@ -74,6 +74,59 @@ ul.el-mention-dropdown__list {
     overflow: hidden;
     max-height: 150px;
     overflow-y: scroll;
+}
+
+div.el-dialog {
+    padding: 20px;
+}
+
+div.el-message-box {
+    padding: 20px;
+    border-radius: 6px;
+
+    div.el-message-box__header {
+        padding: 0;
+        display: flex;
+        margin-bottom: 15px;
+        align-items: center;
+    }
+
+    button.el-message-box__headerbtn {
+        width: unset;
+        height: unset;
+        position: unset;
+        margin-left: auto;
+    }
+}
+
+header.el-dialog__header {
+    display: flex;
+    align-items: center;
+
+    button.el-dialog__headerbtn {
+        width: unset;
+        height: unset;
+        position: unset;
+        margin-left: auto;
+    }
+}
+
+div.el-loading-mask {
+    div.el-loading-spinner {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: unset;
+        margin-top: unset;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+p.el-loading-text {
+    margin-bottom: 0!important;
+    margin-top: 20px!important;
 }
 
 @media (max-width: 720px) {

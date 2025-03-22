@@ -1,9 +1,10 @@
 import ua2obj from "ua2obj";
-import socket from "../socket/socket";
 import Swal from "sweetalert2";
 import utils from "@/scripts/utils";
+import socket from "../socket/socket";
 import { setSearchDialog } from "@/scripts/action";
 import { playNoticeVoice } from "@/scripts/audioUtils";
+import { saveLocalStorage } from '@/scripts/storageUtils';
 import { removeLocalStorage } from "@/scripts/storageUtils";
 import { useApplicationStore } from "@/stores/applicationStore";
 import { messageType, restfulType, userInfoType } from "../../types";
@@ -18,6 +19,13 @@ class HandUtils {
 
 	static getClientToken = (): string => {
 		return localStorage.getItem("handsock_token");
+	}
+
+	static getUserTypeByInfo = (userinfo: userInfoType): string => {
+		if (userinfo.isAdmin === 1) return "admin";
+		else
+		if (userinfo.isRobot === 1) return "robot";
+		else return "normal";
 	}
 
 	static previewImageBySwal = ({ src, html }): void => {
@@ -41,13 +49,11 @@ class HandUtils {
 
 	static onReceRefreshConnect = async (): Promise<void> => {
 		const applicationStore = useApplicationStore();
-		const isAdmin =
-			applicationStore.loginStatus &&
-			applicationStore.userList.length > 0 &&
+		const isAdmin = applicationStore.loginStatus && applicationStore.userList.length > 0 && 
 			applicationStore.userList.find(
 				(item) => item.uid === applicationStore.userInfo.uid
-			).isAdmin;
-		if (!isAdmin) return;
+			).isAdmin == 1;
+		if (isAdmin) return;
 		await Swal.fire({
 			timer: 5000,
 			title: "收到强制刷新命令",
@@ -329,6 +335,27 @@ class HandUtils {
 			}
 		});
 	}
+
+	static handleUserLogin = async (response: restfulType, password: string) => {
+		const applicationStore = utils.useApplicationStore();
+        if (response.code !== 200) return utils.showToasts('error', response.message);
+        applicationStore.setLoginFormStatus(false);
+        utils.showToasts('success', response.message);
+        
+        const { userinfo, token } = response.data;
+        await saveLocalStorage([
+            "handsock_uid",
+            "handsock_token", 
+            "handsock_username",
+            "handsock_password"
+        ], [userinfo.uid, token, userinfo.username, password]).then(async () => {
+            setTimeout(async (): Promise<void> => {
+                await HandUtils.toggleConnectStatus([]);
+                await HandUtils.resetOnlineUsers(1);
+            }, 300);
+            applicationStore.userInfo = userinfo;
+        });
+    }
 }
 
 export default HandUtils;

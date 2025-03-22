@@ -66,7 +66,7 @@
             v-if="!applicationStore.isDeviceMobile"
             class="user-center handsock-dialog"
             v-model="onelDialogStore.personalCenter"
-            width="500px" align-center destroy-on-close center style="padding: 0;"
+            width="450px" align-center destroy-on-close center style="padding: 0;"
         >
             <UserCenter/>
         </el-dialog>
@@ -79,15 +79,6 @@
         >
             <ReportUser/>
         </el-dialog>
-
-        <van-action-sheet
-            style="padding-top: 15px;"
-            v-if="applicationStore.isDeviceMobile"
-            v-model:show="onelDialogStore.reportUserCenter"
-            @open="onelDialogStore.toggleFloatSheet"
-        >
-            <ReportUser style="width: 95%; margin: 0 auto; margin-bottom: 20px;"/>
-        </van-action-sheet>
 
         <!-- Desktop settings dialog -->
         <el-dialog 
@@ -103,8 +94,8 @@
         <van-action-sheet 
             style="padding-top: 20px;"
             v-if="applicationStore.isDeviceMobile"
-            v-model:show="onelDialogStore.personalCenter"
             @open="onelDialogStore.toggleFloatSheet"
+            v-model:show="onelDialogStore.personalCenter"
         >
             <UserCenter style="margin-bottom: 20px;"/>
         </van-action-sheet>

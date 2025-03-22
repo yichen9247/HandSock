@@ -4,11 +4,7 @@ server:
 handsock:
   port: 5120 # 通信端口
   host: 192.168.0.101 # 通信主机
-  name: HandSock # 应用名称
   origin: http://192.168.0.101:5173 # 跨域设置
-  pingTimeout: 6000000 # PING超时
-  pingInterval: 25000 # PING间隔
-  upgradeTimeout: 1000000 # 更新超时
 
 ai:
   url: https://api.ppinfra.com # AI接口
@@ -22,7 +18,6 @@ spring:
       port: 6379 # Redis端口
       host: localhost # Redis主机
       url: redis://localhost:6379 # Redis连接URL
-      password: ... # Redis密码（若有）
 
   servlet:
     multipart:

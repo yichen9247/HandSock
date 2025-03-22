@@ -16,8 +16,8 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
         padding: 15px;
         display: block;
         font-size: 14px;
+        border-radius: 6px;
         margin-bottom: 10px;
-        border-radius: 4px;
         background-color: #f1f1f1;
     }
 
@@ -67,22 +67,6 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
                 }
 
                 span.user-tags {
-                    width: 45px;
-                    height: 20px;
-                    font-size: 11px;
-                    color: #ffffff;
-                    border-radius: 3px;
-                }
-
-                span.user-admi {
-                    background-color: @dominColor;
-                }
-
-                span.user-robo {
-                    background-color: #79bbff;
-                }
-
-                span.user-tags {
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -99,19 +83,15 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
                 span.user-tags + span.user-name {
                     margin-left: 10px;
                 }
-
-                span.user-name + span.user-tags {
-                    margin-left: 10px;
-                }
             }
 
             div.message-content {
                 margin-top: 15px;
                 overflow: hidden;
                 padding: 10px 15px;
+                border-radius: 6px;
                 white-space: nowrap;
                 word-break: break-all;
-                border-radius: 0.25rem;
                 text-overflow: ellipsis;
                 color: rgba(60, 60, 67, 0.65);
             }
@@ -141,16 +121,48 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             width: 55px;
             height: 55px;
             display: inline;
+            font-size: 12px;
             min-width: 55px;
             cursor: pointer;
-            border-radius: 4px;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            border-radius: 6px;
             background-color: rgba(218,232,241,1.00);
+
+            div.avatar {
+                width: 100%;
+                height: 100%;
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
         }
 
-        div.avatar-info {
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+        div.avatar-info[type = "admin"] {
+            &::after {
+                bottom: 0;
+                width: 100%;
+                height: 24px;
+                content: "管理员";
+                line-height: 24px;
+                text-align: center;
+                position: absolute;
+                background-color: rgba(5, 160, 150, 0.75);
+            }
+        }
+
+        div.avatar-info[type = "robot"] {
+            &::after {
+                bottom: 0;
+                width: 100%;
+                height: 24px;
+                content: "机器人";
+                line-height: 24px;
+                text-align: center;
+                position: absolute;
+                background-color: rgba(121, 187, 255, 0.75);
+            }
         }
 
         div.avatar-info + div.content-box {

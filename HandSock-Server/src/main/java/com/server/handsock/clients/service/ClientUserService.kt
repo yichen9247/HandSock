@@ -3,6 +3,7 @@ package com.server.handsock.clients.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.server.handsock.admin.dao.ServerUserDao
 import com.server.handsock.admin.mod.ServerUserModel
+import com.server.handsock.admin.service.ServerUserService
 import com.server.handsock.clients.dao.ClientUserDao
 import com.server.handsock.clients.man.ClientUserManage
 import com.server.handsock.clients.mod.ClientUserModel
@@ -16,9 +17,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ClientUserService @Autowired constructor(
+    private val tokenService: TokenService,
     private val serverUserDao: ServerUserDao,
     private val clientUserDao: ClientUserDao,
-    private val tokenService: TokenService
+    private val serverUserService: ServerUserService,
 ) {
     fun queryUserInfo(uid: Long): ClientUserModel {
         return clientUserDao.selectById(uid)
@@ -113,13 +115,31 @@ class ClientUserService @Autowired constructor(
         if (HandUtils.isValidUsername(username) || HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(400, null, "输入格式不合规")
         try {
             val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("username", username))
-            if (selectResult == null || selectResult.password != HandUtils.encodeStringToMD5(password)) {
-                return HandUtils.handleResultByCode(409, null, "账号或密码错误")
+            return if (selectResult == null || selectResult.password != HandUtils.encodeStringToMD5(password)) {
+                HandUtils.handleResultByCode(409, null, "账号或密码错误")
             } else {
-                val uid = selectResult.uid
-                val token = tokenService.generateUserToken(selectResult.uid, username, address)
-                ConsoleUtils.printInfoLog("User Login $address $uid $token")
-                return HandUtils.handleResultByCode(200, java.util.Map.of("token", token, "userinfo", clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("username", username))), "登录成功")
+                userLogin(
+                    address = address,
+                    username = username,
+                    selectResult = selectResult
+                )
+            }
+        } catch (e: Exception) {
+            return HandUtils.printErrorLog(e)
+        }
+    }
+
+    fun loginUserScan(username: String, address: String): Map<String, Any> {
+        try {
+            val selectResult = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("username", username))
+            return if (selectResult == null) {
+                HandUtils.handleResultByCode(409, null, "未查询到用户")
+            } else {
+                userLogin(
+                    address = address,
+                    username = username,
+                    selectResult = selectResult
+                )
             }
         } catch (e: Exception) {
             return HandUtils.printErrorLog(e)
@@ -216,11 +236,41 @@ class ClientUserService @Autowired constructor(
         }
     }
 
+    fun getUserQrcodeScanStatus(qid: String, address: String): Map<String, Any> {
+        try {
+            val status = tokenService.getScanStatus(qid)
+                ?: return HandUtils.handleResultByCode(401, null, "二维码已过期")
+            return when(status) {
+                "0" -> HandUtils.handleResultByCode(400, null, "等待扫码中")
+                "1" -> {
+                    val targetUser = tokenService.getScanTargetUser(qid)
+                        ?: return HandUtils.handleResultByCode(500, null, "服务器异常")
+                    val user = serverUserService.getUserInfo(targetUser.toLong())
+                    tokenService.removeScanStatus(qid)
+                    loginUserScan(
+                        address = address,
+                        username = user.username,
+                    )
+                }
+                else -> HandUtils.handleResultByCode(500, null, "服务器异常")
+            }
+        } catch (e: Exception) {
+            return HandUtils.printErrorLog(e)
+        }
+    }
+
     private fun generateUniqueUid(): Long {
         var uid: Long
         do {
             uid = IDGenerator.generateRandomId(8)
         } while (serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("uid", uid)) != null)
         return uid
+    }
+
+    private fun userLogin(selectResult: ServerUserModel, username: String, address: String): Map<String, Any> {
+        val uid = selectResult.uid
+        val token = tokenService.generateUserToken(selectResult.uid, username, address)
+        ConsoleUtils.printInfoLog("User Login $address $uid $token")
+        return HandUtils.handleResultByCode(200, java.util.Map.of("token", token, "userinfo", clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("username", username))), "登录成功")
     }
 }

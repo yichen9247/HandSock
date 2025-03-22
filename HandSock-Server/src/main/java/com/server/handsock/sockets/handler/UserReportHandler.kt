@@ -5,7 +5,6 @@ import com.corundumstudio.socketio.SocketIOClient
 import com.server.handsock.clients.service.ClientReportService
 import com.server.handsock.services.AuthService
 import com.server.handsock.services.ClientService
-import com.server.handsock.utils.ConsoleUtils
 import org.springframework.stereotype.Service
 
 @Service

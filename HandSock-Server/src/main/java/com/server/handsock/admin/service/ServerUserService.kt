@@ -99,4 +99,8 @@ class ServerUserService @Autowired constructor(
             return HandUtils.printErrorLog(e)
         }
     }
+
+    fun getUserInfo(uid: Long): ServerUserModel { // 谨慎使用此方法
+        return serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("uid", uid))
+    }
 }

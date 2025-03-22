@@ -27,12 +27,8 @@ services:
       SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE: 5MB # 网络请求最大大小
 
       HANDSOCK_PORT: 5120 # 通信端口
-      HANDSOCK_NAME: HandSock # 应用名称
       HANDSOCK_HOST: 0.0.0.0 # 通信主机（这项不必改）
       HANDSOCK_ORIGIN: http://192.168.0.101:8080 # 跨域设置
-      HANDSOCK_PINGTIMEOUT: 6000000 # PING超时
-      HANDSOCK_PINGINTERVAL: 25000 #  PING间隔
-      HANDSOCK_UPGRADETIMEOUT: 1000000 # 更新超时
 
       HANDSOCK_AI_URL: https://api.ppinfra.com # AI接口
       HANDSOCK_AI_PATH: /v3/openai/chat/completions # AI接口路径

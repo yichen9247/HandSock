@@ -66,35 +66,24 @@
          :style="{ justifyContent: message.uid === applicationStore.userInfo.uid ? 'flex-end' : 'flex-start' }">
         
         <!-- Avatar for other users -->
-        <div class="avatar-info" 
-             v-if="message.uid !== applicationStore.userInfo.uid"
-             :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"
-             @dblclick="avatarClaps(applicationStore.userInfo.nick, meeesgaeInfo.userinfo.nick)"
-             @mousedown="avtMousedown(meeesgaeInfo.userinfo.nick)"
-             @mouseup="avtMouseup"
-             @touchstart="avtMousedown(meeesgaeInfo.userinfo.nick)"
-             @touchend="avtMouseup">
+        <div class="avatar-info" @click="setPersonalDialog(true)"
+            v-if="message.uid !== applicationStore.userInfo.uid"
+            :type="HandUtils.getUserTypeByInfo(meeesgaeInfo.userinfo)"
+        >
+            <div class="avatar" :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"></div>
         </div>
 
         <div class="content-box" 
              :style="{ alignItems: message.uid === applicationStore.userInfo.uid ? 'flex-end' : 'flex-start' }">
             
             <!-- Message header with user info -->
-            <div class="user-info" 
+            <div class="user-info"
                  v-if="message.type === 'text' || message.type === 'file' || message.type === 'image'">
                 <span class="user-time" v-if="message.uid !== applicationStore.userInfo.uid">
                     {{ message.time.split(' ')[1] }}
                 </span>
                 <span class="user-name" v-if="message.uid !== applicationStore.userInfo.uid">
                     {{ meeesgaeInfo.userinfo.nick }}
-                </span>
-                <span class="user-admi user-tags" 
-                      v-if="meeesgaeInfo.userinfo.isAdmin === 1 && meeesgaeInfo.userinfo.isRobot !== 1">
-                    管理员
-                </span>
-                <span class="user-robo user-tags" 
-                      v-if="meeesgaeInfo.userinfo.isRobot === 1">
-                    机器人
                 </span>
                 <span class="user-name" v-if="message.uid === applicationStore.userInfo.uid">
                     {{ meeesgaeInfo.userinfo.nick }}
@@ -124,10 +113,11 @@
         </div>
 
         <!-- Avatar for current user -->
-        <div class="avatar-info"
-             v-if="message.uid === applicationStore.userInfo.uid" 
-             :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"
-             @click="setPersonalDialog(true)">
+        <div class="avatar-info" @click="setPersonalDialog(true)"
+            v-if="message.uid === applicationStore.userInfo.uid" 
+            :type="HandUtils.getUserTypeByInfo(meeesgaeInfo.userinfo)"
+        >
+            <div class="avatar" :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"></div>
         </div>
     </div>
 </template>

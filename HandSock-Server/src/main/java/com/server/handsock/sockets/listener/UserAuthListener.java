@@ -36,5 +36,15 @@ public class UserAuthListener {
             Map<String, Object> typedData = (Map<String, Object>) data;
             userAuthHandler.handleUserRegister(client, typedData, ackSender);
         });
+
+        server.addEventListener("[USER:SCAN:LOGIN]", Map.class, (client, data, ackSender) -> {
+            userAuthHandler.handleUserScanLogin(client, ackSender);
+        });
+
+        server.addEventListener("[USER:SCAN:LOGIN:STATUS]", Map.class, (client, data, ackSender) -> {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> typedData = (Map<String, Object>) data;
+            userAuthHandler.handleGetScanLoginStatus(client, typedData, ackSender);
+        });
     }
 }

@@ -3,6 +3,10 @@ package com.server.handsock.utils
 import java.util.*
 
 object IDGenerator {
+    fun generateUniqueId(): String {
+        return UUID.randomUUID().toString()
+    }
+
     fun generateRandomId(length: Int): Long {
         val currentYear = Calendar.getInstance()[Calendar.YEAR]
         val yearPrefix = currentYear.toString().substring(if (currentYear - 2000 > 0) 2 else 0)

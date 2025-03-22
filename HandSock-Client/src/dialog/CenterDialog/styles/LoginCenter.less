@@ -17,7 +17,7 @@ div.login-form {
         }
 
         div.el-tabs__item {
-            padding: 0 40px;
+            padding: 0 35px;
             font-size: 18px;
         }
     
@@ -32,7 +32,73 @@ div.login-form {
 
         div.form-box {
             width: 92%;
+            height: 275px;
+            display: flex;
             margin: 0 auto;
+            flex-direction: column;
+            justify-content: center;
+
+            div.app-box {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                justify-content: center;
+
+                div.qrcode-box {
+                    width: 135px;
+                    height: 135px;
+                    overflow: hidden;
+                    position: relative;
+                    border-radius: 6px;
+                    border: 1px solid #e3e8f7;
+
+                    img.qrcode {
+                        width: 135px;
+                        height: 135px;
+                    }
+
+                    div.expire-box {
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        background-color: rgba(255, 255, 255, 0.95);
+                    }
+
+                    div.expire-box {
+                        display: flex;
+                        cursor: pointer;
+                        align-items: center;
+                        flex-direction: column;
+                        justify-content: center;
+
+                        svg.icon {
+                            width: 45px;
+                            height: 45px;
+                            opacity: 0.65;
+                        }
+
+                        span.expire-text {
+                            margin-top: 15px;
+                            color: var(--dominColor);
+                        }
+                    }
+                }
+
+                p.qrcode-description {
+                    display: flex;
+                    font-size: 16px;
+                    margin-top: 20px;
+                    align-items: center;
+
+                    a {
+                        font-size: 16px;
+                    }
+                }
+            }
         }
     
         div.el-form-item {
@@ -45,15 +111,20 @@ div.login-form {
             }
 
             input {
-                height: 40px;
+                height: 45px;
+            }
+            
+            div.el-input__wrapper {
+                border-radius: 6px;
             }
         }
 
         button.login-btn {
             width: 100%;
-            height: 45px;
-            font-size: 18px;
+            height: 50px;
+            font-size: 1rem;
             margin-top: 15px;
+            border-radius: 6px;
         }
     }
 }

@@ -11,6 +11,7 @@ import com.server.handsock.services.TokenService
 import com.server.handsock.sockets.eventer.OnlineEvent
 import com.server.handsock.utils.ConsoleUtils
 import com.server.handsock.utils.HandUtils
+import com.server.handsock.utils.IDGenerator
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -30,9 +31,9 @@ class UserAuthHandler @Autowired constructor(
             } else {
                 ackSender.sendAckData(
                     clientUserService.loginUser(
-                        clientService.getClientData(data, "username"),
-                        clientService.getClientData(data, "password"),
-                        clientService.getRemoteAddress(client)
+                        address = clientService.getRemoteAddress(client),
+                        username = clientService.getClientData(data, "username"),
+                        password = clientService.getClientData(data, "password")
                     )
                 )
             }
@@ -46,7 +47,6 @@ class UserAuthHandler @Autowired constructor(
             if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
                 HandUtils.handleResultByCode(403, null, "禁止访问")
             } else {
-                tokenService.removeUserToken(clientService.getRemoteUID(client))
                 onlineEvent.sendUserDisconnect(server!!, client)
                 ConsoleUtils.printInfoLog(
                     "User Logout ${clientService.getRemoteAddress(client)} ${clientService.getRemoteUID(client)}"
@@ -68,6 +68,42 @@ class UserAuthHandler @Autowired constructor(
                     )
                     ackSender.sendAckData(result)
                 } else ackSender.sendAckData(HandUtils.handleResultByCode(402, null, "当前禁止注册"))
+            }
+        } catch (e: Exception) {
+            ackSender.sendAckData(HandUtils.printErrorLog(e))
+        }
+    }
+
+    fun handleUserScanLogin(client: SocketIOClient, ackSender: AckRequest) {
+        try {
+            if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
+                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+            } else {
+                val qid = IDGenerator.generateUniqueId()
+                val content = mapOf(
+                    "qid" to qid,
+                    "type" to "login",
+                    "platform" to "H5"
+                )
+                tokenService.setScanStatus(qid, 0)
+                /*QrcodeUtils.generateQrcode(content.toString())*/
+                ackSender.sendAckData(HandUtils.handleResultByCode(200, content, "获取成功"))
+            }
+        } catch (e: Exception) {
+            ackSender.sendAckData(HandUtils.printErrorLog(e))
+        }
+    }
+
+    fun handleGetScanLoginStatus(client: SocketIOClient, data: Map<String?, Any>, ackSender: AckRequest) {
+        try {
+            if (!onlineEvent.checkClient(HandUtils.encodeStringToMD5(client.sessionId.toString()))) {
+                ackSender.sendAckData(HandUtils.handleResultByCode(403, null, "禁止访问"))
+            } else {
+                val qid = clientService.getClientData(data, "qid")
+                ackSender.sendAckData(clientUserService.getUserQrcodeScanStatus(
+                    qid = qid,
+                    address = clientService.getRemoteAddress(client)
+                ))
             }
         } catch (e: Exception) {
             ackSender.sendAckData(HandUtils.printErrorLog(e))

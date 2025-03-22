@@ -14,5 +14,5 @@ open class HandProp {
     var pingTimeout: Int = 3000
     var pingInterval: Int = 5000
     var upgradeTimeout: Int = 10000
-    var appVersion: String = "2.2.0-B2503107"
+    var appVersion: String = "2.2.1-B2503221"
 }

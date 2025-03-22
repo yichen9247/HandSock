@@ -2,6 +2,7 @@ package com.server.handsock.clients.controller
 
 import com.server.handsock.clients.service.ClientUserService
 import com.server.handsock.services.AuthService
+import com.server.handsock.services.TokenService
 import com.server.handsock.utils.HandUtils
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/user")
 class ClientUserController @Autowired constructor(
     private val authService: AuthService,
+    private val tokenService: TokenService,
     private val clientUserService: ClientUserService
 ) {
     @PostMapping("/login")
@@ -81,6 +83,51 @@ class ClientUserController @Autowired constructor(
             val uid = data["uid"].toString().toLong()
             val password = data["password"].toString()
             clientUserService.editForPassword(uid, password)
+        }
+    }
+
+    @PostMapping("/scan/login")
+    fun userScanLogin(@RequestBody data: Map<String?, Any>, request: HttpServletRequest): Any {
+        return authService.validClientStatusByRequest(request) {
+            try {
+                val uid = data["uid"].toString()
+                val qid = data["qid"].toString()
+                val status = data["status"].toString().toInt()
+
+                when(status) {
+                    0 -> {
+                        tokenService.removeScanStatus(qid)
+                        HandUtils.handleResultByCode(200, null, "已取消登录")
+                    }
+                    1 -> {
+                        tokenService.setScanStatus(qid, 1)
+                        tokenService.setScanTargetUser(
+                            qid = qid,
+                            uid = uid
+                        )
+                        HandUtils.handleResultByCode(200, null, "登录成功")
+                    }
+                    else -> HandUtils.handleResultByCode(400, null, "未知参数")
+                }
+            } catch (e: Exception) {
+                HandUtils.printErrorLog(e)
+            }
+        }
+    }
+
+    @PostMapping("/scan/status")
+    fun getQrcodeScanStatus(@RequestBody data: Map<String?, Any>, request: HttpServletRequest): Any {
+        return authService.validClientStatusByRequest(request) {
+            try {
+                val qid = data["qid"].toString()
+                val androidId = "Android Check"
+                clientUserService.getUserQrcodeScanStatus(
+                    qid = qid,
+                    address = androidId
+                )
+            } catch (e: Exception) {
+                HandUtils.printErrorLog(e)
+            }
         }
     }
 }
