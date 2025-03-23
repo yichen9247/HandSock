@@ -44,9 +44,10 @@ class AIChatHandler @Autowired constructor(
                     ackRequest.sendAckData(HandUtils.handleResultByCode(200, userResult, "请求成功"))
 
                     Thread.sleep(800)
+                    val robotUser = clientUserService.robotInnerStatus
                     val hasAiAuth = clientService.hasAiAuthorization(client)
                     val message = if (hasAiAuth) REQUEST_STATUS else DEFAULT_MESSAGE
-                    val aiResult = clientChatManage.insertChatMessage(clientChannelDao, "text", clientUserService.robotInnerStatus!!, clientService.getRemoteGID(client), "none", message)
+                    val aiResult = clientChatManage.insertChatMessage(clientChannelDao, "text", robotUser!!.uid, clientService.getRemoteGID(client), "none", message)
                     sendEventWithResult(client, aiResult)
                     if (hasAiAuth) sendAIRequest(
                         client = client,

@@ -35,11 +35,12 @@ class RobotSender @Autowired constructor(
 
             @Suppress("UNCHECKED_CAST")
             val authToken = client.handshakeData.authToken as Map<String?, Any>
-
+            val robotUser = clientUserService.robotInnerStatus ?: return
+            if (robotUser.taboo == "open") return
             val robotReturn = robotEvent.handleRobotCommand(client, content)
             if (robotReturn != null) {
                 Thread.sleep(800)
-                val robotResult = clientChatService.insertChatMessage(clientService.getClientData(data, TYPE_KEY), clientUserService.robotInnerStatus!!, clientService.getClientData(authToken, "gid").toLong(), "none", robotReturn)
+                val robotResult = clientChatService.insertChatMessage(clientService.getClientData(data, TYPE_KEY), robotUser.uid, clientService.getClientData(authToken, "gid").toLong(), "none", robotReturn)
                 @Suppress("UNCHECKED_CAST")
                 sendGlobalMessageIfSuccess(robotResult as Map<String?, Any>, server, client)
             }

@@ -64,11 +64,11 @@ class ClientUserService @Autowired constructor(
         }
     }
 
-    val robotInnerStatus: Long?
+    val robotInnerStatus: ClientUserModel?
         get() {
             try {
                 val selectResult = clientUserDao.selectOne(QueryWrapper<ClientUserModel>().eq("is_robot", 1))
-                return selectResult.uid
+                return selectResult
             } catch (e: Exception) {
                 HandUtils.printErrorLog(e)
                 return null
