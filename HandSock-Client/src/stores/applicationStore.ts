@@ -19,7 +19,7 @@ onresize = (): void => {
 
 export const useApplicationStore = defineStore('applicationStore', () => {
     // Default values
-    const defaultAvatar: string = "https://dn-qiniu-avatar.qbox.me/avatar/";
+    const defaultAvatar: string = "./image/default.png";
     const channelId: string = new URLSearchParams(location.search).get("channel");
 
     // User information state
