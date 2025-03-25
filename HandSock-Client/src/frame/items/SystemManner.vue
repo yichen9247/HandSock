@@ -137,7 +137,7 @@
             <el-button type="primary" @click="setSystemConfigValue({
                 name: 'playlist',
                 value: systemConfig.playlist
-            })">应用设置</el-button>
+            })">设置背景音乐</el-button>
         </div>
 
         <p class="set-title">软件设置</p>
@@ -155,9 +155,11 @@
             })">设置下载链接</el-button>
         </div>
 
-        <p class="set-title">其它设置</p>
+        <p class="set-title">连接设置</p>
         <el-button type="primary" size="large" @click="adminSystemSender('[RE:FORCE:CONNECT]', 0)">强制刷新用户连接（软重连）</el-button>
         <el-button type="primary" size="large" @click="adminSystemSender('[RE:FORCE:LOAD]', 1)">强制刷新用户前端（硬重连）</el-button>
+
+        <p class="set-title">系统设置</p>
         <el-button type="primary" size="large" @click="adminSystemSender('[RE:HISTORY:CLEAR]', 2)">清理聊天记录</el-button>
         <el-button type="primary" size="large" @click="setSystemTaboo">{{ systemConfig.taboo ? '关闭全频禁言' : '开启全频禁言' }}</el-button>
         <el-button type="primary" size="large" @click="setSystemUpload">{{ systemConfig.upload ? '关闭文件上传' : '开启文件上传' }}</el-button>
