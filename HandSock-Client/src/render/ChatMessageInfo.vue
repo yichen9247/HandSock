@@ -66,9 +66,14 @@
          :style="{ justifyContent: message.uid === applicationStore.userInfo.uid ? 'flex-end' : 'flex-start' }">
         
         <!-- Avatar for other users -->
-        <div class="avatar-info" @click="setPersonalDialog(true)"
+        <div class="avatar-info"
             v-if="message.uid !== applicationStore.userInfo.uid"
             :type="HandUtils.getUserTypeByInfo(meeesgaeInfo.userinfo)"
+            @dblclick="avatarClaps(applicationStore.userInfo.nick, meeesgaeInfo.userinfo.nick)"
+            @mousedown="avtMousedown(meeesgaeInfo.userinfo.nick)"
+            @mouseup="avtMouseup"
+            @touchstart="avtMousedown(meeesgaeInfo.userinfo.nick)"
+            @touchend="avtMouseup"
         >
             <div class="avatar" :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"></div>
         </div>

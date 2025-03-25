@@ -31,7 +31,6 @@
             if (response.code !== 200) {
                 showToast('error', response.message);
             } else {
-                console.log(response)
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
 
