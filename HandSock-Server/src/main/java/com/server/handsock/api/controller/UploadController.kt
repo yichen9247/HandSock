@@ -1,7 +1,7 @@
 package com.server.handsock.api.controller
 
 import com.server.handsock.api.service.UploadService
-import com.server.handsock.properties.HandProp
+import com.server.handsock.props.HandProp
 import com.server.handsock.services.AuthService
 import com.server.handsock.utils.ConsoleUtils
 import com.server.handsock.utils.HandUtils

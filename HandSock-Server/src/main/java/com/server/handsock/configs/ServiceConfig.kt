@@ -2,7 +2,7 @@ package com.server.handsock.configs
 
 import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.store.RedissonStoreFactory
-import com.server.handsock.properties.HandProp
+import com.server.handsock.props.HandProp
 import com.server.handsock.sockets.SocketIOListener
 import com.server.handsock.sockets.eventer.OnlineEvent
 import com.server.handsock.sockets.listener.*

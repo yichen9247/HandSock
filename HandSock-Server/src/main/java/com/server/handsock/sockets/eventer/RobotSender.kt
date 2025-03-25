@@ -2,7 +2,6 @@ package com.server.handsock.sockets.eventer
 
 import com.corundumstudio.socketio.AckRequest
 import com.corundumstudio.socketio.SocketIOClient
-import com.corundumstudio.socketio.SocketIOServer
 import com.corundumstudio.socketio.transport.NamespaceClient
 import com.server.handsock.admin.service.ServerSystemService
 import com.server.handsock.clients.service.ClientChannelService
@@ -12,6 +11,7 @@ import com.server.handsock.services.AuthService
 import com.server.handsock.services.CacheService
 import com.server.handsock.services.ClientService
 import com.server.handsock.utils.HandUtils
+import com.server.handsock.utils.RobotUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -26,42 +26,32 @@ class RobotSender @Autowired constructor(
     private val cacheService: CacheService,
     private val serverSystemService: ServerSystemService
 ) {
-    fun handleSendMessageOnBot(dataEvent: Any, server: SocketIOServer, client: NamespaceClient, ackRequest: AckRequest) {
+    fun handleSendMessageOnBot(dataEvent: Any, client: NamespaceClient, ackRequest: AckRequest) {
         if (isValidMessage(client)) return
         try {
             @Suppress("UNCHECKED_CAST")
             val data = dataEvent as Map<String?, Any>
-            val content = clientService.getClientData(data, CONTENT_KEY)
+            val content = clientService.getClientData(data, "content")
 
             @Suppress("UNCHECKED_CAST")
             val authToken = client.handshakeData.authToken as Map<String?, Any>
-            val robotUser = clientUserService.robotInnerStatus ?: return
-            if (robotUser.taboo == "open") return
             val robotReturn = robotEvent.handleRobotCommand(client, content)
             if (robotReturn != null) {
                 Thread.sleep(800)
-                val robotResult = clientChatService.insertChatMessage(clientService.getClientData(data, TYPE_KEY), robotUser.uid, clientService.getClientData(authToken, "gid").toLong(), "none", robotReturn)
-                @Suppress("UNCHECKED_CAST")
-                sendGlobalMessageIfSuccess(robotResult as Map<String?, Any>, server, client)
+                RobotUtils.sendRobotMessage(
+                    address = "none",
+                    content = robotReturn,
+                    clientService = clientService,
+                    clientChatService = clientChatService,
+                    clientUserService = clientUserService,
+                    gid = clientService.getClientData(authToken, "gid").toLong()
+                )
             }
         } catch (e: Exception) {
             ackRequest.sendAckData(HandUtils.printErrorLog(e))
         } finally {
             cacheService.writeRedisMessageCache(clientService.getRemoteUID(client))
         }
-    }
-
-    private fun isSuccessResult(result: Map<String?, Any>): Boolean {
-        return clientService.getClientData(result, CODE_KEY).toInt() == 200
-    }
-
-    private fun sendGlobalMessageIfSuccess(result: Map<String?, Any>, server: SocketIOServer, client: SocketIOClient) {
-        if (isSuccessResult(result)) HandUtils.sendRoomMessage(
-            client = client,
-            server = server,
-            event = "[MESSAGE]",
-            content = result["data"]
-        )
     }
 
     private fun isValidMessage(client: SocketIOClient): Boolean {
@@ -73,11 +63,5 @@ class RobotSender @Autowired constructor(
                 && !clientService.getIsAdmin(client)
                 || clientUserService.getUserTabooStatus(clientService.getRemoteUID(client))
                 && !clientService.getIsAdmin(client) || !authService.validClientTokenBySocket(client)
-    }
-
-    companion object {
-        private const val TYPE_KEY = "type"
-        private const val CODE_KEY = "code"
-        private const val CONTENT_KEY = "content"
     }
 }

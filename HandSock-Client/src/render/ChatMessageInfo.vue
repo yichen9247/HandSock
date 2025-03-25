@@ -45,9 +45,7 @@
                     mousetime = 0;
                     clearInterval(mousedown);
                     applicationStore.setChantInput(applicationStore.chantInput + "@" + username + " ");
-                } else {
-                    mousetime++;
-                }
+                } else mousetime++;
             }, 300);
         });
     };

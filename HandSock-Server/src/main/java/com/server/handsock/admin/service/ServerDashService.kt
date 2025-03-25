@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper
 import com.server.handsock.admin.dao.ServerChannelDao
 import com.server.handsock.admin.dao.ServerChatDao
 import com.server.handsock.admin.dao.ServerUserDao
-import com.server.handsock.properties.HandProp
+import com.server.handsock.props.HandProp
 import com.server.handsock.utils.HandUtils
 import com.server.handsock.utils.SystemUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,19 +22,16 @@ import java.util.*
 
 @Service
 class ServerDashService @Autowired constructor(
+    private val handProp: HandProp,
     private val serverChatDao: ServerChatDao,
-    private val serverChannelDao: ServerChannelDao,
     private val serverUserDao: ServerUserDao,
-    private val handProp: HandProp
+    private val serverChannelDao: ServerChannelDao
 ) {
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
     val dashboardData: Map<String, Any>
         get() {
             try {
-
-
-
                 val today = LocalDate.now()
                 val startOfDay = today.atStartOfDay()
                 val endOfDay = today.atTime(LocalTime.MAX)

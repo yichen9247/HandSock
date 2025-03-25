@@ -1,7 +1,7 @@
 package com.server.handsock.sockets.listener;
 
 import com.corundumstudio.socketio.SocketIOServer;
-import com.server.handsock.properties.AiProp;
+import com.server.handsock.props.AiProp;
 import com.server.handsock.services.ClientService;
 import com.server.handsock.sockets.eventer.RobotSender;
 import com.server.handsock.sockets.handler.AIChatHandler;
@@ -46,7 +46,7 @@ public class SendingListener {
             try {
                 Object dataEvent = !args.isEmpty() ? args.get(0) : null;
                 if (eventName.equals("[SEND:MESSAGE]") && dataEvent != null)
-                    robotSender.handleSendMessageOnBot(dataEvent, server, client, ackRequest);
+                    robotSender.handleSendMessageOnBot(dataEvent, client, ackRequest);
             } catch (Exception e) {
                 ackRequest.sendAckData(handUtils.printErrorLog(e));
             }

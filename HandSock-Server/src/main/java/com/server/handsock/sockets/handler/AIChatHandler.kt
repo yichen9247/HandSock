@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.server.handsock.clients.man.ClientChatManage
 import com.server.handsock.clients.mod.ClientChatModel
 import com.server.handsock.clients.service.ClientUserService
-import com.server.handsock.properties.AiProp
+import com.server.handsock.props.AiProp
 import com.server.handsock.services.AuthService
 import com.server.handsock.services.ClientService
 import com.server.handsock.utils.ConsoleUtils

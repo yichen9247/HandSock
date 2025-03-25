@@ -5,6 +5,7 @@ import com.corundumstudio.socketio.SocketIOClient
 import com.server.handsock.admin.service.ServerSystemService
 import com.server.handsock.clients.service.ClientChannelService
 import com.server.handsock.clients.service.ClientUserService
+import com.server.handsock.props.HandProp
 import com.server.handsock.utils.HandUtils
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AuthService @Autowired constructor(
+    private val handProp: HandProp,
     private val tokenService: TokenService,
     private val cacheService: CacheService,
     private val clientService: ClientService,
@@ -61,9 +63,20 @@ class AuthService @Autowired constructor(
         } else HandUtils.handleResultByCode(403, null, "非法访问")
     }
 
+    fun validOpenApiRequestLimit(type: String, request: HttpServletRequest, call: () -> Any): Any {
+        val address = request.remoteAddr
+        return if (tokenService.getOpenApiCache(type, address)) {
+            tokenService.setOpenApiCache(type, address)
+            val authorization = request.getHeader("Authorization") ?: null
+            if (authorization == null || authorization != handProp.openapi) {
+                HandUtils.handleResultByCode(403, null, "无权调用此接口")
+            } else call()
+        } else HandUtils.handleResultByCode(400, null, "请求频繁")
+    }
+
     fun validChatMessageStatusBySocket(client: SocketIOClient, ackRequest: AckRequest, call: () -> Any, data: Map<String?, Any>) {
         if (!validClientTokenBySocket(client)) {
-            ackRequest.sendAckData(HandUtils.handleResultByCode(403, null, "登录状态已失效"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(403, null, "登录状态失效"))
             return
         }
         if (!cacheService.validRedisMessageCache(clientService.getRemoteUID(client))) {
@@ -75,7 +88,7 @@ class AuthService @Autowired constructor(
             return
         }
         if (!clientChannelService.getChanOpenStatus(clientService.getRemoteGID(client))) {
-            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "该频道暂未开启"))
+            ackRequest.sendAckData(HandUtils.handleResultByCode(402, null, "该频道未开启"))
             return
         }
         if (serverSystemService.getSystemKeyStatus("taboo") && !clientService.getIsAdmin(client)) {

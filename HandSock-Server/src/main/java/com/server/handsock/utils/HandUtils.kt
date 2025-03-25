@@ -67,7 +67,11 @@ object HandUtils {
     fun sendRoomMessage(server: SocketIOServer, client: SocketIOClient, event: String, content: Any?) {
         @Suppress("UNCHECKED_CAST")
         val headers = client.handshakeData.authToken as Map<String, Any>
-        val broadcastOperations = server.getRoomOperations(headers["gid"].toString())
+        sendRoomMessageApi(server, headers["gid"].toString(), event, content)
+    }
+
+    fun sendRoomMessageApi(server: SocketIOServer, gid: String, event: String, content: Any?) {
+        val broadcastOperations = server.getRoomOperations(gid)
         broadcastOperations.sendEvent(event, content)
     }
 

@@ -1,6 +1,6 @@
 package com.server.handsock.sockets.listener;
 
-import com.server.handsock.properties.HandProp;
+import com.server.handsock.props.HandProp;
 import com.server.handsock.utils.GlobalService;
 import com.server.handsock.utils.HandUtils;
 import org.springframework.beans.factory.annotation.Autowired;

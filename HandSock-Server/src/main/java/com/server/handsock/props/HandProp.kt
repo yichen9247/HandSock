@@ -1,4 +1,4 @@
-package com.server.handsock.properties
+package com.server.handsock.props
 
 import lombok.Getter
 import lombok.Setter
@@ -11,6 +11,7 @@ open class HandProp {
     var port: Int = 5120
     var host: String? = null
     var origin: String? = null
+    var openapi: String? = null
     var pingTimeout: Int = 3000
     var pingInterval: Int = 5000
     var upgradeTimeout: Int = 10000

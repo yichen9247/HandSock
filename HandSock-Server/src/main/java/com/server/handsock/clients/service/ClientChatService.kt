@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class ClientChatService @Autowired constructor(private val clientChatDao: ClientChatDao) {
-    fun insertChatMessage(type: String?, uid: Long, gid: Long, address: String?, content: String?): Map<String, Any> {
+    fun insertChatMessage(type: String, uid: Long, gid: Long, address: String, content: String): Map<String, Any> {
         try {
+            if (content.length > 200) return HandUtils.handleResultByCode(400, null, "消息过长")
             val clientChatModel = ClientChatModel()
             val result = ClientChatManage(HandUtils, ConsoleUtils, IDGenerator).insertChatMessage(clientChatModel, type, uid, gid, address, content)
             return if (clientChatDao.insert(clientChatModel) > 0) {

@@ -5,6 +5,7 @@ handsock:
   port: 5120 # 通信端口
   host: 192.168.0.101 # 通信主机
   origin: http://192.168.0.101:5173 # 跨域设置
+  openapi: ... # 开放接口密钥 https://doc.handsock.xiaokolomi.cn/depoly/openapi.html
 
 ai:
   url: https://api.ppinfra.com # AI接口

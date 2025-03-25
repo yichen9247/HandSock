@@ -60,4 +60,13 @@ class TokenService @Autowired constructor(private val redisTemplate: RedisTempla
         val targetUser = redisTemplate.opsForValue()["handsock-scanTargetUser:$qid"]
         return targetUser
     }
+
+    fun setOpenApiCache(type: String, address: String) {
+        redisTemplate.opsForValue()["handsock-openai-$type:$address", "ok", 3] = TimeUnit.SECONDS
+    }
+
+    fun getOpenApiCache(type: String, address: String): Boolean {
+        val requestStatus = redisTemplate.opsForValue()["handsock-openai-$type:$address"]
+        return requestStatus == null
+    }
 }

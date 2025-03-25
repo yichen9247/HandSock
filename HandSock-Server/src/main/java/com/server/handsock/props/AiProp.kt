@@ -1,4 +1,4 @@
-package com.server.handsock.properties
+package com.server.handsock.props
 
 import lombok.Getter
 import lombok.Setter
