@@ -29,6 +29,7 @@ services:
       HANDSOCK_PORT: 5120 # 通信端口
       HANDSOCK_HOST: 0.0.0.0 # 通信主机（这项不必改）
       HANDSOCK_ORIGIN: http://192.168.0.101:8080 # 跨域设置
+      HANDSOCK_OPENAPI: ... # 开放接口密钥 https://doc.handsock.xiaokolomi.cn/depoly/openapi.html
 
       HANDSOCK_AI_URL: https://api.ppinfra.com # AI接口
       HANDSOCK_AI_PATH: /v3/openai/chat/completions # AI接口路径

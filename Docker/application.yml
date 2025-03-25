@@ -5,6 +5,7 @@ handsock:
   port: ${HANDSOCK_PORT} # 通信端口
   host: ${HANDSOCK_HOST} # 通信主机
   origin: ${HANDSOCK_ORIGIN} # 跨域设置
+  openapi: ${HANDSOCK_OPENAPI} # 开放接口密钥 https://doc.handsock.xiaokolomi.cn/depoly/openapi.html
 
 ai:
   url: ${HANDSOCK_AI_URL} # AI接口
