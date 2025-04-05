@@ -19,9 +19,6 @@ class TokenService @Autowired constructor(private val redisTemplate: RedisTempla
     fun generateUserToken(uid: Long, username: String, address: String): String? {
         val cachedToken = redisTemplate.opsForValue()["handsock-userToken:$uid"]
         if (cachedToken != null) return cachedToken // 直接使用原有Token（可实现多端同时在线）
-
-        println(1)
-
         val nanoTime = System.nanoTime().toString()
         val randomString = RandomStringUtils.randomAlphanumeric(16)
         val formatTime = HandUtils.formatTimeForString("yyyy-MM-dd HH:mm:ss.SSS")

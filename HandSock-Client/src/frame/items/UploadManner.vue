@@ -15,7 +15,6 @@
     onMounted(async (): Promise<void> => await getUploadList());
     const fileType: any = { files: '文件', avatar: '头像', images: '图片'}; 
     const showToast = async (type: string, message: string): Promise<void> => await utils.showToasts(type, message);
-    
 
     const getUploadList = async (): Promise<void> => {
         loading.value = true;

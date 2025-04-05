@@ -22,7 +22,9 @@
     const exStatus = ref(false);
     const activeTab = ref('login');
     const qrcodeLoading = ref(false);
+    const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();
+
     const loginForm = reactive({ 
         username: localStorage.getItem("handsock_username") ? localStorage.getItem("handsock_username") : "", 
         password: localStorage.getItem("handsock_password") ? localStorage.getItem("handsock_password") : ""
@@ -99,7 +101,6 @@
             if (response.code !== 200) return utils.showToasts('error', response.message);
                 setTimeout(() => {
                     qrcodeLoading.value = false;
-                    // qrcode.value = response.data.data;
                     QRCode.toDataURL(JSON.stringify(response.data), {
                         errorCorrectionLevel: 'M'
                     }).then(url => {
@@ -137,7 +138,7 @@
 <template>
     <el-dialog 
         class="login-form handsock-dialog" 
-        v-model="applicationStore.loginFormStatus" 
+        v-model="onelDialogStore.userLoginCenter" 
         align-center 
         :width="applicationStore.isDeviceMobile ? '95%' : '450px'"
         style="padding: 0;"

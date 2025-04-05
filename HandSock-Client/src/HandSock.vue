@@ -16,4 +16,9 @@
         overflow: hidden;
         overflow-y: scroll;
     }
+
+    .van-dialog {
+        top: 50%!important;
+        width: 260px!important;
+    }
 </style>

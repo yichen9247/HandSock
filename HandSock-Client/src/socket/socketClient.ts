@@ -36,8 +36,8 @@ export const startSocketIo = async (): Promise<void> => {
 				});
 			}
 
+			Swal.close()
 			await Promise.all([
-				Swal.close(),
 				HandUtils.initChatGroup(),
 				HandUtils.initChatUserList(),
 				HandUtils.initChatGroupList(),
@@ -101,7 +101,7 @@ export const startSocketIo = async (): Promise<void> => {
 
     applicationStore.socketIo.on(socket.rece.Message, async (messageObject: messageType): Promise<void> => {
         applicationStore.messageList.push(messageObject);
-        HandUtils.playNotificationSound(messageObject);
+        await HandUtils.playNotificationSound(messageObject);
         setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
     });
 
@@ -109,7 +109,7 @@ export const startSocketIo = async (): Promise<void> => {
         if (response.code === 200) {
             if (response.data.event === "CREATE-MESSAGE") {
                 const applicationStore = utils.useApplicationStore();
-                HandUtils.playNotificationSound(response.data.result);
+                await HandUtils.playNotificationSound(response.data.result);
                 applicationStore.aiMessageList.push(response.data.result);
             }
             if (response.data.event === "PUSH-STREAM") {

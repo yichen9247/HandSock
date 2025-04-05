@@ -18,22 +18,36 @@
 
 <script setup lang="ts">
     import utils from "@/scripts/utils"
+    import socket from "@/socket/socket"
     import { useRouter } from 'vue-router'
     import { groupInfoType } from "../../types"
     import HandUtils from "@/scripts/HandUtils"
+    import release from "@/assets/image/app-release.png"
 
     const router = useRouter();
+    const appDialogStatus = ref(false);
+    const actionShow: Ref<boolean> = ref(false);
     const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();
 
     const isAdmin = (): any => {
         return applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid )?.isAdmin;
     }
-    const actionShow: Ref<boolean> = ref(false);
-
+    
     const onHeadClick = (): void => {
         if (applicationStore.isDeviceMobile) actionShow.value = true;
     }
+
+    onMounted(async () => {
+        if (socket.server.config.appDialog && localStorage.getItem('app-dialog') !== 'true' && applicationStore.isDeviceMobile && !onelDialogStore.userLoginCenter && !actionShow.value) {
+            setTimeout(async () => {
+                appDialogStatus.value = true;
+                localStorage.setItem('app-dialog', 'true');
+            }, 1500);
+        }
+    });
+
+    const openAppDownload = (): Window => open(socket.application.appDownload);
     const onActionSelect = async (item: groupInfoType): Promise<void> => HandUtils.toggleChatChannel(router, item.gid);
 </script>
 
@@ -65,6 +79,11 @@
             v-if="applicationStore.loginStatus && !applicationStore.isDeviceMobile && applicationStore.userList.length > 0 && isAdmin()"
         />
 
+        <van-dialog v-model:show="appDialogStatus" title="推荐下载客户端" show-cancel-button message-align="justify" @confirm="openAppDownload">
+            <div style="width: 100%; display: flex; justify-content: center; padding-bottom: 15px;">
+                <img width="120" height="120" :src="release" alt="推荐下载客户端" draggable="false"/>
+            </div>
+        </van-dialog>
         <van-action-sheet v-if="applicationStore.isDeviceMobile" v-model:show="actionShow" :actions="applicationStore.chatGroupList" cancel-text="取消" close-on-click-action @select="onActionSelect"/>
     </div>
 </template>

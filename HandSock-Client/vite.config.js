@@ -49,6 +49,7 @@ export default ({ command, mode }) => {
     const envList = [
         loadEnv(mode, process.cwd()).VITE_SERVER_IP,
         loadEnv(mode, process.cwd()).VITE_SERVER_URL,
+        loadEnv(mode, process.cwd()).VITE_APP_DIALOG,
         loadEnv(mode, process.cwd()).VITE_AUTO_SHOW_IMAGE
     ];
 

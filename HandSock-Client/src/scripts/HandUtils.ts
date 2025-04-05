@@ -110,8 +110,10 @@ class HandUtils {
 		const applicationStore = utils.useApplicationStore();
 		if (!applicationStore.connection)
 			return utils.showToasts('error', '连接服务器失败');
-		if (!applicationStore.loginStatus)
-			return applicationStore.setLoginFormStatus(true);
+		if (!applicationStore.loginStatus) {
+			const onelDialogStore = utils.useOnelDialogStore();
+			return onelDialogStore.setUserLoginCenter(true);
+		}
 		await call();
 	}
 
@@ -124,10 +126,11 @@ class HandUtils {
 	}
 
 	static removeClientLoginStatus = async (): Promise<void> => {
+		const onelDialogStore = utils.useOnelDialogStore();
 		const applicationStore = utils.useApplicationStore();
 		applicationStore.resetUserInfo();
 		utils.showToasts('error', '请重新登录');
-		applicationStore.setLoginFormStatus(true);
+		onelDialogStore.setUserLoginCenter(true);
 		await removeLocalStorage(['handsock_uid', 'handsock_username', 'handsock_token', 'handsock_password']);
 	}
 
@@ -339,7 +342,8 @@ class HandUtils {
 	static handleUserLogin = async (response: restfulType, password: string) => {
 		const applicationStore = utils.useApplicationStore();
         if (response.code !== 200) return utils.showToasts('error', response.message);
-        applicationStore.setLoginFormStatus(false);
+		const onelDialogStore = utils.useOnelDialogStore();
+        onelDialogStore.setUserLoginCenter(false);
         utils.showToasts('success', response.message);
         
         const { userinfo, token } = response.data;

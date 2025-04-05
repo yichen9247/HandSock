@@ -4,6 +4,7 @@ services:
       context: .
       target: client-run  # 前端构建阶段
       args:
+        VITE_APP_DIALOG: false # 是否显示推荐客户端弹窗
         VITE_AUTO_SHOW_IMAGE: false # 是否自动展开图片
         VITE_SERVER_IP: 192.168.0.101:5120 # 后端地址
         VITE_SERVER_URL: http://192.168.0.101:8081 # 通信地址

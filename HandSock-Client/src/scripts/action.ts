@@ -51,7 +51,8 @@ export const toggleAdminFrame = async (): Promise<void> => {
 export const setUserLoginForm = async (status: boolean): Promise<void> => {
     const applicationStore = useApplicationStore();
     if (applicationStore.connection) {
-        applicationStore.setLoginFormStatus(status)
+        const onelDialogStore = useOnelDialogStore();
+        onelDialogStore.setUserLoginCenter(status)
     } else ElMessage({ message: "与通信服务器的连接已断开", type: 'error', plain: true });
 }
 

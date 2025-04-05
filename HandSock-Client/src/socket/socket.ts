@@ -145,6 +145,7 @@ export default {
             baseUrl: import.meta.env.BASE_URL,
             serverIP: import.meta.env.VITE_SERVER_IP,
             serverUrl: import.meta.env.VITE_SERVER_URL,
+            appDialog: import.meta.env.VITE_APP_DIALOG,
             autoShowImage: import.meta.env.VITE_AUTO_SHOW_IMAGE === 'true'
         }
     },

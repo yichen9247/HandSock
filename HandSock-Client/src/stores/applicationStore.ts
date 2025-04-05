@@ -58,7 +58,6 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     const connection: Ref<boolean> = ref(false);
     const groupClosed: Ref<boolean> = ref(false);
     const loginStatus: Ref<boolean> = ref(false);
-    const loginFormStatus: Ref<boolean> = ref(false);
     const isSiteReadyStatus: Ref<boolean> = ref(false);
     const isDeviceMobile: Ref<any> = ref(utils.isMobile());
 
@@ -71,7 +70,6 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     const setLoginStatus = (value: boolean): boolean => loginStatus.value = value;
     const setGroupClosed = (value: boolean): boolean => groupClosed.value = value;
     const setIsDeviceMobile = (value: boolean): boolean => isDeviceMobile.value = value;
-    const setLoginFormStatus = (value: boolean): boolean => loginFormStatus.value = value;
     const setIsSiteReadyStatus = (value: boolean): boolean => isSiteReadyStatus.value = value;
 
     // Reset user information
@@ -84,5 +82,5 @@ export const useApplicationStore = defineStore('applicationStore', () => {
     }
 
     // Return store properties and methods
-    return ({ userInfo, serverUUID, loginFormStatus, isDeviceMobile, isSiteReadyStatus, loginStatus, groupInfo, groupClosed, userList, messageList, aiMessageList, onlineUserList, connection, chantInput, socketIo, sendst, chatGroupList, setServerUUID, setIsDeviceMobile, setLoginFormStatus, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt, defaultAvatar });
+    return ({ userInfo, serverUUID, isDeviceMobile, isSiteReadyStatus, loginStatus, groupInfo, groupClosed, userList, messageList, aiMessageList, onlineUserList, connection, chantInput, socketIo, sendst, chatGroupList, setServerUUID, setIsDeviceMobile, setIsSiteReadyStatus, setLoginStatus, resetUserInfo, setGroupClosed, setConnection, setChantInput, setSocketIo, setSendSt, defaultAvatar });
 });
