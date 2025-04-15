@@ -1,10 +1,10 @@
 <script setup lang="ts">
     import { Reactive } from 'vue'
     import utils from '@/scripts/utils'
+    import { forumPostType } from "../../types"
     import HandUtils from '@/scripts/HandUtils'
     import RequestUtils from '@/scripts/RequestUtils'
     import PublishCenter from '@/dialog/CenterDialog/PublishCenter.vue'
-    import {forumPostType} from "../../types";
     
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
