@@ -1,0 +1,95 @@
+
+@dominColor: var(--dominColor);
+
+div.post-detail-container {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    background-color: #ffffff;
+
+    div.el-page-header {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e3e8f7;
+
+        div.el-page-header__icon {
+            margin-right: unset;
+
+            .el-icon, svg {
+                width: 1.35em;
+                height: 1.35em;
+            }
+        }
+
+        div.el-page-header__title {
+            display: none;
+        }
+
+        div.el-page-header__content {
+            font-size: 20px!important;
+        }
+    }
+    
+    div.post-info {
+        width: 100%;
+        height: 35px;
+        display: flex;
+        font-size: 16px;
+        margin-top: 15px;
+        align-items: center;
+        justify-content: space-between;
+        
+        div.user-info {
+            display: flex;
+            align-items: center;
+            
+            span.username {
+                margin-left: 10px;
+                color: @dominColor;
+            }
+        }
+        
+        span.datetime {
+            color: #999999;
+        }
+    }
+    
+    div.post-body {
+        flex: 1;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: scroll;
+        
+        div.post-content {
+            width: 100%;
+            padding: 20px 0;
+            text-align: justify;
+            
+            p.post-content {
+                color: #666666;
+                font-size: 17px;
+                line-height: 32px;
+            }
+            
+            div.image-list {
+                width: 100%;
+                display: flex;
+                overflow: hidden;
+                margin-top: 10px;
+                overflow-x: scroll;
+                
+                div.image-item {
+                    width: 75px;
+                    height: 75px;
+                    cursor: pointer;
+                    min-width: 75px;
+                    margin-top: 15px;
+                    margin-right: 15px;
+                    border-radius: 6px;
+                }
+            }
+        }
+    }
+}

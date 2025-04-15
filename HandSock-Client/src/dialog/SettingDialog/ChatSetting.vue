@@ -1,20 +1,7 @@
-<!--
- * @Description: Chat settings component for managing notification sounds and preferences
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - Real-time sound preview
- *   - Persistent settings storage
- *   - Select notification sound type
- *   - Toggle notification sounds on/off
--->
-
 <script setup lang="ts">
-    import utils from "@/scripts/utils"
+    import AudioUtils from "@/scripts/AudioUtils"
     import { Check, Close } from '@element-plus/icons-vue'
-    import { playNoticeVoice } from "@/scripts/audioUtils"
 
-    // Initialize reactive refs from localStorage
     const audioSelect = ref(localStorage.getItem('audio'));
     const audioSwitch = ref(localStorage.getItem('audio-switch') === 'true');
 
@@ -24,8 +11,7 @@
      */
     const audioSelectChange = async (selectedSound: string): Promise<void> => {
         localStorage.setItem('audio', selectedSound);
-        await playNoticeVoice();
-        await utils.showToasts('success', '切换提示音成功');
+        await AudioUtils.playNoticeVoice();
     }
 
     /**

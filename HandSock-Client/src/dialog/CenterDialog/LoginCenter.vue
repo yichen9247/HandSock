@@ -1,21 +1,9 @@
-<!--
- * @Description: Login and registration dialog component with form validation
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - User login and registration forms
- *   - Input validation with regex
- *   - Persistent storage of auth tokens
- *   - Responsive dialog width
- *   - Tab-based form switching
--->
-
 <script setup lang="ts">
     import QRCode from 'qrcode'
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import HandUtils from '@/scripts/HandUtils'
-    import { restfulType, loginFormType } from '../../../types'
+    import { restfulType, loginFormType, userAuthStatus } from '../../../types'
 
     let intervalTimer: any;
     const qrcode = ref(null);
@@ -75,8 +63,8 @@
         await HandUtils.sendClientSocketEmit({
             data: form,
             event: mode === 1 ? socket.send.User.UserLogin : socket.send.User.UserRegister,
-            callback: async (response: restfulType) => {
-                HandUtils.handleUserLogin(response, loginForm.password)
+            callback: async (response: restfulType<any>) => {
+                await HandUtils.handleUserLogin(response, loginForm.password)
             }
         });
     }
@@ -87,7 +75,7 @@
 
     const tabChange = async (key: string): Promise<void> => {
         if (key === 'scan') {
-            onScanQrcodeTabShow();
+            await onScanQrcodeTabShow();
         } else {
             qrcode.value = null;
             clearInterval(intervalTimer);
@@ -95,7 +83,7 @@
     }
 
     const onScanQrcodeTabShow = async (): Promise<void> => {
-        await applicationStore.socketIo.emit(socket.send.User.UserScanLogin, loginForm, async (response: restfulType) => {
+        await applicationStore.socketIo.emit(socket.send.User.UserScanLogin, loginForm, async (response: restfulType<any>) => {
             exStatus.value = false;
             qrcodeLoading.value = true;
             if (response.code !== 200) return utils.showToasts('error', response.message);
@@ -105,22 +93,22 @@
                         errorCorrectionLevel: 'M'
                     }).then(url => {
                         qrcode.value = url;
-                    }).catch(err => {
+                    }).catch(() => {
                         utils.showToasts('error', "生成二维码失败");
                     });
                 }, 500);
                 intervalTimer = setInterval(async () => {
                     applicationStore.socketIo.emit(socket.send.User.UserScanLoginStatus, {
                         qid: response.data.qid
-                    }, async (statusResponse: restfulType) => {
+                    }, async (statusResponse: restfulType<userAuthStatus>) => {
                         if (statusResponse.code === 200) {
-                            HandUtils.handleUserLogin(statusResponse, loginForm.password)
+                            await HandUtils.handleUserLogin(statusResponse, loginForm.password)
                             clearInterval(intervalTimer);
                         } else 
                         if (statusResponse.code === 401) {
                             exStatus.value = true;
                             clearInterval(intervalTimer);
-                            utils.showToasts('error', statusResponse.message);
+                            await utils.showToasts('error', statusResponse.message);
                         }
                     });
 		        }, 500);
@@ -136,12 +124,9 @@
 </script>
 
 <template>
-    <el-dialog 
-        class="login-form handsock-dialog" 
-        v-model="onelDialogStore.userLoginCenter" 
-        align-center 
+    <el-dialog class="login-form handsock-dialog" style="padding: 0;"
+        v-model="onelDialogStore.userLoginCenter" align-center
         :width="applicationStore.isDeviceMobile ? '95%' : '450px'"
-        style="padding: 0;"
     >
         <el-tabs v-model="activeTab" class="login-tabs" @tab-change="tabChange">
             <el-tab-pane label="登录" name="login">
@@ -176,33 +161,21 @@
                         <el-form-item label="账号" prop="username">
                             <el-input v-model="registerForm.username" clearable/>
                         </el-form-item>
-
                         <el-form-item label="密码" prop="password">
-                            <el-input 
-                                v-model="registerForm.password" 
-                                type="password" 
-                                clearable 
-                                show-password
-                            />
+                            <el-input v-model="registerForm.password" type="password" clearable show-password/>
                         </el-form-item>
-                        <el-button 
-                            class="login-btn" 
-                            type="primary" 
-                            @click="formButtonClick(2)"
-                        >
+                        <el-button class="login-btn" type="primary" @click="formButtonClick(2)">
                             立即注册
                         </el-button>
                     </el-form>
                 </div>
             </el-tab-pane>
 
-            <el-tab-pane label="扫码" name="scan">
+            <el-tab-pane label="扫码" name="scan" v-if="socket.server.config.scanLogin">
                 <div class="form-box">
                     <div class="app-box">
-                        <div class="qrcode-box" 
-                            v-loading="qrcodeLoading" 
-                            element-loading-text="正在请求中"
-                            element-loading-background="rgba(255, 255, 255, 0.95)"
+                        <div class="qrcode-box" v-loading="qrcodeLoading" 
+                            element-loading-text="正在请求中" element-loading-background="rgba(255, 255, 255, 0.95)"
                         >
                             <img v-if="qrcode" class="qrcode" :src="qrcode" alt="扫码登录" draggable="false">
                             <div class="expire-box" v-if="exStatus" @click="onScanQrcodeTabShow">
@@ -211,10 +184,7 @@
                             </div>
                         </div>
                         <p class="qrcode-description">请在
-                            <el-link 
-                                type="primary" 
-                                target="_blank"
-                            >
+                            <el-link type="primary" target="_blank">
                                 30秒内
                             </el-link>完成登录
                         </p>

@@ -2,8 +2,7 @@
 @dominColor: var(--dominColor);
 
 span.chat-message[data-type="clap"] {
-    margin: 10px auto;
-    margin-bottom: 35px;
+    margin: 10px auto 35px;
 }
 
 span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.chat-message[data-type="image"] {
@@ -12,12 +11,11 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
     word-break: break-all;
 
     think {
-        margin: 5px 0;
         padding: 15px;
         display: block;
         font-size: 14px;
         border-radius: 6px;
-        margin-bottom: 10px;
+        margin: 5px 0 10px;
         background-color: #f1f1f1;
     }
 
@@ -49,6 +47,7 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             div.user-info {
                 height: 14px;
                 display: flex;
+                user-select: none;
                 align-items: center;
 
                 span.user-name {
@@ -105,15 +104,8 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
                 display: inline-block;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
+                border: 1px solid #c5ccdf;
                 background-color: #ffffff;
-            }
-
-            div.message-content.chatCode-T {
-                border: 1px solid #c5ccdf;
-            }
-
-            div.message-content.chatCode-O {
-                border: 1px solid #c5ccdf;
             }
         }
 
@@ -128,14 +120,10 @@ span.chat-message[data-type="text"],span.chat-message[data-type="file"],span.cha
             overflow: hidden;
             position: relative;
             border-radius: 6px;
-            background-color: rgba(218,232,241,1.00);
 
             div.avatar {
                 width: 100%;
                 height: 100%;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
             }
         }
 
@@ -193,6 +181,12 @@ div.content-frame.frame-mobile {
 
             div.content-box {
                 width: calc(100% + 20px);
+
+                div.user-info {
+                    span.user-name {
+                        color: rgba(60, 60, 67, 0.65);
+                    }
+                }
 
                 div.message-content {
                     border: unset;

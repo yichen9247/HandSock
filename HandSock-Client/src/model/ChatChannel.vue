@@ -1,45 +1,41 @@
-<!--
- * @Description: Chat channel component that displays and manages channel switching
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - Displays list of available chat channels
- *   - Shows channel avatar and name
- *   - Handles channel switching on click
- *   - Highlights active channel
--->
-
 <script setup lang="ts">
+    import { computed } from 'vue'
     import utils from '@/scripts/utils'
     import { useRouter } from 'vue-router'
     import HandUtils from '@/scripts/HandUtils'
     
     const router = useRouter();
     const applicationStore = utils.useApplicationStore();
-    const currentGroupId = (): number => applicationStore.groupInfo.gid;
-    const handleChannelClick = (gid: string): Promise<void> => HandUtils.toggleChatChannel(router, gid);
+    const currentGroupId = computed(() => applicationStore.groupInfo.gid);
+    const messageType: any = { file: '[文件消息]', image: '[图片消息]', clap: '[拍一拍消息]'};
+    
+    const chatMap = computed(() => new Map(
+        applicationStore.chatList.map(item => [item.gid, item])
+    ));
+    
+    const formatMessage = (chatItem?: any) => {
+        if (!chatItem) return "暂时没有更多未读消息";
+        const isSelf = chatItem.uid === applicationStore.userInfo.uid;
+        const username = isSelf ? '我' : HandUtils.getUserInfoByUid(chatItem.uid)?.nick;
+        const content = chatItem.type === 'text' ? chatItem.content : messageType[chatItem.type];
+        return `${username}：${content}`;
+    }
+    const handleChannelClick = (gid: number) => HandUtils.toggleChatChannel(router, gid)
 </script>
 
 <template>
     <div class="chat-channel">
-        <div 
-            v-for="(item, index) in applicationStore.chatGroupList" 
-            :key="index"
-            :class="[
-                'channel-item',
-                {'item-active': currentGroupId() === item.gid}
-            ]"
-            @click="handleChannelClick(item.gid.toString())"
-        >
+        <div :class="['channel-item', { 'item-active': currentGroupId === group.gid }]" v-for="group in applicationStore.chatGroupList" :key="group.gid" @click="handleChannelClick(group.gid)">
             <div class="item-content">
-                <img 
-                    class="avatar" 
-                    :alt="item.name"
-                    :src="item.avatar" 
-                />
+                <img class="avatar" v-lazy="group.avatar" :alt="group.name"/>
                 <div class="info-content">
-                    <span class="item-name">{{ item.name }}</span>
-                    <span class="item-latest">暂时不做聊天记录处理</span>
+                    <span class="item-name">{{ group.name }}</span>
+                    <span class="item-latest">{{ formatMessage(chatMap.get(group.gid)) }}</span>
+                    <div class="message-number">
+                        <span class="number swal2-show" v-if="chatMap.get(group.gid)?.num > 0">
+                            {{ chatMap.get(group.gid)?.num }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,67 +1,51 @@
 package com.server.handsock.admin.service
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import com.server.handsock.admin.dao.ServerNoticeDao
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.server.handsock.admin.man.ServerNoticeManage
-import com.server.handsock.admin.mod.ServerNoticeModel
-import com.server.handsock.utils.HandUtils
+import com.server.handsock.common.dao.NoticeDao
+import com.server.handsock.common.model.NoticeModel
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import kotlin.math.min
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ServerNoticeService @Autowired constructor(private val serverNoticeDao: ServerNoticeDao) {
-    fun getNoticeList(page: Int, limit: Int): Map<String, Any> {
-        try {
-            val serverNoticeModelList = serverNoticeDao.selectList(null)
-            val total = serverNoticeModelList.size
-            val startWith = (page - 1) * limit
-            serverNoticeModelList.reverse()
-            val endWith = min((startWith + limit).toDouble(), serverNoticeModelList.size.toDouble()).toInt()
-            val subList: List<ServerNoticeModel?> = serverNoticeModelList.subList(startWith, endWith)
-            return HandUtils.handleResultByCode(200, object : HashMap<Any?, Any?>() {
-                init {
-                    put("items", subList)
-                    put("total", total)
-                }
-            }, "获取成功")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+open class ServerNoticeService @Autowired constructor(private val noticeDao: NoticeDao) {
+    @Transactional
+    open fun getNoticeList(page: Int, limit: Int): Map<String, Any> {
+        val pageObj = Page<NoticeModel>(page.toLong(), limit.toLong())
+        val wrapper = QueryWrapper<NoticeModel>().orderByDesc("time")
+        val queryResult = noticeDao.selectPage(pageObj, wrapper)
+        return HandUtils.handleResultByCode(200,  mapOf(
+            "total" to queryResult.total,
+            "items" to queryResult.records
+        ), "获取成功")
     }
 
-    fun deleteNotice(nid: Int): Map<String, Any> {
-        return try {
-            if (serverNoticeDao.deleteById(nid) > 0) {
-                HandUtils.handleResultByCode(200, null, "删除成功")
-            } else HandUtils.handleResultByCode(400, null, "删除失败")
-        } catch (e: Exception) {
-            HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun deleteNotice(nid: Int): Map<String, Any> {
+        return if (noticeDao.deleteById(nid) > 0) {
+            HandUtils.handleResultByCode(200, null, "删除成功")
+        } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 
-    fun updateNotice(nid: Int, title: String?, content: String?): Map<String, Any> {
-        try {
-            if (serverNoticeDao.selectOne(QueryWrapper<ServerNoticeModel>().eq("nid", nid)) == null) return HandUtils.handleResultByCode(409, null, "公告不存在")
-            val serverNoticeModel = ServerNoticeModel()
-            ServerNoticeManage().updateNotice(serverNoticeModel, nid, title, content)
-            return if (serverNoticeDao.updateById(serverNoticeModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "修改成功")
-            } else HandUtils.handleResultByCode(400, null, "修改失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun updateNotice(nid: Int, title: String, content: String): Map<String, Any> {
+        if (noticeDao.selectOne(QueryWrapper<NoticeModel>().eq("nid", nid)) == null) return HandUtils.handleResultByCode(409, null, "公告不存在")
+        val noticeModel = NoticeModel()
+        ServerNoticeManage().updateNotice(noticeModel, nid, title, content)
+        return if (noticeDao.updateById(noticeModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "修改成功")
+        } else HandUtils.handleResultByCode(400, null, "修改失败")
     }
 
-    fun createNotice(title: String?, content: String?): Map<String, Any> {
-        try {
-            val serverNoticeModel = ServerNoticeModel()
-            ServerNoticeManage().setNotice(serverNoticeModel, title, content)
-            return if (serverNoticeDao.insert(serverNoticeModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "创建成功")
-            } else HandUtils.handleResultByCode(400, null, "创建失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun createNotice(title: String, content: String): Map<String, Any> {
+        val noticeModel = NoticeModel()
+        ServerNoticeManage().setNotice(noticeModel, title, content)
+        return if (noticeDao.insert(noticeModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "创建成功")
+        } else HandUtils.handleResultByCode(400, null, "创建失败")
     }
 }

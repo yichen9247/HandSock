@@ -1,15 +1,13 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import { messageType } from '../../types'
     import HandUtils from '@/scripts/HandUtils'
 
     const applicationStore = utils.useApplicationStore();
     
     const chatMessage = defineProps({
-        message: {
-            type: Object,
-            required: true
-        }
+        message: { type: Object as PropType<messageType>, required: true }
     });
     
     /**

@@ -1,32 +1,12 @@
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
+    import { messageType } from '../../types'
     import HandUtils from '@/scripts/HandUtils'
 
     const applicationStore = utils.useApplicationStore();
-
-    /**
-     * Controls visibility state of full image preview
-     * @type {import('vue').Ref<boolean>}
-     */
     const showStatus: Ref<boolean> = ref(socket.server.config.autoShowImage);
-
-    /**
-     * Props definition
-     * @type {Object}
-     * @property {Object} message - Message object containing image content
-     */
-    const chatMessage: any = defineProps({
-        message: { type: Object, required: true }
-    });
-
-    /**
-     * Constructs the full image URL from server config and message content
-     * @returns {string} Complete image URL
-     */
-    const getImageUrl = (): string => {
-        return socket.server.config.serverUrl + socket.server.downloadImages + chatMessage.message.content;
-    }
+    const chatMessage = defineProps({message: { type: Object as PropType<messageType>, required: true }});
 
     const previewImage = async (): Promise<void> => {
         await HandUtils.checkClientLoginStatus(() => {
@@ -50,8 +30,8 @@
 
         <!-- Full image preview when expanded -->
         <transition name="van-fade">
-            <el-image v-if="applicationStore.loginStatus" v-show="showStatus" :src="getImageUrl()" @click="HandUtils.previewImageBySwal({ 
-                src: getImageUrl(), 
+            <el-image v-if="applicationStore.loginStatus" v-show="showStatus" :src="HandUtils.getImageUrl(chatMessage.message.content)" @click="HandUtils.previewImageBySwal({
+                src: HandUtils.getImageUrl(chatMessage.message.content),
                 html: `发送时间： <span style='color: var(--dominColor)'>${chatMessage.message.time}</span>` 
             })" fit="cover"/>
         </transition>

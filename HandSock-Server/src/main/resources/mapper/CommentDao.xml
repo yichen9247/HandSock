@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.handsock.common.dao.CommentDao">
+    <resultMap id="commentWithChildrenResultMap" type="com.server.handsock.common.model.CommentModel">
+        <!-- 父评论基础字段 -->
+        <id property="cid" column="parent_cid"/>
+        <result property="pid" column="parent_pid"/>
+        <result property="time" column="parent_time"/>
+        <result property="content" column="parent_content"/>
+        <result property="parent" column="parent_parent"/>
+
+        <!-- 父评论关联用户 -->
+        <association property="user" javaType="com.server.handsock.client.mod.ClientUserModel">
+            <id property="uid" column="parent_user_uid"/>
+            <result property="username" column="parent_user_username"/>
+            <result property="nick" column="parent_user_nick"/>
+            <result property="avatar" column="parent_user_avatar"/>
+        </association>
+
+        <!-- 二级评论列表段 -->
+        <collection property="children" ofType="com.server.handsock.common.model.CommentModel">
+            <id property="cid" column="child_cid"/>
+            <result property="uid" column="child_uid"/>
+            <result property="pid" column="child_pid"/>
+            <result property="time" column="child_time"/>
+            <result property="content" column="child_content"/>
+            <result property="parent" column="child_parent"/>
+
+            <!-- 子评论关联用户 -->
+            <association property="user" javaType="com.server.handsock.client.mod.ClientUserModel">
+                <id property="uid" column="child_user_uid"/>
+                <result property="username" column="child_user_username"/>
+                <result property="nick" column="child_user_nick"/>
+                <result property="avatar" column="child_user_avatar"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <select id="selectHierarchicalComments" resultMap="commentWithChildrenResultMap">
+        SELECT parent.cid           AS parent_cid,
+               parent.uid           AS parent_uid,
+               parent.pid           AS parent_pid,
+               parent.time          AS parent_time,
+               parent.content       AS parent_content,
+               parent.parent        AS parent_parent,
+
+               parent_user.uid      AS parent_user_uid,
+               parent_user.username AS parent_user_username,
+               parent_user.nick     AS parent_user_nick,
+               parent_user.avatar   AS parent_user_avatar,
+
+               child.cid            AS child_cid,
+               child.uid            AS child_uid,
+               child.pid            AS child_pid,
+               child.time           AS child_time,
+               child.content        AS child_content,
+               child.parent         AS child_parent,
+
+               child_user.uid       AS child_user_uid,
+               child_user.username  AS child_user_username,
+               child_user.nick      AS child_user_nick,
+               child_user.avatar    AS child_user_avatar
+
+        FROM handsock_comment parent
+                 LEFT JOIN
+             handsock_user parent_user ON parent.uid = parent_user.uid
+                 LEFT JOIN
+             handsock_comment child ON parent.cid = child.parent
+                 LEFT JOIN
+             handsock_user child_user ON child.uid = child_user.uid
+        WHERE parent.pid = #{pid}
+          AND parent.parent IS NULL
+        ORDER BY parent.time DESC, child.time DESC
+    </select>
+</mapper>

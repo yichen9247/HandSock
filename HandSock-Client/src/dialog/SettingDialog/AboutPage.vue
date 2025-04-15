@@ -1,6 +1,5 @@
 <script setup lang="ts">
     import socket from "@/socket/socket"
-    import release from "@/assets/image/app-release.png"
 </script>
 
 <template>
@@ -40,9 +39,6 @@
                     {{ socket.application.github }}
                 </el-link>
             </p>
-            <p style="flex: 1; display: flex; justify-content: center;">
-                <img class="qrcode" :src="release" alt="安卓下载" draggable="false">
-            </p>
         </el-text>
     </div>
 </template>
@@ -52,12 +48,6 @@
         p {
             text-align: justify;
             word-break: break-all;
-        }
-
-        img.qrcode {
-            width: 200px;
-            height: 200px;
-            margin-top: 35px;
         }
     }
 </style>

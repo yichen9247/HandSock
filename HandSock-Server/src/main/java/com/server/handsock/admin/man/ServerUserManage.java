@@ -1,7 +1,7 @@
 package com.server.handsock.admin.man;
 
 import com.server.handsock.admin.mod.ServerUserModel;
-import com.server.handsock.utils.HandUtils;
+import com.server.handsock.common.utils.HandUtils;
 
 public class ServerUserManage {
 
@@ -16,16 +16,16 @@ public class ServerUserManage {
         server_userModel.setPassword(handUtils.encodeStringToMD5(password));
     }
 
-    public void updateUserInfo(ServerUserModel server_userModel, Long uid, String username, String nick, String avatar, Integer robot) {
+    public void updateUserInfo(ServerUserModel server_userModel, Long uid, String username, String nick, String avatar, Integer permission) {
         server_userModel.setUid(uid);
         server_userModel.setNick(nick);
         server_userModel.setAvatar(avatar);
-        server_userModel.setIsRobot(robot);
         server_userModel.setUsername(username);
+        server_userModel.setPermission(permission);
     }
 
-    public void updateUserTabooStatus(ServerUserModel server_userModel, Long uid, String status) {
+    public void updateUserStatus(ServerUserModel server_userModel, Long uid, Integer status) {
         server_userModel.setUid(uid);
-        server_userModel.setTaboo(status);
+        server_userModel.setStatus(status);
     }
 }

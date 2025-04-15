@@ -2,12 +2,12 @@ package com.server.handsock.admin.service
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import com.server.handsock.admin.dao.ServerChannelDao
-import com.server.handsock.admin.dao.ServerChatDao
 import com.server.handsock.admin.dao.ServerUserDao
-import com.server.handsock.props.HandProp
-import com.server.handsock.utils.HandUtils
-import com.server.handsock.utils.SystemUtils
+import com.server.handsock.common.dao.ChannelDao
+import com.server.handsock.common.dao.MessageDao
+import com.server.handsock.common.props.HandProp
+import com.server.handsock.common.utils.HandUtils
+import com.server.handsock.common.utils.SystemUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
@@ -23,9 +23,9 @@ import java.util.*
 @Service
 class ServerDashService @Autowired constructor(
     private val handProp: HandProp,
-    private val serverChatDao: ServerChatDao,
-    private val serverUserDao: ServerUserDao,
-    private val serverChannelDao: ServerChannelDao
+    private val channelDao: ChannelDao,
+    private val messageDao: MessageDao,
+    private val serverUserDao: ServerUserDao
 ) {
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
@@ -36,9 +36,9 @@ class ServerDashService @Autowired constructor(
                 val startOfDay = today.atStartOfDay()
                 val endOfDay = today.atTime(LocalTime.MAX)
                 val userTotal = serverUserDao.selectCount(null)
-                val chanTotal = serverChannelDao.selectCount(null)
+                val chanTotal = channelDao.selectCount(null)
                 val todayRegUser = countRecordsInRange(serverUserDao, "reg_time", startOfDay, endOfDay)
-                val todayChatTotal = countRecordsInRange(serverChatDao, "time", startOfDay, endOfDay)
+                val todayChatTotal = countRecordsInRange(messageDao, "time", startOfDay, endOfDay)
 
                 val result: MutableMap<String, Any> = HashMap()
                 result["userTotal"] = userTotal

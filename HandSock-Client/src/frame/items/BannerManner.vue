@@ -4,7 +4,7 @@
     import socket from '@/socket/socket'
     import HandUtils from '@/scripts/HandUtils'
     import { Plus, Refresh } from '@element-plus/icons-vue'
-    import { adminBannerFormType, restfulType } from '../../../types'
+    import { adminBannerFormType, arrayDataType, restfulType } from '../../../types'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -27,9 +27,9 @@
         applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminBannerList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType): Promise<void> => {
+        }, async (response: restfulType<arrayDataType<adminBannerFormType>>): Promise<void> => {
             if (response.code !== 200) {
-                utils.showToasts('error', response.message);
+                await utils.showToasts('error', response.message);
             } else {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
@@ -70,13 +70,11 @@
             await HandUtils.sendClientSocketEmit({
                 data: data,
                 event: action,
-                callback: async (response: restfulType) => {
-                    if (response.code !== 200) {
-                        showToast('error', response.message);
-                    } else {
+                callback: async (response: restfulType<any>) => {
+                    if (response.code === 200) {
                         await getBannerList();
-                        showToast('success', response.message);
-                    }
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                     callback && await callback(response);
                 }
             });

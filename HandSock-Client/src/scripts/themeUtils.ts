@@ -1,36 +1,51 @@
-/**
- * Theme Utility Module
- * 
- * Handles theme management and dynamic styling including:
- * - Theme switching between default, refresh, pureshs and yalansh
- * - Dynamic CSS variable updates
- * - Background image loading
- * - Local storage persistence
- */
-
 import utils from './utils'
 import socket from '@/socket/socket'
 
-export const setDeviceTheme = (): void => {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'default') {
-        document.body.style.setProperty("--dominColor", socket.dominColor.defaultDominColor);
-        !utils.isMobile() && import('@/assets/paper/background-1.jpg').then((image): any => document.body.style.setProperty("--background", `url(${image.default})`));
-    } else 
-    if (theme === 'refresh') {
-        document.body.style.setProperty("--dominColor", socket.dominColor.refreshDominColor);
-        !utils.isMobile() && import('@/assets/paper/background-0.jpg').then((image): any => document.body.style.setProperty("--background", `url(${image.default})`));
-    } else 
-    if (theme === 'pureshs') {
-        document.body.style.setProperty("--dominColor", socket.dominColor.pureshsDominColor);
-        !utils.isMobile() && import('@/assets/paper/background-3.jpg').then((image): any => document.body.style.setProperty("--background", `url(${image.default})`));
-    } else 
-    if (theme === 'yalansh') {
-        document.body.style.setProperty("--dominColor", socket.dominColor.yalanshDominColor);
-        !utils.isMobile() && import('@/assets/paper/background-4.jpg').then((image): any => document.body.style.setProperty("--background", `url(${image.default})`));
-    } else {
-		localStorage.setItem('theme', 'default');
-        document.body.style.setProperty("--dominColor", socket.dominColor.defaultDominColor);
-        !utils.isMobile() && import('@/assets/paper/background-1.jpg').then((image): any => document.body.style.setProperty("--background", `url(${image.default})`));
+export default class ThemeUtils {
+    static setDeviceTheme = async (): Promise<void> => {
+        let theme = localStorage.getItem('theme')
+        let color: string
+        let imageImport: Promise<{ default: string }>
+
+        if (theme === 'default') {
+            color = socket.dominColor.defaultDominColor
+            imageImport = import('@/assets/paper/background-0.jpg')
+        } else if (theme === 'pureshs') {
+            color = socket.dominColor.pureshsDominColor
+            imageImport = import('@/assets/paper/background-1.jpg')
+        } else if (theme === 'yalansh') {
+            color = socket.dominColor.yalanshDominColor
+            imageImport = import('@/assets/paper/background-2.jpg')
+        } else if (theme === 'roufenh') {
+            color = socket.dominColor.roufenhDominColor
+            imageImport = import('@/assets/paper/background-3.jpg')
+        } else {
+            localStorage.setItem('theme', 'default')
+            color = socket.dominColor.defaultDominColor
+            imageImport = import('@/assets/paper/background-0.jpg')
+        }
+
+        try {
+            if (!utils.isMobile()) {
+                const image = await imageImport
+                await this.preloadImage(image.default)
+            }
+            document.body.style.setProperty("--dominColor", color)
+            if (!utils.isMobile()) {
+                const image = await imageImport
+                document.body.style.setProperty("--background", `url(${image.default})`)
+            }
+        } catch (e) {
+            document.body.style.setProperty("--dominColor", color)
+        }
+    }
+
+    private static preloadImage = (url: string): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.src = url
+            img.onload = () => resolve()
+            img.onerror = (e) => reject(e)
+        });
     }
 }

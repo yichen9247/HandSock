@@ -13,7 +13,11 @@
     import HandUtils from "@/scripts/HandUtils"
     import { sidebarListType } from "../../types"
     import { Router, useRouter } from 'vue-router'
-    import { setSearchDialog, setSettingDialog, openAboutThisProject, openGithubSite, setPersonalDialog, toggleAdminFrame } from "@/scripts/action"
+    import { UserAuthType } from "../../types/UserAuthType"
+    import UserCenter from "@/dialog/CenterDialog/UserCenter.vue"
+    import SearchCenter from "@/dialog/CenterDialog/SearchCenter.vue"
+    import SettingCenter from "@/dialog/SettingCenter/SettingCenter.vue"
+    import { openAboutThisProject, openGithubSite, toggleAdminFrame } from "@/scripts/action"
 
     const router: Router = useRouter();
     const insertStatus: Ref<boolean> = ref(false);
@@ -25,7 +29,10 @@
         icon: '<svg t="1736469030918" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="20272" width="36" height="36"><path d="M668.59 914.92h-73.06V653.14H428.48v261.78h-73.06V634.07c0-29.77 24.22-53.99 53.99-53.99h205.18c29.77 0 53.99 24.22 53.99 53.99v280.85z" fill="#474747" p-id="20273"></path><path d="M811.49 944.62H212.51c-38.76 0-70.29-31.73-70.29-70.73V398.77h73.06v472.79h593.43V398.77h73.06v475.12c0 39-31.53 70.73-70.28 70.73z" fill="#474747" p-id="20274"></path><path d="M966.47 444.04L537.68 89.82c-7.03-6.91-16.33-10.47-25.68-10.44-9.35-0.02-18.64 3.53-25.68 10.44L57.53 444.04c-15.55 12.85-17.75 35.88-4.9 51.43 12.85 15.55 35.88 17.75 51.43 4.9L512 163.38l407.94 336.99c15.55 12.85 38.58 10.66 51.43-4.9 12.85-15.55 10.66-38.58-4.9-51.43z" fill="#474747" p-id="20275"></path></svg>'
     }, {
         name: '频道',
-        call: (): Promise<void> => setSearchDialog(true),
+        call: (): void => HandUtils.openCustomSwalDialog(SearchCenter, {
+            width: 450,
+            title: "搜索频道"
+        }),
         icon: '<svg t="1736469290470" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="42240" width="36" height="36"><path d="M796 811.2H230.4c-99.2 0-180-80.8-180-180v-360c0-99.2 80.8-180 180-180h565.6c99.2 0 180 80.8 180 180v360c0 99.2-80.8 180-180 180zM230.4 181.6c-49.6 0-90.4 40.8-90.4 90.4v360c0 49.6 40.8 90.4 90.4 90.4h565.6c49.6 0 90.4-40.8 90.4-90.4V272c0-49.6-40.8-90.4-90.4-90.4H230.4z m0 0" fill="#474A54" p-id="42241"></path><path d="M462.4 653.6c-27.2 0-52-6.4-72-20-47.2-31.2-69.6-94.4-63.2-188.8 4.8-96.8 31.2-155.2 83.2-182.4 52-27.2 116.8-13.6 200 38.4 84 51.2 121.6 105.6 120 164-2.4 58.4-47.2 105.6-135.2 151.2-49.6 26.4-94.4 37.6-132.8 37.6z m6.4-314.4c-8.8 0-13.6 2.4-16 2.4-20 8.8-31.2 49.6-36 105.6-4.8 83.2 16 103.2 22.4 110.4 8.8 6.4 38.4 16 114.4-22.4C633.6 496 640 467.2 640 460c0-6.4-4.8-36-76.8-83.2-47.2-28.8-76-37.6-94.4-37.6z m0 0M755.2 944.8H260c-24.8 0-44.8-20-44.8-44.8 0-24.8 20-44.8 44.8-44.8h495.2c24.8 0 44.8 20 44.8 44.8 0 24.8-20.8 44.8-44.8 44.8z m0 0" fill="#474A54" p-id="42242"></path></svg>'
     }, {
         name: '仓库',
@@ -37,7 +44,9 @@
         icon: '<svg t="1703496071634" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9471" width="36" height="36"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 85.333333C311.701333 149.333333 149.333333 311.701333 149.333333 512s162.368 362.666667 362.666667 362.666667 362.666667-162.368 362.666667-362.666667S712.298667 149.333333 512 149.333333z m21.333333 277.333334a21.333333 21.333333 0 0 1 21.333334 21.333333v298.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333V448a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z m0-170.666667a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z" fill="#474A54" p-id="9472"></path></svg>'
     }, {
         name: '设置',
-        call: (): Promise<void> => setSettingDialog(true),
+        call: (): void => HandUtils.openCustomSwalDialog(SettingCenter, {
+            width: 620
+        }),
         icon: '<svg t="1703494205002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8280" width="36" height="36"><path d="M469.333333 60.693333a85.333333 85.333333 0 0 1 85.333334 0l326.826666 188.714667a85.333333 85.333333 0 0 1 42.666667 73.898667v377.386666a85.333333 85.333333 0 0 1-42.666667 73.898667L554.666667 963.306667a85.333333 85.333333 0 0 1-85.333334 0L142.506667 774.592a85.333333 85.333333 0 0 1-42.666667-73.898667v-377.386666a85.333333 85.333333 0 0 1 42.666667-73.898667z m42.666667 73.898667L185.173333 323.306667v377.386666L512 889.408l326.826667-188.714667v-377.386666L512 134.592zM512 341.333333a170.666667 170.666667 0 1 1 0 341.333334 170.666667 170.666667 0 0 1 0-341.333334z m0 85.333334a85.333333 85.333333 0 1 0 0 170.666666 85.333333 85.333333 0 0 0 0-170.666666z" fill="#474A54" p-id="8281"></path></svg>'
     }, {
         name: '退出登录',
@@ -52,31 +61,33 @@
     };
 
     onMounted(() => {
-        if (!insertStatus.value && !sidebarList.includes(adminObject) && applicationStore.userList.length > 0 && applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin) {
+        if (!insertStatus.value && !sidebarList.includes(adminObject) && HandUtils.getUserPermission() === UserAuthType.ADMIN_AUTHENTICATION) {
             sidebarList.splice(4, 0, adminObject);
             insertStatus.value = true;
         }
     });
 
     watch(applicationStore, (): void => {
-        if (applicationStore.loginStatus && applicationStore.userList.length > 0 && applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin) {
-            if (!sidebarList.includes(adminObject)) {
-                sidebarList.splice(4, 0, adminObject);
-                insertStatus.value = true;
-            }
+        if (!insertStatus.value &&  HandUtils.getUserPermission() === UserAuthType.ADMIN_AUTHENTICATION) {
+            sidebarList.splice(4, 0, adminObject);
+            insertStatus.value = true;
         }
     });
 </script>
 
 <template>
-    <!-- 侧边栏容器,仅在非移动设备显示 -->
     <div class="sidebar-container" v-if="!applicationStore.isDeviceMobile">
         <div class="sidebar">
-            <div class="avatar-box">
-                <el-avatar class="avatar-info" shape="square" size="small" :src="applicationStore.loginStatus ? socket.server.config.serverUrl + socket.server.downloadAvatar + applicationStore.userInfo.avatar : applicationStore.userInfo.avatar" @click="setPersonalDialog(true)"/>
+            <div class="avatar-box" @click="HandUtils.openCustomSwalDialog(UserCenter, {
+                width: 450
+            })">
+                <div class="trigger" v-if="HandUtils.getUserPermission() === UserAuthType.ADMIN_AUTHENTICATION">管理员</div>
+                <div class="avatar-info image-bg" v-lazy:background-image="applicationStore.loginStatus ? socket.server.config.serverUrl + socket.server.downloadAvatar + applicationStore.userInfo.avatar : applicationStore.userInfo.avatar"></div>
             </div>
             <div class="button-box">
-                <div class="button-item" v-for="(item, index) in sidebarList" :key="index" :title="item.name" @click="item.call" v-html="item.icon"></div>
+                <div class="button-list">
+                    <div class="button-item" v-for="(item, index) in sidebarList" :key="index" :title="item.name" @click="item.call" v-html="item.icon"></div>
+                </div>
             </div>
         </div>
     </div>

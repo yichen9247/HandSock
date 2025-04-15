@@ -3,23 +3,32 @@ import Swal from 'sweetalert2'
 import utils from "@/scripts/utils"
 import { io } from "socket.io-client"
 import HandUtils from '../scripts/HandUtils'
-import { messageType, restfulType } from '../../types'
+import SocketUtils from "../scripts/SocketUtils";
+import { aiEventHandleType, messageType, restfulType, userInfoType } from '../../types'
+
+let pingInterval = null;
+type EventHandler = (messageObject: restfulType<any>) => void | Promise<void>;
 
 export const startSocketIo = async (): Promise<void> => {
     const applicationStore = utils.useApplicationStore();
+
+	if (pingInterval) clearInterval(pingInterval);
+	if (applicationStore.socketIo) applicationStore.socketIo.removeAllListeners();
+
+	const channelId = new URLSearchParams(location.search).get("channel");
+	const currentId = (channelId === null || !/^[-+]?\d+$/.test(channelId)) ? 0 : Number(channelId);
+
     applicationStore.setSocketIo(
 		io(socket.server.config.serverIP, {
 			auth: (token) => {
 				token({
+					gid: currentId,
 					uid: applicationStore.userInfo.uid,
-					gid: applicationStore.groupInfo.gid,
 					token: localStorage.getItem("handsock_token"),
 				});
 			},
 		})
 	);
-
-	type EventHandler = (messageObject: restfulType) => void | Promise<void>;
 
 	const eventHandlers: Record<string, EventHandler> = {
 		connect: async () => {
@@ -27,10 +36,10 @@ export const startSocketIo = async (): Promise<void> => {
 			const uid = localStorage.getItem("handsock_uid");
 			const token = localStorage.getItem("handsock_token");
 			if (token && uid) {
-				applicationStore.socketIo.emit(socket.send.ClientInit, { uid }, async (response: restfulType) => {
+				applicationStore.socketIo.emit(socket.send.ClientInit, { uid }, async (response: restfulType<userInfoType>) => {
                     if (response.code === 200) {
 						applicationStore.setLoginStatus(true);
-						applicationStore.userInfo = response.data.userinfo;
+						applicationStore.userInfo = response.data;
 						await HandUtils.resetOnlineUsers(1);
 					} else await HandUtils.removeClientLoginStatus();
 				});
@@ -38,11 +47,16 @@ export const startSocketIo = async (): Promise<void> => {
 
 			Swal.close()
 			await Promise.all([
-				HandUtils.initChatGroup(),
-				HandUtils.initChatUserList(),
-				HandUtils.initChatGroupList(),
+				SocketUtils.initChatUserList(),
+				SocketUtils.initChatGroupList(),
+				SocketUtils.initChatGroup(),
 				HandUtils.checkClientVersion(),
 			]);
+			pingInterval = setInterval(() => {
+				applicationStore.socketIo.emit(socket.send.ClientPing, { type: 'Client Ping' }, async (response: restfulType<any>) => {
+					if (response.code !== 200) await utils.showToasts('error', '心跳异常');
+				});
+			}, 3000);
 		},
 		[socket.rece.Tokens]: async (messageObject) => {
 			applicationStore.setServerUUID(messageObject.data);
@@ -65,58 +79,44 @@ export const startSocketIo = async (): Promise<void> => {
 			);
 			if (user) user.username = response.data.username;
 		},
-        disconnect: () => HandUtils.onSocketIoDisconnect(),
-        [socket.rece.Re.user.ReuserAll]: () => HandUtils.initChatUserList(),
-		[socket.rece.Re.force.ReforceLoad]: () => HandUtils.onReceRefreshConnect(),
-        [socket.rece.Warning]: (messageObject) => utils.showToasts("error", messageObject.message)
-	};
+        disconnect: () => SocketUtils.onSocketIoDisconnect(),
+        [socket.rece.Re.user.ReuserAll]: () => SocketUtils.initChatUserList(),
+		[socket.rece.Re.RehistoryClear]: () => SocketUtils.onReHistoryClear(),
+		[socket.rece.Re.force.ReforceLoad]: () => SocketUtils.onReForceLoad(),
+		[socket.rece.Re.force.ReforceConnect]: () => SocketUtils.onReForceConnect(),
+		[socket.rece.Online]: (messageObject) => applicationStore.onlineUserList = messageObject.data,
+        [socket.rece.Warning]: (messageObject) => utils.showToasts("error", messageObject.message),
+		[socket.rece.AI.CreateMessage]: (response: restfulType<aiEventHandleType>) => SocketUtils.onCreateAiMessage(response),
+	}
 
 	for (const [event, handler] of Object.entries(eventHandlers)) {
 		applicationStore.socketIo.on(event, handler);
 	}
 
-	applicationStore.socketIo.on(
-		socket.rece.Re.force.ReforceConnect,
-		async (): Promise<void> => {
-			if (
-				applicationStore.loginStatus &&
-				applicationStore.userList.length > 0 &&
-				applicationStore.userList.find(
-					(item) => item.uid === applicationStore.userInfo.uid
-				).isAdmin
-			) return;
-			await HandUtils.toggleConnectStatus(() => {});
+    applicationStore.socketIo.on(socket.rece.Message, async (message: messageType): Promise<void> => {
+		const { gid, uid, content, type } = message;
+		const { chatList, groupInfo, userInfo } = applicationStore;
+		const isCurrentGroup = gid === groupInfo.gid;
+	
+		const updateOrCreateChatItem = () => {
+			const chatItem = chatList.find(item => item.gid === gid);
+			if (chatItem) {
+				Object.assign(chatItem, { uid, type, content });
+				return chatItem;
+			}
+			const newItem = { uid, gid, type, content, num: 0};
+			chatList.push(newItem);
+			return newItem;
+		};
+	
+		const chatItem = updateOrCreateChatItem();
+		if (!isCurrentGroup) {
+			chatItem.num++;
+			return;
 		}
-	);
-
-    applicationStore.socketIo.on(socket.rece.Re.RehistoryClear, async (): Promise<void> => {
-        applicationStore.messageList.length = 0;
-        if (applicationStore.loginStatus && applicationStore.userList.length > 0 && applicationStore.userList.find(item => item.uid === applicationStore.userInfo.uid).isAdmin) return;
-        utils.showToasts('warning', '聊天记录重置');
-    });
-
-    applicationStore.socketIo.on(socket.rece.Online, async (messageObject: restfulType): Promise<void> => {
-        applicationStore.onlineUserList = messageObject.data;
-    });
-
-    applicationStore.socketIo.on(socket.rece.Message, async (messageObject: messageType): Promise<void> => {
-        applicationStore.messageList.push(messageObject);
-        await HandUtils.playNotificationSound(messageObject);
-        setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
-    });
-
-    applicationStore.socketIo.on(socket.rece.AI.CreateMessage, async (response: restfulType): Promise<void> => {
-        if (response.code === 200) {
-            if (response.data.event === "CREATE-MESSAGE") {
-                const applicationStore = utils.useApplicationStore();
-                await HandUtils.playNotificationSound(response.data.result);
-                applicationStore.aiMessageList.push(response.data.result);
-            }
-            if (response.data.event === "PUSH-STREAM") {
-                if (applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content === "正在请求中") applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content = "";
-                applicationStore.aiMessageList.find(item => item.sid === response.data.eventId).content += response.data.content;
-            }
-            setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
-        } else utils.showToasts('error', response.message);
-    });
+	
+		applicationStore.messageList.push(message);
+		if (userInfo.uid !== uid) await HandUtils.playNotificationSound(message);
+		setTimeout(() => document.querySelector(".chat-content-box").scrollTo({ top: document.querySelector(".chat-content-box").scrollHeight, behavior: 'smooth' }), 100);
+	});
 }

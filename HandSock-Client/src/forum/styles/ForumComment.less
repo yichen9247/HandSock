@@ -1,0 +1,119 @@
+div.post-comment {
+    div.comment-head {
+        width: 100%;
+        display: flex;
+        margin-top: 10px;
+        
+        span.head-text {
+            color: #606266;
+            line-height: 25px;
+        }
+        
+        button.el-button {
+            margin-left: auto;
+        }
+    }
+    
+    div.reply-box {
+        width: 100%;
+        margin-top: 20px;
+        
+        div.el-input {
+            height: 40px;
+        }
+        
+        button.el-button {
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            margin-left: 15px;
+        }
+        
+        div.el-form-item__content {
+            flex-wrap: nowrap;
+        }
+    }
+    
+    ul.comment-list {
+        li.comment-list-item {
+            width: 100%;
+            display: flex;
+            margin-top: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #e3e8f7;
+            
+            div.item-content {
+                width: 100%;
+                
+                div.content-head {
+                    width: 100%;
+                    display: flex;
+                    
+                    span.el-avatar {
+                        min-width: 28px;
+                    }
+                    
+                    div.comment-basic {
+                        width: 100%;
+                        height: 28px;
+                        display: flex;
+                        font-size: 16px;
+                        margin-left: 10px;
+                        align-items: center;
+                        justify-content: space-between;
+                        
+                        div.basic-info {
+                            span.username {
+                                color: #606266;
+                            }
+                            
+                            span.datetime {
+                                color: #999999;
+                                margin-left: 15px;
+                            }
+                        }
+                    }
+                }
+                
+                div.content-body {
+                    margin-top: 15px;
+                    text-align: justify;
+                    
+                    p.comment-content {
+                        color: #666666;
+                        font-size: 15px;
+                        line-height: 28px;
+                    }
+                    
+                    div.reply-content {
+                        padding: 10px;
+                        font-size: 14px;
+                        margin-top: 15px;
+                        line-height: 24px;
+                        border-radius: 6px;
+                        background-color: #f1f1f1;
+                        color: rgba(60, 60, 67, 0.65);
+                        
+                        div.basic-info {
+                            margin-bottom: 10px;
+                            
+                            span.username {
+                                color: #606266;
+                            }
+                            
+                            span.datetime {
+                                color: #999999;
+                                margin-left: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    div.pagination {
+        margin: 20px 0 10px;
+        justify-content: center;
+    }
+}

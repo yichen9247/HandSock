@@ -1,13 +1,3 @@
-<!--
- * @Description: Privacy policy page component displaying terms and conditions
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - Responsive text styling
- *   - Privacy policy content display
- *   - Formatted text with proper indentation
--->
-
 <template>
     <div class="privacy-policy">
         <p>欢迎您访问我们的产品，确保用户的数据安全和隐私保护是我们的首要任务， 本隐私政策载明了您访问和使用我们的产品和服务时所收集的数据及其处理方式。</p>
@@ -39,6 +29,7 @@
 <style lang="less">
     .privacy-policy {
         p {
+            font-size: 14px;
             text-indent: 2em;
             line-height: 28px;
             margin-bottom: 1em;

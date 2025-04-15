@@ -1,23 +1,34 @@
-export type userInfoType = {
+export interface restfulType<T> {
+    data: T,
+    code: number,
+    message: string
+}
+
+export interface arrayDataType<T> {
+    total: number,
+    items: Array<T>
+}
+
+export interface userInfoType {
     uid: string,
     nick: string,
-    email: string,
     avatar: string,
-    isAdmin: number,
-    isRobot: number,
+    status: number,
     username: string
+    permission: number
 }
 
-export type groupInfoType = {
+export interface groupInfoType {
     gid: number,
     name: string,
-    open: boolean
+    open: boolean,
     avatar: string,
     notice: string,
-    aiRole: boolean
+    aiRole: boolean,
+    active: boolean
 }
 
-export type messageType = {
+export interface messageType {
     uid: string,
     gid: number,
     sid: string,
@@ -28,37 +39,43 @@ export type messageType = {
     content: string
 }
 
-export type onlineUserType = {
+export interface onlineUserType {
     uid: string,
     uuids: string,
     login: boolean,
     platform: string
 }
 
-export type restfulType = {
-    data: any,
-    code: number,
-    message: string
-}
-
-export type loginFormType = {
+export interface loginFormType {
     username: string,
     password: string
 }
 
-export type reportFormType = {
+export interface reportFormType {
     sid: string,
     reason: string,
-    reported_id: string
+    reportedId: string
 }
 
-export type sidebarListType = {
+export interface addPostFormType {
+    title: string,
+    content: string,
+    image: Array<string>
+}
+
+export interface addPostCommentType {
+    pid: number,
+    content: string,
+    parent: null | number
+}
+
+export interface sidebarListType {
     call: any,
     name: string,
     icon: string
 }
 
-export type adminChanFormType = {
+export interface adminChanFormType {
     gid: number,
     name: string,
     notice: string,
@@ -66,20 +83,20 @@ export type adminChanFormType = {
     aiRole: boolean
 }
 
-export type adminBannerFormType = {
+export interface adminBannerFormType {
     bid: number,
     name: string,
     href: string,
     image: string
 }
 
-export type adminNoticeFormType = {
+export interface adminNoticeFormType {
     nid: number,
     title: string,
     content: string
 }
 
-export type adminUserFormType = {
+export interface adminUserFormType {
     uid: string,
     nick: string,
     robot: boolean,
@@ -87,7 +104,7 @@ export type adminUserFormType = {
     username: string
 }
 
-export type adminSystemInfoType = {
+export interface adminSystemInfoType {
     osInfo: string,
     osArch: string,
     locale: string,
@@ -100,11 +117,58 @@ export type adminSystemInfoType = {
     memoryUsageInfo: string
 }
 
-export type adminSystemMannerType =  {
+export interface adminSystemMannerType {
     taboo: boolean,
     upload: boolean,
-    playlist: string,
     register: boolean,
     version: string,
     download: string
+}
+
+export interface aiEventHandleType {
+    event: string,
+    eventId: string,
+    content: string,
+    result: messageType
+}
+
+export interface systemInfoType {
+    name: string,
+    value: string,
+    status: string
+}
+
+export interface noticeBoardType {
+    nid: number,
+    time: string,
+    title: string,
+    content: string
+}
+
+export interface forumPostType {
+    pid: number,
+    uid: number,
+    time: string,
+    title: string,
+    image: string,
+    content: string,
+    user: userInfoType
+}
+
+export interface uploadStatusType {
+    path: string
+}
+
+export interface userAuthStatus {
+    token: string,
+    userinfo: userInfoType
+}
+
+export interface forumCommentType {
+    pid: number,
+    cid: number,
+    time: string,
+    content: string,
+    user: userInfoType,
+    children: Array<forumCommentType>
 }

@@ -1,45 +1,9 @@
-
 import Swal from 'sweetalert2'
 import socket from '@/socket/socket'
 import { ElMessage } from "element-plus"
 import HandUtils from '@/scripts/HandUtils'
 import { useOnelDialogStore } from '@/stores/onelDialogStore'
 import { useApplicationStore } from '@/stores/applicationStore'
-
-export const setPersonalDialog = async (status: boolean): Promise<void> => {
-    await HandUtils.checkClientLoginStatus(() => {
-        const onelDialogStore = useOnelDialogStore();
-        onelDialogStore.setPersonalCenter(status);
-    });
-}
-
-export const setSearchDialog = async (status: boolean): Promise<void> => {
-    await HandUtils.checkClientLoginStatus(() => {
-        const onelDialogStore = useOnelDialogStore();
-        onelDialogStore.setSearchalCenter(status);
-    });
-}
-
-export const setSettingDialog = async (status: boolean): Promise<void> => {
-    await HandUtils.checkClientLoginStatus(() => {
-        const onelDialogStore = useOnelDialogStore();
-        onelDialogStore.setSettinglCenter(status);
-    });
-}
-
-export const setReportDialog = async (status: boolean): Promise<void> => {
-    await HandUtils.checkClientLoginStatus(() => {
-        const onelDialogStore = useOnelDialogStore();
-        onelDialogStore.setReportUserCenter(status);
-    });
-}
-
-export const setEmjoeDialog = async (status: boolean): Promise<void> => {
-    await HandUtils.checkClientLoginStatus(() => {
-        const onelDialogStore = useOnelDialogStore();
-        onelDialogStore.setEmojeListCenter(status);
-    });
-}
 
 export const toggleAdminFrame = async (): Promise<void> => {
     await HandUtils.checkClientLoginStatus(() => {

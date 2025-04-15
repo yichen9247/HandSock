@@ -2,9 +2,9 @@
     import { Reactive } from 'vue'
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
-    import { Action } from 'element-plus'
+    import { Action, messageType } from 'element-plus'
     import HandUtils from '@/scripts/HandUtils'
-    import { restfulType } from '../../../types'
+    import { arrayDataType, restfulType } from '../../../types'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -14,7 +14,6 @@
         text: '文本消息',
         file: '文件消息',
         clap: '拍拍消息',
-        code: '代码消息',
         image: '图片消息',
     };
 
@@ -28,13 +27,12 @@
         applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminChatList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType): Promise<void> => {
+        }, async (response: restfulType<arrayDataType<messageType>>): Promise<void> => {
             if (response.code !== 200) {
-                utils.showToasts('error', response.message);
+                await utils.showToasts('error', response.message);
             } else {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
-
                 if (tableData.length === 0 && response.data.total > 0) {
                     pages.value = pages.value - 1;
                     await getChatList();
@@ -57,7 +55,7 @@
                 src: socket.server.config.serverUrl + (item.type === 'avatar' ? socket.server.downloadAvatar : socket.server.downloadImages) + item.content, 
                 html: `上传时间： <span style='color: var(--dominColor)'>${item.time}</span>` 
             });
-        } else ElMessageBox.alert(item.content, '查看内容', {
+        } else await ElMessageBox.alert(item.content, '查看内容', {
             confirmButtonText: '确认',
             callback: () => {},
         });
@@ -68,13 +66,11 @@
             await HandUtils.sendClientSocketEmit({
                 event: action,
                 data: data,
-                callback: async (response: restfulType): Promise<void> => {
-                    if (response.code !== 200) {
-                        showToast('error', response.message);
-                    } else {
+                callback: async (response: restfulType<any>): Promise<void> => {
+                    if (response.code === 200) {
                         await getChatList();
-                        showToast('success', response.message);
-                    }
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                     callback && await callback(response);
                 }
             });

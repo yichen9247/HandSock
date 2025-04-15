@@ -35,7 +35,7 @@
     const todayChatTotalValue: any = useCommonTransition(todayChatTotal, 1000);
     
     onMounted((): void => {
-        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminDashData, null, (response: restfulType): void => {
+        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminDashData, null, (response: restfulType<any>): void => {
             if (response.code !== 200) {
                 utils.showToasts('error', response.message);   
             } else updateDashboardData(response.data);
@@ -105,7 +105,7 @@
 
             <div class="info-card">
                 <div class="card-update">
-                    <el-descriptions size="large" :column="1" title="更新日志">
+                    <el-descriptions size="large" :column="2" title="更新日志">
                         <el-descriptions-item v-for="(item, index) in socket.application.updateLog" :key="index" :label="item.type">{{ item.content }}</el-descriptions-item>
                     </el-descriptions>
                 </div>

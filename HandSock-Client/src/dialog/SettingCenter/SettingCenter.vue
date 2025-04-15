@@ -1,28 +1,9 @@
-<!--
- * @Description: PC settings center component with user settings, theme settings, chat settings and more
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - Responsive layout
- *   - Admin privilege control
- *   - Vertical menu navigation
- *   - Dynamic content switching
--->
-
 <script setup lang="ts">
     import utils from "@/scripts/utils"
-    import { 
-        PieChart, 
-        Setting, 
-        ChatLineRound, 
-        Notification, 
-        Document,
-        Mug
-    } from '@element-plus/icons-vue'
+    import { PieChart, Setting, ChatLineRound, Notification,  Document } from '@element-plus/icons-vue'
 
     const settingIndex: Ref<number> = ref(1);
     const applicationStore = utils.useApplicationStore();
-
     const handleSelect = (key: string): number => settingIndex.value = Number(key);
 </script>
 
@@ -51,16 +32,11 @@
                 </el-menu-item>
 
                 <el-menu-item index="4">
-                    <el-icon><Mug /></el-icon>
-                    <span>背景音乐</span>
-                </el-menu-item>
-
-                <el-menu-item index="5">
                     <el-icon><Document /></el-icon>
                     <span>隐私政策</span>
                 </el-menu-item>
 
-                <el-menu-item index="6">
+                <el-menu-item index="5">
                     <el-icon><Notification /></el-icon>
                     <span>关于项目</span>
                 </el-menu-item>
@@ -69,13 +45,7 @@
         </el-row>
 
         <ul class="content">
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 1 ? 0 : '500px', 
-                    position: settingIndex === 1 ? 'relative' : 'absolute' 
-                }"
-            >
+            <li class="content-page" v-if="settingIndex === 1">
                 <div class="page-header">
                     <span class="page-title">账号设置</span>
                 </div>
@@ -84,13 +54,7 @@
                 </div>
             </li>
 
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 2 ? 0 : '500px', 
-                    position: settingIndex === 2 ? 'relative' : 'absolute' 
-                }"
-            >
+            <li class="content-page" v-if="settingIndex === 2">
                 <div class="page-header">
                     <span class="page-title">主题设置</span>
                 </div>
@@ -99,13 +63,7 @@
                 </div>
             </li>
 
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 3 ? 0 : '500px', 
-                    position: settingIndex === 3 ? 'relative' : 'absolute' 
-                }"
-            >
+            <li class="content-page" v-if="settingIndex === 3">
                 <div class="page-header">
                     <span class="page-title">聊天设置</span>
                 </div>
@@ -114,28 +72,7 @@
                 </div>
             </li>
 
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 4 ? 0 : '500px', 
-                    position: settingIndex === 4 ? 'relative' : 'absolute' 
-                }"
-            >
-                <div class="page-header">
-                    <span class="page-title">背景音乐</span>
-                </div>
-                <div class="page-content">
-                    <MusicPage/>
-                </div>
-            </li>
-
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 5 ? 0 : '500px', 
-                    position: settingIndex === 5 ? 'relative' : 'absolute' 
-                }"
-            >
+            <li class="content-page" v-if="settingIndex === 4">
                 <div class="page-header">
                     <span class="page-title">隐私政策</span>
                 </div>
@@ -144,13 +81,7 @@
                 </div>
             </li>
 
-            <li 
-                class="content-page" 
-                :style="{ 
-                    marginTop: settingIndex === 6 ? 0 : '500px', 
-                    position: settingIndex === 6 ? 'relative' : 'absolute' 
-                }"
-            >
+            <li class="content-page" v-if="settingIndex === 5">
                 <div class="page-header">
                     <span class="page-title">关于项目</span>
                 </div>

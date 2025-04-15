@@ -1,14 +1,9 @@
-<!--
- * @Description: Chat footer box component for message input and file uploads
- * @Author: Hua
- * @Date: 2024-11-25
--->
-
 <script setup>
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
     import HandUtils from "@/scripts/HandUtils"
-    import { setEmjoeDialog, setUserLoginForm } from "@/scripts/action"
+    import { setUserLoginForm } from "@/scripts/action"
+    import EmojeCenter from "@/dialog/CenterDialog/EmojeCenter.vue"
 
     const userList = reactive([{}]);
     const applicationStore = utils.useApplicationStore();
@@ -50,8 +45,7 @@
 </script>
 
 <template>
-    <div>
-        <!-- Logged in view -->
+    <el-container>
         <el-footer class="content-footer" v-if="applicationStore.loginStatus">
             <div class="input-box">
                 <el-mention @keydown.enter="sendChatMessageV2" 
@@ -60,42 +54,18 @@
                 >
                     <template #label="{ item }">
                         <div style="display: flex; align-items: center">
-                            <el-avatar 
-                                :size="24" 
-                                :src="socket.server.config.serverUrl + socket.server.downloadAvatar + item.avatar" 
-                            />
-                            <span 
-                                style="margin-left: 10px; color: #79bbff" 
-                                v-if="item.isRobot"
-                            >
-                                {{ item.value }}
-                            </span>
-                            <span 
-                                style="margin-left: 10px;" 
-                                v-if="!item.isAdmin && !item.isRobot"
-                            >
-                                {{ item.value }}
-                            </span>
-                            <span 
-                                style="margin-left: 10px; color: var(--dominColor)" 
-                                v-if="item.isAdmin"
-                            >
+                            <el-avatar :size="24" :src="HandUtils.getUserAvatarByPath(item.avatar)"/>
+                            <span style="margin-left: 10px">
                                 {{ item.value }}
                             </span>
                         </div>
                     </template>
                 </el-mention>
-                <el-button 
-                    plain 
-                    class="chat-button" 
-                    type="primary" 
-                    @click="sendChatMessageV2"
-                >
+                <el-button class="chat-button"  plain type="primary" @click="sendChatMessageV2" :disabled="applicationStore.forumStatus">
                     {{ applicationStore.sendst ? '正在发送中' : '发送消息' }}
                 </el-button>
             </div>
             
-            <!-- Additional options dropdown (desktop only) -->
             <el-dropdown placement="top" v-if="!applicationStore.isDeviceMobile">
                 <el-button class="more-button" type="primary" plain>
                     <svg t="1708769523336" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5067" width="20" height="20">
@@ -104,14 +74,13 @@
                 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="setEmjoeDialog(true)">
-                            键入表情
+                        <el-dropdown-item @click="HandUtils.openCustomSwalDialog(EmojeCenter, {
+                            title: '发送表情'
+                        })">
+                            发送表情
                         </el-dropdown-item>
-                        <el-upload 
-                            ref="uploadRef" 
-                            class="upload-avatar"
-                            @success="uploadFileSuccess"
-                            @error="utils.uploadFileError"
+                        <el-upload ref="uploadRef" class="upload-avatar"
+                            @success="uploadFileSuccess" @error="utils.uploadFileError"
                             :headers="{
                                 uid: applicationStore.userInfo.uid,
                                 gid: applicationStore.groupInfo.gid,
@@ -123,11 +92,8 @@
                                 <el-dropdown-item>发送文件</el-dropdown-item>
                             </template>
                         </el-upload>
-                        <el-upload 
-                            ref="uploadRef" 
-                            class="upload-avatar"
-                            @success="uploadImageSuccess"
-                            @error="utils.uploadFileError"
+                        <el-upload ref="uploadRef" accept="image/*"
+                            @success="uploadImageSuccess" @error="utils.uploadFileError"
                             :headers="{
                                 uid: applicationStore.userInfo.uid,
                                 gid: applicationStore.groupInfo.gid,
@@ -144,7 +110,6 @@
             </el-dropdown>
         </el-footer>
 
-        <!-- Guest view -->
         <el-footer class="content-footer-no" v-else>
             <p class="no-text">
                 游客朋友你好，请 
@@ -152,7 +117,7 @@
                 后参与聊天
             </p>
         </el-footer>
-    </div>
+    </el-container>
 </template>
 
 <style lang="less">

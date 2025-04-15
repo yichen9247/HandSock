@@ -49,8 +49,9 @@ export default ({ command, mode }) => {
     const envList = [
         loadEnv(mode, process.cwd()).VITE_SERVER_IP,
         loadEnv(mode, process.cwd()).VITE_SERVER_URL,
-        loadEnv(mode, process.cwd()).VITE_APP_DIALOG,
-        loadEnv(mode, process.cwd()).VITE_AUTO_SHOW_IMAGE
+        loadEnv(mode, process.cwd()).VITE_APP_SCAN_LOGIN,
+        loadEnv(mode, process.cwd()).VITE_APP_AUTO_DIALOG,
+        loadEnv(mode, process.cwd()).VITE_APP_AUTO_SHOWIMAGE
     ];
 
     for (const element of envList) {
@@ -59,10 +60,6 @@ export default ({ command, mode }) => {
             return process.exit(0);
         }
     }
-
-    console.info("");
-    console.info(`\u001b[36m通信地址：${loadEnv(mode, process.cwd()).VITE_SERVER_IP}\u001b[0m\n`);
-    console.info(`\u001b[36m后端地址：${loadEnv(mode, process.cwd()).VITE_SERVER_URL}\u001b[0m\n`);
 
     return defineConfig({
         define: {

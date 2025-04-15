@@ -16,6 +16,7 @@ ul,li {
 }
 
 img {
+    object-fit: cover;
     user-select: none;
 }
 
@@ -28,7 +29,6 @@ html {
 body {
     width: 100%;
     overflow: hidden;
-    background-color: #f7f9fe;
     transition: background-image 0.5s;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     font-family: 'MiSans',Inter,'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','微软雅黑',Arial,sans-serif!important;
@@ -54,7 +54,7 @@ div.van-popup {
 }
 
 div.el-dialog {
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 div.el-message-box__container {
@@ -123,6 +123,10 @@ div.el-loading-mask {
     }
 }
 
+div.el-overlay {
+    z-index: 99999999!important;
+}
+
 p.el-loading-text {
     margin-bottom: 0!important;
     margin-top: 20px!important;
@@ -152,3 +156,74 @@ p.el-loading-text {
 }
 
 @import url("./various/variour.css");
+
+div.el-message {
+    z-index: 999999999!important;
+}
+
+.el-button--large {
+    border-radius: 6px!important;
+}
+
+.Toastify__toast-container {
+    top: 22px;
+    width: unset;
+
+    .Toastify__toast {
+        border-radius: 6px;
+    }
+
+    .Toastify__toast-body {
+        padding: 5px 20px;
+    }
+}
+
+div.handsock-dialog {
+    overflow: hidden;
+    position: relative;
+
+    &::before {
+        top: 0;
+        left: 0;
+        z-index: 0;
+        content: "";
+        position: absolute;
+        width: calc(100% - 1rem);
+    }
+
+    header.el-dialog__header {
+        height: 0;
+        padding: 0;
+        margin-top: 0;
+        overflow: hidden;
+        z-index: 9999999;
+        position: relative;
+    }
+
+    div.el-dialog__body {
+        z-index: 9999;
+        padding: 25px;
+        position: relative;
+    }
+}
+
+@media (max-width: 720px) {
+    div.handsock-dialog {
+        --el-dialog-width: 95%!important;
+    
+        div.el-dialog__body {
+            padding-top: 10px!important;
+            padding: 25px 15px!important;
+        }
+    }
+    
+    div.personCenter div.info-line div.flex-line div.el-input.el-input--suffix {
+        width: 155px;
+    }
+}
+
+div.image-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

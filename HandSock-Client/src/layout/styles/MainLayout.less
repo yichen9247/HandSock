@@ -3,40 +3,61 @@
 
 div.main-container {
     width: 80%;
-    height: 80%;
+    height: 82%;
     margin: auto;
     display: flex;
     overflow: hidden;
     min-height: 620px;
     position: relative;
-    padding: 25px 20px;
-    padding-left: 0px;
     border-radius: 0.5rem;
     background-color: #f7f9fe;
+    padding: 25px 20px 25px 0;
     box-shadow: var(--el-box-shadow-dark);
 
     div.chat-content {
-        width: 55%;
+        flex: 1;
         height: 100%;
         margin: 0 20px;
         overflow: hidden;
-        border-radius: 6px;
+        border-radius: 8px;
+        position: relative;
         border: 1px solid #e3e8f7;
         background-color: #ffffff;
 
         div.content-head {
             width: 100%;
             height: 65px;
+            display: flex;
+            padding: 0 20px;
             font-size: 20px;
             color: #ffffff;
             overflow: hidden;
-            line-height: 65px;
+            align-items: center;
+            justify-content: space-between;
             border-bottom: 1px solid #e3e8f7;
             background-color: rgba(255, 255, 255, 0.35);
 
             span.group-name {
                 color: #363636;
-                margin-left: 20px;
+                user-select: none;
+            }
+
+            div.button-list {
+                display: flex;
+                align-items: center;
+
+                div.toggle-button {
+                    width: 25px;
+                    height: 25px;
+                    cursor: pointer;
+                    margin-left: 20px;
+    
+                    svg {
+                        path {
+                            fill: @dominColor;
+                        }
+                    }
+                }
             }
 
             button.h-button {
@@ -63,6 +84,13 @@ div.main-container {
             button.h-button-right {
                 right: 20px;
             }
+        }
+
+        div.content-body {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            height: calc(100% - 150px);
         }
     }
 }
@@ -108,6 +136,42 @@ div.main-container.container-mobile {
             span.group-name {
                 margin-left: unset;
             }
+        }
+
+        div.content-body {
+            height: calc(100% - 115px);
+        }
+
+        footer.content-footer {
+            bottom: 0;
+            padding: 0;
+            height: 55px;
+            position: fixed;
+            margin-top: unset;
+            align-items: flex-end;
+    
+            div.input-box {
+                width: 100%;
+    
+                div.el-mention {
+                    height: 55px;
+                    border-radius: unset;
+                    border: unset!important;
+                }
+                
+                button.chat-button {
+                    flex: 1;
+                    height: 55px;
+                    border-radius: unset;
+                }
+            }
+        }
+    
+        footer.content-footer-no {
+            width: 100%;
+            border: unset;
+            margin-top: unset;
+            border-radius: unset;
         }
     }
 }

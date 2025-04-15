@@ -1,0 +1,56 @@
+
+@dominColor: var(--dominColor);
+
+div.add-post {
+    form.add-post-form {
+        display: flex;
+        justify-content: space-between;
+
+        div.flex-form {
+            width: 48%;
+            height: 270px;
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
+
+            div.el-form-item {
+                flex-direction: column;
+
+                textarea {
+                    padding: 10px 11px;
+                    resize: none!important;
+                }
+    
+                .el-form-item__label {
+                    color: @dominColor;
+                    margin-bottom: 10px;
+                }
+    
+                ul.el-upload-list {
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+    
+                    li.el-upload-list__item, div.el-upload {
+                        width: 100px;
+                        height: 100px;
+                        border-radius: 6px;
+                        margin: 0 0 27.5px 0;
+
+                        img {
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.el-upload--picture-card {
+    background-color: unset;
+}
+
+.el-upload-list--picture-card .el-upload-list__item {
+    border: none;
+}

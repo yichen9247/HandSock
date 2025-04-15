@@ -1,40 +1,31 @@
 package com.server.handsock.admin.service
 
-import com.server.handsock.admin.dao.ServerReportDao
-import com.server.handsock.admin.mod.ServerReportModel
-import com.server.handsock.utils.HandUtils
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
+import com.server.handsock.common.dao.ReportDao
+import com.server.handsock.common.model.ReportModel
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import kotlin.math.min
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ServerReportService @Autowired constructor(private val serverReportDao: ServerReportDao) {
-    fun getReportList(page: Int, limit: Int): Map<String, Any> {
-        try {
-            val serverReportModelList = serverReportDao.selectList(null)
-            val total = serverReportModelList.size
-            val startWith = (page - 1) * limit
-            serverReportModelList.reverse()
-            val endWith = min((startWith + limit).toDouble(), serverReportModelList.size.toDouble()).toInt()
-            val subList: List<ServerReportModel?> = serverReportModelList.subList(startWith, endWith)
-            return HandUtils.handleResultByCode(200, object : HashMap<Any?, Any?>() {
-                init {
-                    put("items", subList)
-                    put("total", total)
-                }
-            }, "获取成功")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+open class ServerReportService @Autowired constructor(private val reportDao: ReportDao) {
+    @Transactional
+    open fun getReportList(page: Int, limit: Int): Map<String, Any> {
+        val pageObj = Page<ReportModel>(page.toLong(), limit.toLong())
+        val wrapper = QueryWrapper<ReportModel>().orderByDesc("time")
+        val queryResult = reportDao.selectPage(pageObj, wrapper)
+        return HandUtils.handleResultByCode(200,  mapOf(
+            "total" to queryResult.total,
+            "items" to queryResult.records
+        ), "获取成功")
     }
 
-    fun deleteReport(sid: String?): Map<String, Any> {
-        return try {
-            if (serverReportDao.deleteById(sid) > 0) {
-                HandUtils.handleResultByCode(200, null, "删除成功")
-            } else HandUtils.handleResultByCode(400, null, "删除失败")
-        } catch (e: Exception) {
-            HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun deleteReport(rid: Int): Map<String, Any> {
+        return if (reportDao.deleteById(rid) > 0) {
+            HandUtils.handleResultByCode(200, null, "删除成功")
+        } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 }

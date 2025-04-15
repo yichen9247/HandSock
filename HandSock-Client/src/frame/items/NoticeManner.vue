@@ -4,7 +4,7 @@
     import socket from '@/socket/socket'
     import HandUtils from '@/scripts/HandUtils'
     import { Plus, Refresh } from '@element-plus/icons-vue'
-    import { adminNoticeFormType, restfulType } from '../../../types'
+    import { adminNoticeFormType, arrayDataType, noticeBoardType, restfulType } from '../../../types'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -27,9 +27,9 @@
         applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminNoticeList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType): Promise<void> => {
+        }, async (response: restfulType<arrayDataType<noticeBoardType>>): Promise<void> => {
             if (response.code !== 200) {
-                utils.showToasts('error', response.message);
+                await utils.showToasts('error', response.message);
             } else {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
@@ -68,12 +68,12 @@
             await HandUtils.sendClientSocketEmit({
                 data: data,
                 event: action,
-                callback: async (response: restfulType) => {
+                callback: async (response: restfulType<any>) => {
                     if (response.code !== 200) {
-                        showToast('error', response.message);
+                        await showToast('error', response.message);
                     } else {
                         await getNoticeList();
-                        showToast('success', response.message);
+                        await showToast('success', response.message);
                     }
                     callback && await callback(response);
                 }

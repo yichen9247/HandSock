@@ -1,46 +1,19 @@
-<!--
- * @Description: Chat message component that displays different types of messages (join, clap) with appropriate styling
- * @Props: 
- *   message: Object - Contains message data including type, content and user info
- * @Components:
- *   el-tag - Element Plus tag component for displaying message content
- *   ChatMessageInfo - Component to show user information
--->
-
 <script setup lang="ts">
+    import { messageType } from "../../types"
     import HandUtils from "@/scripts/HandUtils"
     
     const chatMessage = defineProps({
-        message: { type: Object, required: true }
+        message: { type: Object as PropType<messageType>, required: true }
     });
 </script>
 
 <template>
     <span class="chat-message" :data-type="message.type">
-        <!-- Join message -->
-        <el-tag 
-            v-if="chatMessage.message.type === 'join'"
-            type="info" 
-            class="mx-1" 
-            effect="plain"
-        >
+        <el-tag type="success" class="mx-1" effect="plain" v-if="message.type === 'clap'">
             {{ chatMessage.message.content }}
         </el-tag>
-
-        <!-- Clap message -->
-        <el-tag 
-            v-if="message.type === 'clap'"
-            type="success" 
-            class="mx-1" 
-            effect="plain"
-        >
-            {{ chatMessage.message.content }}
-        </el-tag>
-
-        <!-- User info if available -->
-        <ChatMessageInfo 
+        <ChatMessageInfo :message="chatMessage.message"
             v-if="HandUtils.getUserInfoByUid(chatMessage.message.uid) !== null"
-            :message="chatMessage.message"
         />
     </span>
 </template>

@@ -1,6 +1,6 @@
 package com.server.handsock.admin.service
 
-import com.server.handsock.utils.HandUtils
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.stereotype.Service
 import java.nio.file.Files
 import java.nio.file.Paths

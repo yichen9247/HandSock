@@ -4,7 +4,7 @@
     import socket from '@/socket/socket'
     import HandUtils from '@/scripts/HandUtils'
     import { Plus, Refresh } from '@element-plus/icons-vue'
-    import { adminChanFormType, restfulType } from '../../../types'
+    import { adminChanFormType, arrayDataType, groupInfoType, restfulType } from '../../../types'
     
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -20,16 +20,17 @@
     const applicationStore = utils.useApplicationStore();
     const showToast = async (type: string, message: string): Promise<void> => await utils.showToasts(type, message);
     
+    onUnmounted(() => rightDrawer.value = false);
     onMounted(async (): Promise<void> => await getChanList());
-    
+
     const getChanList = async (): Promise<void> => {
         loading.value = true;
         await applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminChanList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType) => {
+        }, async (response: restfulType<arrayDataType<groupInfoType>>) => {
             if (response.code !== 200) {
-                showToast('error', response.message);
+                await showToast('error', response.message);
             } else {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
@@ -53,13 +54,11 @@
             await HandUtils.sendClientSocketEmit({
                 data: data,
                 event: action,
-                callback: async (response: restfulType) => {
-                    if (response.code !== 200) {
-                        showToast('error', response.message);
-                    } else {
+                callback: async (response: restfulType<any>) => {
+                    if (response.code === 200) {
                         await getChanList();
-                        showToast('success', response.message);
-                    }
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                     callback && await callback(response);
                 }
             });
@@ -84,13 +83,11 @@
                     gid,
                     status: status === 1 ? 0 : 1
                 },
-                callback: async (response: restfulType): Promise<void> => {
-                    if (response.code !== 200) {
-                        showToast('error', response.message);
-                    } else {
+                callback: async (response: restfulType<any>): Promise<void> => {
+                    if (response.code === 200) {
                         await getChanList();
-                        showToast('success', response.message);
-                    }
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                 }
             })
         )} else if (actionType === "[SET:ADMIN:CHAN:ACTIVE:STATUS]") {
@@ -103,13 +100,11 @@
                     gid,
                     status: status === 1 ? 0 : 1
                 },
-                callback: async (response: restfulType): Promise<void> => {
-                    if (response.code !== 200) {
-                        showToast('error', response.message);
-                    } else {
+                callback: async (response: restfulType<any>): Promise<void> => {
+                    if (response.code === 200) {
                         await getChanList();
-                        showToast('success', response.message);
-                    }
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                 }
             })
         )}
@@ -120,7 +115,7 @@
 
     const createChannel = (): void => {
         formModel.value = 1;
-        formData.gid = null,
+        formData.gid = null;
         formData.name = "";
         formData.avatar = "";
         formData.aiRole = false;
@@ -130,7 +125,7 @@
 
     const updateChannel = (row: any): void => {
         formModel.value = 0;
-        formData.gid = row.gid,
+        formData.gid = row.gid;
         rightDrawer.value = true;
         formData.name = row.name;
         formData.notice = row.notice;
@@ -212,7 +207,7 @@
                 </el-form-item>
 
                 <el-form-item label="频道公告">
-                    <el-input type="textarea" v-model="formData.notice" :rows="2" placeholder="请输入频道公告（可以为空）"/>
+                    <el-input type="textarea" v-model="formData.notice" :rows="3" placeholder="请输入频道公告（可以为空）"/>
                 </el-form-item>
                 <el-checkbox v-model="formData.aiRole">设置为AI频道</el-checkbox>
             </el-form>

@@ -1,126 +1,117 @@
-<script setup>
+<script setup lang="ts">
+    import { computed } from 'vue'
     import utils from "@/scripts/utils"
+    import socket from '@/socket/socket'
     import HandUtils from "@/scripts/HandUtils"
-    import { setPersonalDialog } from "@/scripts/action"
-    
-    let mousetime = 0;
-    let mousedown = null;
+    import ChatPngMessage from './ChatPngMessage.vue'
+    import ChatFilesMessage from './ChatFilesMessage.vue'
+    import { messageType, restfulType } from '../../types'
+    import UserCenter from "@/dialog/CenterDialog/UserCenter.vue"
 
     const applicationStore = utils.useApplicationStore();
-    const chatMessage = defineProps({
-        message: { type: Object, required: true }
+    const props = defineProps({ message: { type: Object as PropType<messageType>, required: true } });
+    const isCurrentUser = computed(() => props.message.uid === applicationStore.userInfo.uid && applicationStore.loginStatus);
+
+    const messageInfo = computed(() => ({
+        isSelf: isCurrentUser.value,
+        user: HandUtils.getUserInfoByUid(props.message.uid),
+        typeClass: isCurrentUser.value ? 'chatCode-T' : 'chatCode-O'
+    }));
+
+    const mouseState = reactive({
+        timer: null,
+        duration: 0
     });
 
-    /**
-     * Sends a "clap" message when user double clicks another user's avatar
-     */
-    const avatarClaps = async (sideName, userName) => {
-        await HandUtils.checkClientLoginStatus(() => {
-            applicationStore.socketIo.emit("[SEND:MESSAGE]", {
-                type: 'clap',
-                content: `${sideName} 拍了拍 ${userName}`
-            }, (response) => {
-                if (response.code !== 200) {
-                    utils.showToasts('error', response.message);
+    const handleAvatarInteraction = (username: string) => ({
+        async mousedown() {
+            await HandUtils.checkClientLoginStatus((): void => {
+                mouseState.timer = setInterval(() => {
+                    if (mouseState.duration++ >= 1) {
+                        applicationStore.setChantInput(`${applicationStore.chantInput}@${username} `)
+                        resetMouseState()
+                    }
+                }, 300);
+            });
+        },
+        mouseup: resetMouseState,
+        touchend: resetMouseState
+    });
+
+    const resetMouseState = (): void => {
+        mouseState.duration = 0
+        clearInterval(mouseState.timer)
+    }
+
+    const avatarClaps = async (sideName: string, userName: string): Promise<void> => {
+        await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
+            await HandUtils.sendClientSocketEmit({
+                event: socket.send.SendMessage,
+                data: {
+                    type: 'clap',
+                    content: `${sideName} 拍了拍 ${userName}`
+                },
+                callback: (response: restfulType<any>) => {
+                    if (response.code !== 200) utils.showToasts('error', response.message);
                 }
             });
         });
     };
-
-    /**
-     * Clears mouse hold timer when mouse is released
-     */
-    const avtMouseup = () => {
-        mousetime = 0;
-        clearInterval(mousedown);
-    };
-
-    /**
-     * Starts mouse hold timer for @mention functionality
-     */
-    const avtMousedown = async (username) => {
-        await HandUtils.checkClientLoginStatus(() => {
-            mousedown = setInterval(() => {
-                if (mousetime >= 1) {
-                    mousetime = 0;
-                    clearInterval(mousedown);
-                    applicationStore.setChantInput(applicationStore.chantInput + "@" + username + " ");
-                } else mousetime++;
-            }, 300);
-        });
-    };
-
-    const meeesgaeInfo = computed(() => {
-        return {
-            'userinfo': HandUtils.getUserInfoByUid(chatMessage.message.uid),
-            'chatCode': chatMessage.message.uid === applicationStore.userInfo.uid,
-        }
-    });
 </script>
 
 <template>
     <div class="message-info" 
-         v-if="applicationStore.userList.some(item => item.uid === message.uid)" 
-         :style="{ justifyContent: message.uid === applicationStore.userInfo.uid ? 'flex-end' : 'flex-start' }">
-        
-        <!-- Avatar for other users -->
-        <div class="avatar-info"
-            v-if="message.uid !== applicationStore.userInfo.uid"
-            :type="HandUtils.getUserTypeByInfo(meeesgaeInfo.userinfo)"
-            @dblclick="avatarClaps(applicationStore.userInfo.nick, meeesgaeInfo.userinfo.nick)"
-            @mousedown="avtMousedown(meeesgaeInfo.userinfo.nick)"
-            @mouseup="avtMouseup"
-            @touchstart="avtMousedown(meeesgaeInfo.userinfo.nick)"
-            @touchend="avtMouseup"
+        v-if="applicationStore.userList.some(u => u.uid === message.uid)" 
+        :style="{ justifyContent: isCurrentUser ? 'flex-end' : 'flex-start' }"
+    >
+        <div class="avatar-info" v-if="!isCurrentUser"
+            :type="HandUtils.getUserTypeByInfo(messageInfo.user)" 
+            v-on="handleAvatarInteraction(messageInfo.user.nick)"
+            @dblclick="avatarClaps(applicationStore.userInfo.nick, messageInfo.user.nick)"
         >
-            <div class="avatar" :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"></div>
+            <div class="avatar image-bg" v-lazy:background-image="HandUtils.getUserAvatarByPath(messageInfo.user.avatar)"></div>
         </div>
 
-        <div class="content-box" 
-             :style="{ alignItems: message.uid === applicationStore.userInfo.uid ? 'flex-end' : 'flex-start' }">
-            
-            <!-- Message header with user info -->
-            <div class="user-info"
-                 v-if="message.type === 'text' || message.type === 'file' || message.type === 'image'">
-                <span class="user-time" v-if="message.uid !== applicationStore.userInfo.uid">
-                    {{ message.time.split(' ')[1] }}
-                </span>
-                <span class="user-name" v-if="message.uid !== applicationStore.userInfo.uid">
-                    {{ meeesgaeInfo.userinfo.nick }}
-                </span>
-                <span class="user-name" v-if="message.uid === applicationStore.userInfo.uid">
-                    {{ meeesgaeInfo.userinfo.nick }}
-                </span>
-                <span class="user-time" v-if="message.uid === applicationStore.userInfo.uid">
-                    {{ message.time.split(' ')[1] }}
-                </span>
+        <div class="content-box" :style="{ alignItems: isCurrentUser ? 'flex-end' : 'flex-start' }">
+            <div class="user-info" v-if="['text', 'file', 'image'].includes(message.type)">
+                <template v-if="!isCurrentUser">
+                    <span class="user-time">{{ message.time.split(' ')[1] }}</span>
+                    <span class="user-name">{{ messageInfo.user.nick }}</span>
+                </template>
+                <template v-else>
+                    <span class="user-name">{{ messageInfo.user.nick }}</span>
+                    <span class="user-time">{{ message.time.split(' ')[1] }}</span>
+                </template>
             </div>
-
-            <!-- Message content -->
-            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
-                 v-html="message.content" 
-                 v-if="message.type === 'text'">
-            </div>
-
-            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
-                 v-if="message.type === 'file'" 
-                 style="padding: 0;">
+            <div class="message-content" v-if="message.type === 'file'" style="padding: 0;">
                 <ChatFilesMessage :message="message"/>
             </div>
 
-            <div :class="`message-content ${meeesgaeInfo.chatCode ? 'chatCode-T' : 'chatCode-O'}`"
-                 v-if="message.type === 'image'" 
-                 style="padding: 0;">
+            <div class="message-content" v-if="message.type === 'image'" style="padding: 0;">
                 <ChatPngMessage :message="message"/>
             </div>
+            <div class="message-content" v-html="message.content" v-if="message.type === 'text'"></div>
         </div>
 
-        <!-- Avatar for current user -->
-        <div class="avatar-info" @click="setPersonalDialog(true)"
-            v-if="message.uid === applicationStore.userInfo.uid" 
-            :type="HandUtils.getUserTypeByInfo(meeesgaeInfo.userinfo)"
+        <div class="avatar-info" v-if="isCurrentUser" :type="HandUtils.getUserTypeByInfo(messageInfo.user)"
+            @click="HandUtils.openCustomSwalDialog(UserCenter, {
+                width: 450
+            })" 
         >
-            <div class="avatar" :style="`background-image: url(${HandUtils.getUserAvatarByPath(meeesgaeInfo.userinfo.avatar)})`"></div>
+            <div class="avatar image-bg" v-lazy:background-image="HandUtils.getUserAvatarByPath(messageInfo.user.avatar)"></div>
         </div>
     </div>
 </template>
+
+<style lang="less">
+    span.el-tag {
+        background: #ffffff
+    }
+
+    div.content-frame.frame-mobile {
+        span.el-tag {
+            border: none;
+            color: rgba(60, 60, 67, 0.65);
+        }
+    }
+</style>

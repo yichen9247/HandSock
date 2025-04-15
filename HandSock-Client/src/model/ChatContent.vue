@@ -1,58 +1,47 @@
-<!--
- * @Description: Chat content component that displays messages and handles channel state
- * @Author: Hua
- * @Date: 2024-11-25
- * @Components:
- *   Message - Chat message component for rendering individual messages
- *   ChatFootBox - Footer component with input and controls
- *   el-main - Element Plus main container
- *   el-result - Element Plus result component for closed channel state
- *   el-button - Element Plus button for channel navigation
--->
-
 <script setup lang="ts">
+    import { computed } from 'vue'
     import utils from '@/scripts/utils'
     import HandUtils from '@/scripts/HandUtils'
     import { Router, useRouter } from 'vue-router'
 
     const router: Router = useRouter();
     const applicationStore = utils.useApplicationStore();
+
+    const isGroupUnavailable = computed(() => 
+        applicationStore.groupClosed || !applicationStore.groupInfo.open
+    )
+    const isAIChat = computed(() => applicationStore.groupInfo.aiRole)
+    const hasMessages = computed(() => currentMessageList.value.length > 0)
+
+    const currentMessageList = computed(() => 
+        isAIChat.value ? applicationStore.aiMessageList : applicationStore.messageList
+    )
+    const showEmptyState = computed(() =>
+        applicationStore.loginStatus && !hasMessages.value &&
+        applicationStore.groupInfo.open && !isGroupUnavailable.value
+    )
 </script>
 
 <template>
     <div :class="`content-frame ${applicationStore.isDeviceMobile ? 'frame-mobile' : 'frame-pc'}`">
         <div class="chat-content-box">
-            <!-- Show error state when channel is closed -->
-            <el-main 
-                class="content-main" 
-                v-if="applicationStore.groupClosed || !applicationStore.groupInfo.open" 
-                style="margin: auto;"
-            >
-                <el-result 
-                    icon="error" 
-                    title="该频道未开启" 
-                    style="height: 100%;" 
-                    class="empty-box"
-                >
+            <el-main class="content-main" style="margin: auto;" v-if="isGroupUnavailable">
+                <el-result class="empty-box" style="height: 100%;" icon="error" title="该频道未开启">
                     <template #extra>
-                        <el-button 
-                            type="primary" 
-                            @click="HandUtils.toggleChatChannel(router, 0)"
-                        >
+                        <el-button type="primary" @click="HandUtils.toggleChatChannel(router, 0)">
                             返回到主频道
                         </el-button>
                     </template>
                 </el-result>
             </el-main>
 
-            <!-- Display message list when channel is open -->
-            <ChatMessage v-else :key="index" :message="message"
-                v-for="(message, index) in applicationStore.groupInfo.aiRole ? applicationStore.aiMessageList : applicationStore.messageList" 
-            />
-            <el-empty style="margin: auto;" description="暂无更多消息记录" v-if="applicationStore.loginStatus && applicationStore.messageList.length === 0 && applicationStore.groupInfo.open && !applicationStore.groupInfo.aiRole && !(applicationStore.groupClosed || !applicationStore.groupInfo.open)" />
-            <el-empty style="margin: auto;" description="暂无更多消息记录" v-if="applicationStore.loginStatus && applicationStore.aiMessageList.length === 0 && applicationStore.groupInfo.open && applicationStore.groupInfo.aiRole && !(applicationStore.groupClosed || !applicationStore.groupInfo.open)" />
+            <template v-else>
+                <div class="chat-list" v-if="hasMessages">
+                    <ChatMessage v-for="(message, index) in currentMessageList" :key="index" :message="message"/>
+                </div>
+                <el-empty style="margin: auto;" v-if="showEmptyState" :description="`暂无更多${isAIChat ? 'AI' : ''}消息记录`"/>
+            </template>
         </div>
-        <ChatFootBox/>
     </div>
 </template>
 

@@ -1,15 +1,3 @@
-<!--
- * @Description: User settings component for managing profile information
- * @Author: Hua
- * @Date: 2024-11-25
- * @Features:
- *   - Update user nickname
- *   - Update username
- *   - Update password
- *   - Form validation
- *   - Real-time updates via socket
--->
-
 <script setup lang="ts">
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
@@ -22,12 +10,11 @@
         nick: '', username: '', password: ''
     });
 
-    // Handle socket events and update store
     const handleSocketEmit = async (event: string, data: any, field: string): Promise<void> => {
         await HandUtils.sendClientSocketEmit({
             data: data,
             event: event,
-            callback: (response: restfulType): void => {
+            callback: (response: restfulType<any>): void => {
             if (response.code === 200) {
                     utils.showToasts('success', response.message);
                     const { nick, avatar } = response.data;
@@ -102,7 +89,7 @@
 
             div.el-input {
                 height: 38px;
-                width: calc(100% - 110px);
+                width: calc(100% - 115px);
             }
 
             button.el-button {

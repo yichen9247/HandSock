@@ -1,16 +1,16 @@
 package com.server.handsock.admin.man;
 
-import com.server.handsock.admin.mod.ServerBannerModel;
+import com.server.handsock.common.model.BannerModel;
 
 public class ServerBannerManage {
-    public void setBanner(ServerBannerModel serverBannerModel, String name, String href, String image) {
-        serverBannerModel.setName(name);
-        serverBannerModel.setHref(href);
-        serverBannerModel.setImage(image);
+    public void setBanner(BannerModel bannerModel, String name, String href, String image) {
+        bannerModel.setName(name);
+        bannerModel.setHref(href);
+        bannerModel.setImage(image);
     }
 
-    public void updateBanner(ServerBannerModel serverBannerModel, Integer bid, String name, String href, String image) {
-        serverBannerModel.setBid(bid);
-        setBanner(serverBannerModel, name, href, image);
+    public void updateBanner(BannerModel bannerModel, Integer bid, String name, String href, String image) {
+        bannerModel.setBid(bid);
+        setBanner(bannerModel, name, href, image);
     }
 }

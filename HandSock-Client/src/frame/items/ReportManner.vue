@@ -4,7 +4,7 @@
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
     import HandUtils from '@/scripts/HandUtils'
-    import { restfulType } from '../../../types'
+    import { arrayDataType, messageType, restfulType } from '../../../types'
     
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -21,9 +21,9 @@
         await applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminRepoList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType) => {
+        }, async (response: restfulType<arrayDataType<any>>) => {
             if (response.code !== 200) {
-                showToast('error', response.message);
+                await showToast('error', response.message);
             } else {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
@@ -47,18 +47,18 @@
             await HandUtils.sendClientSocketEmit({
                 data: data,
                 event: action,
-                callback: async (response: restfulType): Promise<void> => {
+                callback: async (response: restfulType<any>): Promise<void> => {
                     if (response.code === 200) {
                         await getRepoList();
-                        showToast('success', response.message);
-                    } else showToast('error', response.message);
+                        await showToast('success', response.message);
+                    } else await showToast('error', response.message);
                     callback && await callback(response);
                 }
             });
         })
     };
     
-    const handleDeleteRepo = (rid: string): void => {
+    const handleDeleteRepo = (rid: number): void => {
         ElMessageBox.confirm('是否确认删除该条举报', '删除举报', {
             confirmButtonText: '确认',
             cancelButtonText: '取消',
@@ -77,7 +77,7 @@
     }
 
     const handleTabooUser = async (uid: string): Promise<void> => {
-        ElMessageBox.alert(`是否禁言编号为 ${uid} 的用户`, '禁言用户', {
+        await ElMessageBox.alert(`是否禁言编号为 ${uid} 的用户`, '禁言用户', {
             showCancelButton: true,
             cancelButtonText: '取消',
             confirmButtonText: '确认',
@@ -89,7 +89,7 @@
                         uid: uid,
                         status: 'open'
                     },
-                    callback: async (response: restfulType): Promise<void> => {
+                    callback: async (response: restfulType<any>): Promise<void> => {
                         if (response.code !== 200) {
                             await utils.showToasts('error', response.message);
                         } else await utils.showToasts('success', response.message);
@@ -105,7 +105,7 @@
             data: {
                 sid: sid
             },
-            callback: async (response: restfulType): Promise<void> => {
+            callback: async (response: restfulType<messageType>): Promise<void> => {
                 if (response.code === 200) {
                     if (response.data.type === 'file') {
                         open(socket.server.config.serverUrl + socket.server.downloadFile + response.data.content);
@@ -114,11 +114,11 @@
                             src: socket.server.config.serverUrl + socket.server.downloadImages + response.data.content, 
                             html: `举报时间： <span style='color: var(--dominColor)'>${response.data.time}</span>` 
                         });
-                    } else ElMessageBox.alert(response.data.content, '查看内容', {
+                    } else await ElMessageBox.alert(response.data.content, '查看内容', {
                         confirmButtonText: '确认',
                         callback: (): void => {},
                     });
-                } else utils.showToasts('error', response.message);
+                } else await utils.showToasts('error', response.message);
             }
         });
     }

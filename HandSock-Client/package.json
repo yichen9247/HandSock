@@ -1,6 +1,6 @@
 {
   "name": "handsock",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,6 +26,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.5",
     "@vitejs/plugin-vue": "^4.6.2",
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.17.0",

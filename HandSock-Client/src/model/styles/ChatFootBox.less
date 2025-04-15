@@ -51,9 +51,9 @@ footer.content-footer {
             width: 120px;
             height: 100%;
             font-size: 16px;
-            color: #ffffff;
+            color: #ffffff!important;
             border-radius: 0 6px 6px 0;
-            background-color: @dominColor;
+            background-color: @dominColor!important;
             border: 1px solid @dominColor!important;
         }
     }
@@ -61,15 +61,15 @@ footer.content-footer {
     div.el-dropdown {
         width: 50px;
         height: 50px;
+    }
 
-        button.more-button {
-            width: inherit;
-            height: inherit;
-            overflow: hidden;
-            border-radius: 0.25rem;
-            background-color: @dominColor;
-            border: 1px solid @dominColor!important;
-        }
+    button.more-button {
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 6px;
+        background-color: @dominColor;
+        border: 1px solid @dominColor!important;
     }
 }
 
@@ -89,39 +89,5 @@ footer.content-footer-no {
     span.login {
         cursor: pointer;
         color: var(--dominColor);
-    }
-}
-
-div.content-frame.frame-mobile {
-    footer.content-footer {
-        bottom: 0;
-        padding: 0;
-        height: 55px;
-        position: fixed;
-        margin-top: unset;
-        align-items: flex-end;
-
-        div.input-box {
-            width: 100%;
-
-            div.el-mention {
-                height: 55px;
-                border-radius: unset;
-                border: unset!important;
-            }
-            
-            button.chat-button {
-                flex: 1;
-                height: 55px;
-                border-radius: unset;
-            }
-        }
-    }
-
-    footer.content-footer-no {
-        width: 100%;
-        border: unset;
-        margin-top: unset;
-        border-radius: unset;
     }
 }

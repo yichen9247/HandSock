@@ -11,9 +11,9 @@
 -->
 
 <script setup lang="ts">
+    import Swal from "sweetalert2"
     import utils from "@/scripts/utils"
     
-    const onelDialogStore = utils.useOnelDialogStore();
     const applicationStore = utils.useApplicationStore();
 
     // Categorized emoji list for better organization
@@ -40,32 +40,22 @@
      * @param {string} emoje - Selected emoji character
      */
     const renderEmoje = (emoje: string): void => {
+        Swal.close();
         applicationStore.chantInput += emoje;
-        onelDialogStore.setEmojeListCenter(false);
     }
 </script>
 
 <template>
-    <el-dialog 
-        class="emoje-center"
-        v-model="onelDialogStore.emojeListCenter"
-        :width="applicationStore.isDeviceMobile ? '95%' : '500px'"
-        title="键入表情" 
-        align-center 
-        destroy-on-close 
-        center
-    >
-        <div class="emoje-list">
-            <span 
-                v-for="(item, index) in emojeList" 
-                :key="index"
-                class="emoje-item" 
-                @click="renderEmoje(item)"
-            >
-                {{ item }}
-            </span>
-        </div>
-    </el-dialog>
+    <div class="emoje-list">
+        <span 
+            v-for="(item, index) in emojeList" 
+            :key="index"
+            class="emoje-item" 
+            @click="renderEmoje(item)"
+        >
+            {{ item }}
+        </span>
+    </div>
 </template>
 
 <style lang="less">

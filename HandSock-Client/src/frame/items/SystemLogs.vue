@@ -19,7 +19,7 @@
     onMounted((): void => getSystemLogsList());
 
     const getSystemLogsList = (): void => {
-        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminSystemLogs, null, (response: restfulType): void => {
+        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminSystemLogs, null, (response: restfulType<string>): void => {
             if (response.code === 200) {
                 logList.length = 0;
                 systemLogs.length = 0;
@@ -60,7 +60,7 @@
                 if (action === 'confirm') await HandUtils.sendClientSocketEmit({
                     data: null,
                     event: socket.send.Admin.Del.DELAdminSystemLogs,
-                    callback: (response: restfulType): void => {
+                    callback: (response: restfulType<any>): void => {
                     if (response.code === 200) {
                             getSystemLogsList();
                             loading.value = true;

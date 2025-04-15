@@ -5,5 +5,4 @@ import com.server.handsock.admin.mod.ServerUserModel;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ServerUserDao extends BaseMapper<ServerUserModel> {
-}
+public interface ServerUserDao extends BaseMapper<ServerUserModel> {}

@@ -1,103 +1,73 @@
 package com.server.handsock.admin.service
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import com.server.handsock.admin.dao.ServerChannelDao
-import com.server.handsock.admin.dao.ServerChatDao
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.server.handsock.admin.man.ServerChannelManage
-import com.server.handsock.admin.mod.ServerChannelModel
-import com.server.handsock.admin.mod.ServerChatModel
-import com.server.handsock.utils.HandUtils
+import com.server.handsock.common.dao.ChannelDao
+import com.server.handsock.common.model.ChannelModel
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import kotlin.math.min
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ServerChannelService @Autowired constructor(
-    private val serverChatDao: ServerChatDao,
-    private val serverChannelDao: ServerChannelDao
-) {
-    fun getChanList(page: Int, limit: Int): Map<String, Any> {
-        try {
-            val serverChannelModelList = serverChannelDao.selectList(null)
-            val total = serverChannelModelList.size
-            val startWith = (page - 1) * limit
-            val endWith = min((startWith + limit).toDouble(), serverChannelModelList.size.toDouble()).toInt()
-            val subList: List<ServerChannelModel?> = serverChannelModelList.subList(startWith, endWith)
-            return HandUtils.handleResultByCode(200, object : HashMap<Any?, Any?>() {
-                init {
-                    put("items", subList)
-                    put("total", total)
-                }
-            }, "获取成功")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+open class ServerChannelService @Autowired constructor(private val channelDao: ChannelDao) {
+    @Transactional
+    open fun getChanList(page: Int, limit: Int): Map<String, Any> {
+        val wrapper = QueryWrapper<ChannelModel>()
+        val pageObj = Page<ChannelModel>(page.toLong(), limit.toLong())
+        val queryResult = channelDao.selectPage(pageObj, wrapper)
+        return HandUtils.handleResultByCode(200,  mapOf(
+            "total" to queryResult.total,
+            "items" to queryResult.records
+        ), "获取成功")
     }
 
-    fun deleteChan(gid: Long): Map<String, Any> {
+    @Transactional
+    open fun deleteChan(gid: Long): Map<String, Any> {
         if (gid == 0L) return HandUtils.handleResultByCode(409, null, "主频道不可操作")
-        try {
-            val serverChatModel = serverChatDao.selectList(QueryWrapper<ServerChatModel>().eq("gid", gid))
-            if (serverChatModel.isEmpty()) {
-                if (serverChannelDao.deleteById(gid) > 0) return HandUtils.handleResultByCode(200, null, "删除成功")
-            } else {
-                if (serverChannelDao.deleteById(gid) > 0 && serverChatDao.delete(QueryWrapper<ServerChatModel>().eq("gid", gid)) > 0) return HandUtils.handleResultByCode(200, null, "删除成功")
-            }
-            return HandUtils.handleResultByCode(400, null, "删除失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+        return if (channelDao.deleteById(gid) > 0) {
+            HandUtils.handleResultByCode(200, null, "删除成功")
+        } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 
-    fun updateChan(gid: Long?, name: String?, avatar: String?, notice: String?, aiRole: Boolean?): Map<String, Any> {
-        try {
-            if (serverChannelDao.selectOne(QueryWrapper<ServerChannelModel>().eq("gid", gid)) == null) return HandUtils.handleResultByCode(409, null, "频道不存在")
-            val serverChannelModel = ServerChannelModel()
-            ServerChannelManage().setChan(serverChannelModel, gid, name, avatar, notice, aiRole)
-            return if (serverChannelDao.updateById(serverChannelModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "修改成功")
-            } else HandUtils.handleResultByCode(400, null, "修改失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun updateChan(gid: Long, name: String, avatar: String, notice: String, aiRole: Boolean?): Map<String, Any> {
+        if (channelDao.selectOne(QueryWrapper<ChannelModel>().eq("gid", gid)) == null) return HandUtils.handleResultByCode(409, null, "频道不存在")
+        val channelModel = ChannelModel()
+        ServerChannelManage().setChan(channelModel, gid, name, avatar, notice, aiRole)
+        return if (channelDao.updateById(channelModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "修改成功")
+        } else HandUtils.handleResultByCode(400, null, "修改失败")
     }
 
-    fun createChan(gid: Long?, name: String?, avatar: String?, notice: String?, aiRole: Boolean?): Map<String, Any> {
-        try {
-            if (serverChannelDao.selectOne(QueryWrapper<ServerChannelModel>().eq("gid", gid)) != null) return HandUtils.handleResultByCode(409, null, "频道已存在")
-            val serverChannelModel = ServerChannelModel()
-            ServerChannelManage().setChan(serverChannelModel, gid, name, avatar, notice, aiRole)
-            return if (serverChannelDao.insert(serverChannelModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "创建成功")
-            } else HandUtils.handleResultByCode(400, null, "创建失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun createChan(gid: Long, name: String, avatar: String, notice: String, aiRole: Boolean): Map<String, Any> {
+        if (channelDao.selectOne(QueryWrapper<ChannelModel>().eq("gid", gid)) != null) return HandUtils.handleResultByCode(409, null, "频道已存在")
+        val channelModel = ChannelModel()
+        ServerChannelManage().setChan(channelModel, gid, name, avatar, notice, aiRole)
+        return if (channelDao.insert(channelModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "创建成功")
+        } else HandUtils.handleResultByCode(400, null, "创建失败")
     }
 
-    fun updateChanOpenStatus(gid: Long, status: Int?): Map<String, Any> {
+    @Transactional
+    open fun updateChanOpenStatus(gid: Long, status: Int): Map<String, Any> {
         if (gid == 0L) return HandUtils.handleResultByCode(409, null, "主频道不可操作")
-        try {
-            val serverChannelModel = ServerChannelModel()
-            ServerChannelManage().updateChanOpenStatus(serverChannelModel, gid, status)
-            return if (serverChannelDao.updateById(serverChannelModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "设置成功")
-            } else HandUtils.handleResultByCode(400, null, "设置失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+        val channelModel = ChannelModel()
+        ServerChannelManage().updateChanOpenStatus(channelModel, gid, status)
+        return if (channelDao.updateById(channelModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "设置成功")
+        } else HandUtils.handleResultByCode(400, null, "设置失败")
     }
 
-    fun updateChanActiveStatus(gid: Long, status: Int?): Map<String, Any> {
+    @Transactional
+    open fun updateChanActiveStatus(gid: Long, status: Int): Map<String, Any> {
         if (gid == 0L) return HandUtils.handleResultByCode(409, null, "主频道不可操作")
-        try {
-            val serverChannelModel = ServerChannelModel()
-            ServerChannelManage().updateChanActiveStatus(serverChannelModel, gid, status)
-            return if (serverChannelDao.updateById(serverChannelModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "设置成功")
-            } else HandUtils.handleResultByCode(400, null, "设置失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+        val channelModel = ChannelModel()
+        ServerChannelManage().updateChanActiveStatus(channelModel, gid, status)
+        return if (channelDao.updateById(channelModel) > 0) {
+            HandUtils.handleResultByCode(200, null, "设置成功")
+        } else HandUtils.handleResultByCode(400, null, "设置失败")
     }
 }

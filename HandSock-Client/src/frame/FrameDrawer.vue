@@ -6,7 +6,7 @@
 </script>
 
 <template>
-    <div class="admin-content-sidebar" :style="{ transform: config.show ? 'translateX(0px)' : 'translateX(360px)' }">
+    <div class="handsock-content-sidebar" :style="{ transform: config.show ? 'translateX(0px)' : 'translateX(360px)' }">
         <div class="header-box">
             <el-icon @click="option('close')"><Back /></el-icon>
             <p class="title-text">{{ config.title }}</p>

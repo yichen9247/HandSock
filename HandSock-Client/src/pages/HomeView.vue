@@ -4,7 +4,5 @@
 </script>
 
 <template>
-    <transition name="el-fade-in">
-        <MainLayout/>
-    </transition>
+    <MainLayout/>
 </template>

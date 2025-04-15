@@ -3,13 +3,13 @@
 
 div.admin-frame {
     top: 0;
+    z-index: 9;
     height: 100%;
-    padding: 25px 20px;
-    padding-left: 0px;
     position: absolute;
+    padding: 25px 20px 25px 0;
     width: calc(100% - 105px);
-    transition: transform 0.5s;
     background-color: #f7f9fe;
+    transition: transform 0.5s;
     transform: translateX(-100%);
 
     div.frame-header {
@@ -19,8 +19,8 @@ div.admin-frame {
         font-size: 22px;
         overflow: hidden;
         color: #363636;
-        line-height: 60px;
-        border-radius: 6px;
+        line-height: 65px;
+        border-radius: 8px;
         text-align: center;
         border: 1px solid #e3e8f7;
         background-color: #ffffff;
@@ -39,21 +39,28 @@ div.admin-frame {
             width: 165px;
             overflow: hidden;
             overflow-y: scroll;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid #e3e8f7;
             background-color: #ffffff;
 
             ul.el-menu-vertical-admin {
+                height: 100%;
+                user-select: none;
                 border-right: unset;
                 background-color: unset;
 
-                li.el-menu-item {
+                li.el-menu-item, div.el-sub-menu__title {
                     font-size: 16px;
                     color: rgba(60, 60, 67, 0.65);
 
                     &:hover {
                         background-color: #f5f7fa;
                     }
+                }
+                
+                li.el-sub-menu ul.el-menu li.el-menu-item {
+                    padding: unset;
+                    justify-content: center;
                 }
 
                 li.el-menu-item.is-active {
@@ -68,7 +75,7 @@ div.admin-frame {
             padding: 20px;
             overflow: hidden;
             margin-left: 20px;
-            border-radius: 6px;
+            border-radius: 8px;
             position: relative;
             border: 1px solid #e3e8f7;
             background-color: #ffffff;

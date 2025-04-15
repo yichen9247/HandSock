@@ -1,106 +1,87 @@
 package com.server.handsock.admin.service
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import com.server.handsock.admin.dao.ServerChatDao
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import com.server.handsock.admin.dao.ServerUserDao
 import com.server.handsock.admin.man.ServerUserManage
-import com.server.handsock.admin.mod.ServerChatModel
 import com.server.handsock.admin.mod.ServerUserModel
-import com.server.handsock.clients.dao.ClientUserDao
-import com.server.handsock.utils.HandUtils
+import com.server.handsock.client.dao.ClientUserDao
+import com.server.handsock.common.types.UserAuthType
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import kotlin.math.min
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ServerUserService @Autowired constructor(
+open class ServerUserService @Autowired constructor(
     private val serverUserDao: ServerUserDao,
-    private val serverChatDao: ServerChatDao,
     private val clientUserDao: ClientUserDao
 ) {
-
-    fun getUserList(page: Int, limit: Int): Map<String, Any> {
-        try {
-            val serverUserModelList = serverUserDao.selectList(null)
-            val startWith = (page - 1) * limit
-            serverUserModelList.reverse()
-            val endWith = min((startWith + limit).toDouble(), serverUserModelList.size.toDouble()).toInt()
-            val subList: List<ServerUserModel?> = serverUserModelList.subList(startWith, endWith)
-            return HandUtils.handleResultByCode(200, object : HashMap<Any?, Any?>() {
-                init {
-                    put("items", subList)
-                    put("total", serverUserModelList.size)
-                }
-            }, "获取成功")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun getUserList(page: Int, limit: Int): Map<String, Any> {
+        val pageObj = Page<ServerUserModel>(page.toLong(), limit.toLong())
+        val result = serverUserDao.selectPage(pageObj, QueryWrapper<ServerUserModel>().orderByDesc("reg_time"))
+        return mapOf("code" to 200, "data" to mapOf("total" to result.total, "items" to result.records), "message" to "获取成功")
     }
 
-    fun deleteUser(uid: Long?): Map<String, Any> {
-        try {
-            val serverChatModel = serverChatDao.selectList(QueryWrapper<ServerChatModel>().eq("uid", uid))
-            if (clientUserDao.selectById(uid).isAdmin == 1) return HandUtils.handleResultByCode(409, null, "无法操作管理员账号")
-            if (serverChatModel.isEmpty()) {
-                if (serverUserDao.deleteById(uid) > 0) return HandUtils.handleResultByCode(200, null, "删除成功")
-            } else {
-                if (serverUserDao.deleteById(uid) > 0 && serverChatDao.delete(QueryWrapper<ServerChatModel>().eq("uid", uid)) > 0) return HandUtils.handleResultByCode(200, null, "删除成功")
-            }
-            return HandUtils.handleResultByCode(400, null, "删除失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun deleteUser(uid: Long): Map<String, Any> {
+        if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
+        return if (serverUserDao.deleteById(uid) > 0) {
+            HandUtils.handleResultByCode(200, null, "删除成功")
+        } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 
-    fun updateUserPassword(uid: Long?, password: String?): Map<String, Any> {
-        try {
-            val serverUserModel = ServerUserModel()
-            ServerUserManage(HandUtils).updateUserPassword(serverUserModel, uid, password)
-            return if (serverUserDao.updateById(serverUserModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "修改成功")
-            } else HandUtils.handleResultByCode(400, null, "修改失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun updateUserPassword(uid: Long, password: String): Map<String, Any> {
+        if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
+        return serverUserDao.selectById(uid)?.let { user ->
+            ServerUserManage(HandUtils).updateUserPassword(user, uid, password)
+            if (serverUserDao.updateById(user) > 0) HandUtils.handleResultByCode(200, null, "修改密码成功")
+            else HandUtils.handleResultByCode(400, null, "修改密码失败")
+        } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 
-    fun updateUserTabooStatus(uid: Long?, status: String?): Map<String, Any> {
-        try {
-            val serverUserModel = ServerUserModel()
-            ServerUserManage(HandUtils).updateUserTabooStatus(serverUserModel, uid, status)
-            return if (serverUserDao.updateById(serverUserModel) > 0) {
-                HandUtils.handleResultByCode(200, null, "设置成功")
-            } else HandUtils.handleResultByCode(400, null, "设置失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun updateUserStatus(uid: Long, status: Int): Map<String, Any> {
+        if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
+        return serverUserDao.selectById(uid)?.let { user ->
+            user.status = status
+            if (serverUserDao.updateById(user) > 0) HandUtils.handleResultByCode(200, null, "状态更新成功")
+            else HandUtils.handleResultByCode(400, null, "状态更新失败")
+        } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 
-    fun updateUserInfo(uid: Long?, username: String?, nick: String?, avatar: String?, robot: Boolean): Map<String, Any> {
-        try {
-            if (serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("uid", uid)) == null) return HandUtils.handleResultByCode(409, null, "用户不存在")
-            val serverUserModel = ServerUserModel()
-            val robotModel = serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("is_robot", 1))
+    @Transactional
+    open fun updateUserInfo(uid: Long, username: String, nick: String, avatar: String, robot: Boolean): Map<String, Any> {
+        if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
+        return serverUserDao.selectById(uid)?.let { user ->
             if (robot) {
-                if (robotModel != null) {
-                    robotModel.isRobot = 0
-                    ServerUserManage(HandUtils).updateUserInfo(serverUserModel, uid, username, nick, avatar, 1)
-                    if (serverUserDao.updateById(robotModel) > 0 && serverUserDao.updateById(serverUserModel) > 0) return HandUtils.handleResultByCode(200, null, "修改成功")
-                } else {
-                    ServerUserManage(HandUtils).updateUserInfo(serverUserModel, uid, username, nick, avatar, 1)
-                    if (serverUserDao.updateById(serverUserModel) > 0) return HandUtils.handleResultByCode(200, null, "修改成功")
-                }
-            } else {
-                ServerUserManage(HandUtils).updateUserInfo(serverUserModel, uid, username, nick, avatar, 0)
-                if (serverUserDao.updateById(serverUserModel) > 0) return HandUtils.handleResultByCode(200, null, "修改成功")
-            }
-            return HandUtils.handleResultByCode(400, null, "修改失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+                serverUserDao.selectList(QueryWrapper<ServerUserModel>()
+                    .eq("permission", UserAuthType.ROBOT_AUTHENTICATION)
+                    .ne("uid", uid))
+                    .filter { it.permission != UserAuthType.ADMIN_AUTHENTICATION }
+                    .forEach {
+                        it.permission = UserAuthType.USER_AUTHENTICATION
+                        serverUserDao.updateById(it)
+                    }
+                ServerUserManage(HandUtils).updateUserInfo(user, uid, username, nick, avatar, UserAuthType.ROBOT_AUTHENTICATION)
+            } else ServerUserManage(HandUtils).updateUserInfo(user, uid, username, nick, avatar, UserAuthType.USER_AUTHENTICATION)
+            if (serverUserDao.updateById(user) > 0) HandUtils.handleResultByCode(200, null, "信息更新成功")
+            else HandUtils.handleResultByCode(400, null, "信息更新失败")
+        } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 
-    fun getUserInfo(uid: Long): ServerUserModel { // 谨慎使用此方法
-        return serverUserDao.selectOne(QueryWrapper<ServerUserModel>().eq("uid", uid))
+    @Transactional
+    open fun getUserInfo(uid: Long): Map<String, Any> {
+        return serverUserDao.selectById(uid)?.let {
+            HandUtils.handleResultByCode(200, it, "获取成功")
+        } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
+    }
+
+    private fun checkAdmin(uid: Long): Boolean {
+        return clientUserDao.selectById(uid)?.let {
+            it.permission == UserAuthType.ADMIN_AUTHENTICATION
+        } ?: false
     }
 }

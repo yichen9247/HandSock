@@ -1,13 +1,8 @@
-<!--
- * @Description: 聊天功能组件，显示在线用户列表和群组通知
- * @Author: Hua
- * @Date: 2024-11-25
--->
-
 <script setup lang="ts">
     import utils from '@/scripts/utils'
-    import { setReportDialog } from '@/scripts/action'
-
+    import HandUtils from '@/scripts/HandUtils'
+    import ReportCenter from '../dialog/CenterDialog/ReportCenter.vue'
+    
     const applicationStore = utils.useApplicationStore()
     const onlineCount = computed((): number => applicationStore.onlineUserList.length);
 </script>
@@ -19,25 +14,19 @@
         </div>
         <div class="function-box">
             <div class="function-main">
-                <van-notice-bar 
-                    class="mobile-bg"
-                    left-icon="volume-o" 
-                    :text="applicationStore.groupInfo.notice"
-                />
-
+                <van-notice-bar class="mobile-bg" left-icon="volume-o" :text="applicationStore.groupInfo.notice"/>
                 <div class="online-list">
-                    <ChatOnlineBox
-                        v-for="(item, index) in applicationStore.onlineUserList"
-                        :key="index" :user="item"
+                    <ChatOnlineBox 
+                        v-for="(item, index) in applicationStore.onlineUserList" :key="index" :user="item"
                     />
                 </div>
             </div>
 
             <div class="button-box">
-                <el-button
-                    type="primary"
-                    class="report-button"
-                    @click="setReportDialog(true)"
+                <el-button class="report-button" type="primary"
+                    @click="HandUtils.openCustomSwalDialog(ReportCenter, {
+                        title: '举报用户'
+                    })"
                 >
                     举报聊天记录
                 </el-button>

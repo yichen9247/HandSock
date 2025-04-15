@@ -3,12 +3,11 @@
     import utils from '@/scripts/utils'
     import socket from '@/socket/socket'
     import HandUtils from '@/scripts/HandUtils'
-    import { restfulType, adminSystemMannerType } from '../../../types'
+    import { restfulType, adminSystemMannerType, systemInfoType } from '../../../types'
 
     const systemConfig: Reactive<adminSystemMannerType> = reactive({
         taboo: false,
         upload: false,
-        playlist: "",
         register: false,
         version: "",
         download: ""
@@ -23,10 +22,9 @@
         { key: "是否确认清空所有聊天记录", name: "清理所有聊天记录" }
     ]);
 
-    onMounted(async (): Promise<void> => {
-        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminSystemConfig, null, (response: restfulType) => {
+    onMounted((): void => {
+        applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminSystemConfig, null, (response: restfulType<Array<systemInfoType>>) => {
             if (response.code === 200) {
-                systemConfig.playlist = response.data.find((item: { name: string }) => item.name === 'playlist').value;
                 systemConfig.taboo = response.data.find((item: { name: string }) => item.name === 'taboo').value === 'open';
                 systemConfig.upload = response.data.find((item: { name: string }) => item.name === 'upload').value === 'open';
                 systemConfig.register = response.data.find((item: { name: string }) => item.name === 'register').value === 'open';
@@ -38,34 +36,34 @@
     });
 
     const setSystemTaboo = async (): Promise<void> => {
-        await HandUtils.checkClientLoginStatus(async () => {
+        await HandUtils.checkClientLoginStatus( async (): Promise<void> => {
             await HandUtils.sendClientSocketEmit({
                 event: socket.send.Set.SetSystemTabooStatus,
                 data: {
                     value: systemConfig.taboo ? "close" : "open"
                 },
-                callback: (response: restfulType): void => {
+                callback: async (response: restfulType<systemInfoType>): Promise<void> => {
                     if (response.code === 200) {
-                        utils.showToasts('success', response.message);
+                        await utils.showToasts('success', response.message);
                         systemConfig.taboo = response.data.status === 'open';
-                    } else utils.showToasts('error', response.message);
+                    } else await utils.showToasts('error', response.message);
                 }
             });
         });
     }
 
     const setSystemUpload = async (): Promise<void> => {
-        await HandUtils.checkClientLoginStatus(async () => {
+        await HandUtils.checkClientLoginStatus( async (): Promise<void> => {
             await HandUtils.sendClientSocketEmit({
                 event: socket.send.Admin.Set.System.SetSystenConfigUpload,
                 data: {
                     value: systemConfig.upload ? "close" : "open"
                 },
-                callback: (response: restfulType): void => {
+                callback: async (response: restfulType<systemInfoType>): Promise<void> => {
                     if (response.code !== 200) {
-                        utils.showToasts('error', response.message);   
+                        await utils.showToasts('error', response.message);
                     } else {
-                        utils.showToasts('success', response.message);   
+                        await utils.showToasts('success', response.message);
                         systemConfig.upload = response.data.status === 'open';
                     }
                 }
@@ -74,17 +72,17 @@
     }
 
     const setSystemRegister = async (): Promise<void> => {
-        await HandUtils.checkClientLoginStatus(async () => {
+        await HandUtils.checkClientLoginStatus( async (): Promise<void> => {
             await HandUtils.sendClientSocketEmit({
                 event: socket.send.Admin.Set.System.SetSystemConfigRegister,
                 data: {
                     value: systemConfig.register ? "close" : "open"
                 },
-                callback: (response: restfulType): void => {
+                callback: async (response: restfulType<systemInfoType>): Promise<void> => {
                     if (response.code === 200) {
-                        utils.showToasts('success', response.message);
+                        await utils.showToasts('success', response.message);
                         systemConfig.register = response.data.status === 'open';
-                    } else utils.showToasts('error', response.message);
+                    } else await utils.showToasts('error', response.message);
                 }
             });
         });
@@ -92,7 +90,7 @@
 
     const adminSystemSender = async (event: string, index: number): Promise<void> => {
         await HandUtils.checkClientLoginStatus(async (): Promise<void> => {
-            ElMessageBox.alert(clientBoard[index].key, clientBoard[index].name, {
+            await ElMessageBox.alert(clientBoard[index].key, clientBoard[index].name, {
                 showCancelButton: true,
                 cancelButtonText: '取消',
                 confirmButtonText: '确认',
@@ -101,10 +99,10 @@
                         await HandUtils.sendClientSocketEmit({
                             data: null,
                             event: event,
-                            callback: async (response: restfulType) => {
+                            callback: async (response: restfulType<any>) => {
                                 if (response.code !== 200) {
-                                    showToast('error', response.message);
-                                } else showToast('success', response.message);
+                                    await showToast('error', response.message);
+                                } else await showToast('success', response.message);
                             }
                         });
                     }
@@ -118,10 +116,9 @@
             await HandUtils.sendClientSocketEmit({
                 event: socket.send.Admin.Set.System.SetSystemConfigValue,
                 data: { name, value },
-                callback: (response: restfulType): void => {
+                callback: (response: restfulType<systemInfoType>): void => {
                     if (response.code !== 200) {
                         utils.showToasts('error', response.message);
-                        systemConfig.playlist = response.data.status;
                     } else utils.showToasts('success', response.message);
                 }
             });
@@ -131,15 +128,6 @@
 
 <template>
     <div class="content-box system-manner" v-loading="loading">
-        <p class="set-title">背景音乐</p>
-        <div class="flex-line">
-            <el-input v-model="systemConfig.playlist" placeholder="请输入网易云歌单ID" clearable/>
-            <el-button type="primary" @click="setSystemConfigValue({
-                name: 'playlist',
-                value: systemConfig.playlist
-            })">设置背景音乐</el-button>
-        </div>
-
         <p class="set-title">软件设置</p>
         <div class="flex-line">
             <el-input v-model="systemConfig.version" placeholder="请输入版本名称" clearable/>

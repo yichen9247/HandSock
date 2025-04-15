@@ -4,7 +4,7 @@
     import socket from '@/socket/socket'
     import { Action } from 'element-plus'
     import HandUtils from '@/scripts/HandUtils'
-    import { restfulType } from '../../../types'
+    import { arrayDataType, restfulType } from '../../../types'
 
     const pages: Ref<number> = ref(1);
     const total: Ref<number> = ref(0);
@@ -21,7 +21,7 @@
         applicationStore.socketIo.emit(socket.send.Admin.Get.GetAdminUploadList, {
             page: pages.value,
             limit: 10,
-        }, async (response: restfulType) => {
+        }, async (response: restfulType<arrayDataType<any>>) => {
             if (response.code === 200) {
                 total.value = response.data.total;
                 tableData.splice(0, tableData.length, ...response.data.items);
@@ -29,7 +29,7 @@
                     pages.value = pages.value - 1;
                     await getUploadList();
                 }
-            } else utils.showToasts('error', response.message);
+            } else await utils.showToasts('error', response.message);
             loading.value = false
         });
     }
@@ -44,12 +44,12 @@
             await HandUtils.sendClientSocketEmit({
                 data: data,
                 event: action,
-                callback: async (response: restfulType) => {
+                callback: async (response: restfulType<any>) => {
                     if (response.code !== 200) {
-                        showToast('error', response.message);
+                        await showToast('error', response.message);
                     } else {
                         await getUploadList();
-                        showToast('success', response.message);
+                        await showToast('success', response.message);
                     }
                     callback && await callback(response);
                 }

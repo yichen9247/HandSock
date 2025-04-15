@@ -2,6 +2,7 @@ export default {
     send: {
         ClientInit: '[CLIENT:INIT]',
         ReportUser: '[REPORT:USER]',
+        ClientPing: '[CLIENT:PING]',
         OnlineLogin: '[ONLINE:LOGIN]',
         SendMessage: '[SEND:MESSAGE]',
         ClientCheck: '[CLIENT:CHECK]',
@@ -14,8 +15,7 @@ export default {
         },
 
         Get: {
-            GetSystemConfig: '[GET:SYSTEM:CONFIG]',
-            GetSystemPlaylist: '[GET:SYSTEM:PLAYLIST]'
+            GetSystemConfig: '[GET:SYSTEM:CONFIG]'
         },
 
         Set: {
@@ -38,11 +38,21 @@ export default {
             EditUserPassword: '[EDIT:USER:PASSWORD]'
         },
 
+        Forum: {
+            AddForumPost: '[ADD:FORUM:POST]',
+            AddCommentPost: '[ADD:FORUM:COMMENT]'
+        },
+
         Search: {
+            All: {
+                SearchUserAll: '[SEARCH:USER:ALL]',
+                SearchGroupAll: '[SEARCH:GROUP:ALL]',
+                SearchNoticeAll: '[SEARCH:NOTICE:ALL]',
+                SearchHistoryAll: '[SEARCH:HISTORY:ALL]'
+            },
             SearchGroup: '[SEARCH:GROUP]',
-            SearchUserAll: '[SEARCH:USER:ALL]',
-            SearchGroupAll: '[SEARCH:GROUP:ALL]',
-            SearchHistoryAll: '[SEARCH:HISTORY:ALL]'
+            SearchForumPost: '[SEARCH:FORUM:POST]',
+            SearchForumComment: '[SEARCH:FORUM:COMMENT]'
         },
 
         Admin: {
@@ -52,10 +62,12 @@ export default {
                 GetAdminChatList: '[GET:ADMIN:CHAT:LIST]',
                 GetAdminUserList: '[GET:ADMIN:USER:LIST]',
                 GetAdminRepoList: '[GET:ADMIN:REPO:LIST]',
+                GetAdminPostList: '[GET:ADMIN:POST:LIST]',
                 GetAdminBannerList: '[GET:ADMIN:BANNER:LIST]',
                 GetAdminNoticeList: '[GET:ADMIN:NOTICE:LIST]',
                 GetAdminSystemLogs: '[GET:ADMIN:SYSTEM:LOGS]',
                 GetAdminUploadList: '[GET:ADMIN:UPLOAD:LIST]',
+                GetAdminCommentList: '[GET:ADMIN:COMMENT:LIST]',
                 GetAdminChatContent: '[GET:ADMIN:CHAT:CONTENT]',
                 GetAdminSystemConfig: '[GET:SYSTEM:CONFIG]'
             },
@@ -73,8 +85,8 @@ export default {
 
                 User: {
                     SetAdminUserInfo: '[SET:ADMIN:USER:INFO]',
-                    SetAdminUserPassword: '[SET:ADMIN:USER:PASSWORD]',
-                    SetAdminUserTabooStatus: '[SET:ADMIN:USER:TABOO:STATUS]'
+                    SetAdminUserStatus: '[SET:ADMIN:USER:STATUS]',
+                    SetAdminUserPassword: '[SET:ADMIN:USER:PASSWORD]'
                 },
 
                 System: {
@@ -89,10 +101,12 @@ export default {
                 DelAdminChan: '[DEL:ADMIN:CHAN]',
                 DelAdminChat: '[DEL:ADMIN:CHAT]',
                 DelAdminRepo: '[DEL:ADMIN:REPO]',
+                DelAdminPost: '[DEL:ADMIN:POST]',
                 DelAdminUser: '[DEL:ADMIN:USER]',
                 DelAdminBanner: '[DEL:ADMIN:BANNER]',
                 DelAdminNotice: '[DEL:ADMIN:NOTICE]',
                 DelAdminUpload: '[DEL:ADMIN:UPLOAD]',
+                DelAdminComment: '[DEL:ADMIN:COMMENT]',
                 DELAdminSystemLogs: '[DEL:ADMIN:SYSTEM:LOGS]'
             }
         }
@@ -145,17 +159,15 @@ export default {
             baseUrl: import.meta.env.BASE_URL,
             serverIP: import.meta.env.VITE_SERVER_IP,
             serverUrl: import.meta.env.VITE_SERVER_URL,
-            appDialog: import.meta.env.VITE_APP_DIALOG,
-            autoShowImage: import.meta.env.VITE_AUTO_SHOW_IMAGE === 'true'
+            scanLogin: import.meta.env.VITE_APP_SCAN_LOGIN,
+            autoDialog: import.meta.env.VITE_APP_AUTO_DIALOG,
+            autoShowImage: import.meta.env.VITE_APP_AUTO_SHOWIMAGE === 'true'
         }
     },
 
     dominColor: {
         // Default theme colors
-        defaultDominColor: 'rgba(5,160, 150, 1)',
-
-        // Refresh theme colors
-        refreshDominColor: 'rgba(75, 145, 225, 1)',
+        defaultDominColor: 'rgba(75, 145, 225, 1)',
 
         // Puresh theme colors  
         pureshsDominColor: 'rgba(150, 180, 190, 1)',
@@ -164,33 +176,72 @@ export default {
         yalanshDominColor: 'rgba(140, 200, 250, 1)',
 
         // Roufenh theme colors
-        RoufenhDominColor: 'rgba(255, 119, 138, 1)',
+        roufenhDominColor: 'rgba(255, 119, 138, 1)',
     },
 
     application: {
         appName: 'HandSock',
-        appVersion: '2.2.1-B2503221',
+        appVersion: '2.3.0-B15',
         author: 'https://github.com/yichen9247',
         authorName: 'yichen9247（Hua）',
         appDownload: 'https://doc.handsock.xiaokolomi.cn/apk/app-release.apk',
         github: 'https://github.com/yichen9247/HandSock',
-        description: "HandSock 是一款有趣的聊天应用，基于 Typescript，Mybatis-Plus，Springboot, Vue3 和 Socket.io，Redis 等技术开发",
+        description: "HandSock是一款有趣且开源的聊天应用，集聊天室和社区为一体，基于 Springboot、Vue3、TypeScript 等技术开发",
 
         updateLog: [{
-            type: '优化',
-            content: '优化了关于相关界面配色及布局'
+            type: '重构',
+            content: '重构了消息收发模块'
+        }, {
+            type: '重构',
+            content: '重构了弹窗调用模块'
+        }, {
+            type: '重构',
+            content: '重构了权限认证模块'
         }, {
             type: '新增',
-            content: '登录界面新增了扫码登录的方式'
-        },  {
+            content: '网页端新增社区板块'
+        }, {
+            type: '新增',
+            content: '网页端新增公告板块'
+        }, {
+            type: '新增',
+            content: '启用了管理项目折叠'
+        }, {
+            type: '新增',
+            content: '新增了未读消息显示'
+        }, {
+            type: '新增',
+            content: '新增了扫码登录模式'
+        }, {
+            type: '新增',
+            content: '新增了一键部署脚本'
+        }, {
+            type: '新增',
+            content: '新增推荐客户端弹窗'
+        }, {
+            type: '新增',
+            content: '新增了后端开放接口'
+        }, {
+            type: '删除',
+            content: '彻底删除了音乐模块'
+        }, {
+            type: '优化',
+            content: '优化一系列用户体验'
+        }, {
+            type: '优化',
+            content: '优化网页端性能速度'
+        }, {
+            type: '优化',
+            content: '优化了网页端的样式'
+        }, {
+            type: '优化',
+            content: '更换了默认主题颜色'
+        }, {
             type: '修复',
-            content: '修复移动端注册时间异常的问题'
+            content: '修复了历史遗留问题'
         }, {
-            type: '优化',
-            content: '优化登录逻辑多设备可同时在线'
-        }, {
-            type: '新增',
-            content: '新增了项目容器化一键部署脚本'
+            type: '修复',
+            content: '修复了偶现断连问题'
         }]
     }
 }

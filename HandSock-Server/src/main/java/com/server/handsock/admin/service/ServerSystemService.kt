@@ -1,102 +1,75 @@
 package com.server.handsock.admin.service
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import com.server.handsock.admin.dao.ServerSystemDao
 import com.server.handsock.admin.man.ServerSystemManage
-import com.server.handsock.admin.mod.ServerSystemModel
-import com.server.handsock.utils.HandUtils
+import com.server.handsock.common.dao.SystemDao
+import com.server.handsock.common.model.SystemModel
+import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ServerSystemService @Autowired constructor(private val serverSystemDao: ServerSystemDao) {
-    fun getSystemKeyStatus(key: String?): Boolean {
-        try {
-            val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", key))
-            if (serverSystemModel != null) return serverSystemModel.value == "open"
-            return false
-        } catch (e: Exception) {
-            HandUtils.printErrorLog(e)
-            return false
-        }
+open class ServerSystemService @Autowired constructor(private val systemDao: SystemDao) {
+    @Transactional
+    open fun getSystemKeyStatus(key: String): Boolean {
+        val systemModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", key))
+        if (systemModel != null) return systemModel.value.equals("open")
+        return false
     }
 
-    fun getSystemKeyConfig(key: String?): Map<String, Any> {
-        val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", key))
-        return HandUtils.handleResultByCode(200, serverSystemModel.value, "获取成功")
+    @Transactional
+    open fun setSystemTabooStatus(value: String): Map<String, Any> {
+        val systemModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", "taboo"))
+        val result = ServerSystemManage().setSystemKeyStatus(systemModel, value)
+        return if (systemDao.updateById(systemModel) > 0) {
+            HandUtils.handleResultByCode(200, result, "设置状态成功")
+        } else HandUtils.handleResultByCode(200, null, "设置状态失败")
     }
 
-    fun setSystemTabooStatus(value: String?): Map<String, Any> {
-        try {
-            val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", "taboo"))
-            val result = ServerSystemManage().setSystemKeyStatus(serverSystemModel, value)
-            return if (serverSystemDao.updateById(serverSystemModel) > 0) {
-                HandUtils.handleResultByCode(200, result, "设置状态成功")
-            } else HandUtils.handleResultByCode(200, null, "设置状态失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun setSystemUploadStatus(value: String): Map<String, Any> {
+        val systemModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", "upload"))
+        val result = ServerSystemManage().setSystemKeyStatus(systemModel, value)
+        return if (systemDao.updateById(systemModel) > 0) {
+            HandUtils.handleResultByCode(200, result, "设置状态成功")
+        } else HandUtils.handleResultByCode(200, null, "设置状态失败")
     }
 
-    fun setSystemUploadStatus(value: String?): Map<String, Any> {
-        try {
-            val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", "upload"))
-            val result = ServerSystemManage().setSystemKeyStatus(serverSystemModel, value)
-            return if (serverSystemDao.updateById(serverSystemModel) > 0) {
-                HandUtils.handleResultByCode(200, result, "设置状态成功")
-            } else HandUtils.handleResultByCode(200, null, "设置状态失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun setSystemRegisterStatus(value: String): Map<String, Any> {
+        val systemModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", "register"))
+        val result = ServerSystemManage().setSystemKeyStatus(systemModel, value)
+        return if (systemDao.updateById(systemModel) > 0) {
+            HandUtils.handleResultByCode(200, result, "设置状态成功")
+        } else HandUtils.handleResultByCode(200, null, "设置状态失败")
     }
 
-    fun setSystemRegisterStatus(value: String?): Map<String, Any> {
-        try {
-            val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", "register"))
-            val result = ServerSystemManage().setSystemKeyStatus(serverSystemModel, value)
-            return if (serverSystemDao.updateById(serverSystemModel) > 0) {
-                HandUtils.handleResultByCode(200, result, "设置状态成功")
-            } else HandUtils.handleResultByCode(200, null, "设置状态失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun setSystemConfigValue(name: String, value: String): Map<String, Any> {
+        val systemModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", name))
+            ?: return HandUtils.handleResultByCode(400, null, "未知选项")
+        val result = ServerSystemManage().setSystemKeyStatus(systemModel, value)
+        return if (systemDao.updateById(systemModel) > 0) {
+            HandUtils.handleResultByCode(200, result, "设置成功")
+        } else HandUtils.handleResultByCode(200, null, "设置失败")
     }
 
-    fun setSystemConfigValue(name: String?, value: String?): Map<String, Any> {
-        try {
-            val serverSystemModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", name))
-                ?: return HandUtils.handleResultByCode(400, null, "未知选项")
-            val result = ServerSystemManage().setSystemKeyStatus(serverSystemModel, value)
-            return if (serverSystemDao.updateById(serverSystemModel) > 0) {
-                HandUtils.handleResultByCode(200, result, "设置成功")
-            } else HandUtils.handleResultByCode(200, null, "设置失败")
-        } catch (e: Exception) {
-            return HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun checkAppUpdate(version: String): Map<String, Any> {
+        val versionModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", "version"))
+        return if (version != versionModel.value) {
+            val downloadModel = systemDao.selectOne(QueryWrapper<SystemModel>().eq("name", "download"))
+            HandUtils.handleResultByCode(201, mapOf(
+                "version" to versionModel.value,
+                "download" to downloadModel.value
+            ), "有新版本可更新")
+        } else HandUtils.handleResultByCode(200, null, "已是最新版本")
     }
 
-    fun checkAppUpdate(version: String?): Map<String, Any> {
-        return try {
-            val versionModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", "version"))
-            if (version != versionModel.value) {
-                val downloadModel = serverSystemDao.selectOne(QueryWrapper<ServerSystemModel>().eq("name", "download"))
-                HandUtils.handleResultByCode(201, mapOf(
-                    "version" to versionModel.value,
-                    "download" to downloadModel.value
-                ), "有新版本可更新")
-            } else HandUtils.handleResultByCode(200, null, "已是最新版本")
-        } catch (e: Exception) {
-            HandUtils.printErrorLog(e)
-        }
+    @Transactional
+    open fun getAllSystemConfig(): Map<String, Any> {
+        val serverSystemModelList = systemDao.selectList(null)
+        return HandUtils.handleResultByCode(200, serverSystemModelList, "获取成功")
     }
-
-    val allSystemConfig: Map<String, Any>
-        get() {
-            try {
-                val serverSystemModelList = serverSystemDao.selectList(null)
-                return HandUtils.handleResultByCode(200, serverSystemModelList, "获取成功")
-            } catch (e: Exception) {
-                return HandUtils.printErrorLog(e)
-            }
-        }
 }

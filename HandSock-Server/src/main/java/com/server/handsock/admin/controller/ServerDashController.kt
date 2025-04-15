@@ -1,7 +1,7 @@
 package com.server.handsock.admin.controller
 
 import com.server.handsock.admin.service.ServerDashService
-import com.server.handsock.services.AuthService
+import com.server.handsock.service.AuthService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping

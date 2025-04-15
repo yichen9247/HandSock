@@ -1,7 +1,7 @@
 package com.server.handsock
 
 import com.corundumstudio.socketio.SocketIOServer
-import com.server.handsock.utils.ConsoleUtils
+import com.server.handsock.common.utils.ConsoleUtils
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 

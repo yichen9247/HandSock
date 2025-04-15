@@ -8,49 +8,73 @@ div.sidebar-container {
     background-color: #f7f9fe;
 
     div.sidebar {
-        width: 64px;
+        width: 65px;
+        display: flex;
         height: inherit;
         overflow: hidden;
         position: relative;
+        flex-direction: column;
 
         div.avatar-box {
-            width: 64px;
-            height: 64px;
+            width: 65px;
+            height: 65px;
             display: flex;
             margin: 0 auto;
             cursor: pointer;
             overflow: hidden;
+            position: relative;
             border-radius: 6px;
+            margin-bottom: 20px;
+
+            div.trigger {
+                left: 0;
+                bottom: 0;
+                z-index: 2;
+                width: 100%;
+                height: 26px;
+                font-size: 14px;
+                color: #ffffff;
+                line-height: 26px;
+                text-align: center;
+                position: absolute;
+                background-color: rgba(5, 160, 150, 0.75);
+            }
     
-            span.avatar-info {
-                width: inherit;
-                height: inherit;
+            div.avatar-info {
+                width: 65px;
+                height: 65px;
             }
         }
     
         div.button-box {
-            bottom: 0;
+            flex: 1;
             display: flex;
-            width: inherit;
-            position: absolute;
-            flex-direction: column;
-    
-            div.button-item {
-                width: 64px;
-                height: 64px;
-                display: grid;
-                cursor: pointer;
-                margin: 10px auto;
-                border-radius: 6px;
-                background-color: #ffffff;
-                border: 1px solid #e3e8f7;
+            overflow: hidden;
+            overflow-y: scroll;
 
-                svg {
-                    margin: auto;
-                }
-                
-                &:last-child {
-                    margin-bottom: 0;
+            div.button-list {
+                display: flex;
+                margin-top: auto;
+                flex-direction: column;
+
+                div.button-item {
+                    width: 65px;
+                    height: 65px;
+                    display: grid;
+                    cursor: pointer;
+                    min-height: 65px;
+                    margin: 10px auto;
+                    border-radius: 6px;
+                    background-color: #ffffff;
+                    border: 1px solid #e3e8f7;
+    
+                    svg {
+                        margin: auto;
+                    }
+                    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
                 }
             }
         }

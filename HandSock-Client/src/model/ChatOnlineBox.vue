@@ -1,9 +1,3 @@
-<!--
- * @Description: 在线用户组件，显示用户头像、昵称和在线状态
- * @Author: Hua
- * @Date: 2024-11-25
--->
-
 <script setup>
     import utils from "@/scripts/utils"
     import socket from "@/socket/socket"
@@ -11,7 +5,8 @@
 
     const props = defineProps({
         user: {
-            type: Object, required: true
+            type: Object,
+            required: true
         }
     });
 
@@ -24,42 +19,18 @@
 </script>
 
 <template>
-    <div 
-        class="user-item mobile-bg" 
-        v-if="props.user.login && applicationStore.userList.some(item => item.uid === props.user.uid)"
-    >
-        <el-tooltip 
-            class="box-item" 
-            effect="handsock" 
-            placement="right" 
-            :content="props.user.platform"
-            v-if="!applicationStore.isDeviceMobile"
-        >
+    <div class="user-item mobile-bg" v-if="props.user.login && applicationStore.userList.some(item => item.uid === props.user.uid)">
+        <el-tooltip class="box-item" effect="handsock" placement="right" :content="props.user.platform">
             <div class="item-content">
-                <img 
-                    class="user-avatar" 
-                    :src="avatarUrl" 
-                    draggable="false"
-                    :alt="userInfo.nick"
-                >
+                <div class="user-avatar">
+                    <img class="avatar" v-lazy="avatarUrl" draggable="false" :alt="userInfo.nick">
+                </div>
                 <div class="content">
                     <span class="user-nick">{{ userInfo.nick }}</span>
                     <span class="user-radio"></span>
                 </div>
             </div>
         </el-tooltip>
-        <div class="item-content" v-else>
-            <img 
-                class="user-avatar" 
-                :src="avatarUrl" 
-                draggable="false"
-                :alt="userInfo.nick"
-            >
-            <div class="content">
-                <span class="user-nick">{{ userInfo.nick }}</span>
-                <span class="user-radio"></span>
-            </div>
-        </div>
     </div>
 </template>
 

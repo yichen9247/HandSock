@@ -6,6 +6,7 @@ handsock:
   host: 192.168.0.101 # 通信主机
   origin: http://192.168.0.101:5173 # 跨域设置
   openapi: ... # 开放接口密钥 https://doc.handsock.xiaokolomi.cn/depoly/openapi.html
+  secretKey: ... # 服务保护密钥（配置为16位长度的字符串）
 
 ai:
   url: https://api.ppinfra.com # AI接口

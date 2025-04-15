@@ -36,6 +36,7 @@ services:
       HANDSOCK_AI_PATH: /v3/openai/chat/completions # AI接口路径
       HANDSOCK_AI_MODEL: deepseek/deepseek-r1/community # AI模型
       HANDSOCK_AI_TOKEN: ... # AI Token https://ppinfra.com/user/register?invited_by=UUC4HY
+      HANDSOCK_SECRET_KEY: ... # 服务保护密钥（配置为16位长度的字符串）
     depends_on:
       - mysql-db
       - redis-cache
