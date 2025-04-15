@@ -9,20 +9,15 @@ export default class ThemeUtils {
 
         if (theme === 'default') {
             color = socket.dominColor.defaultDominColor
-            imageImport = import('@/assets/paper/background-0.jpg')
         } else if (theme === 'pureshs') {
             color = socket.dominColor.pureshsDominColor
-            imageImport = import('@/assets/paper/background-1.jpg')
         } else if (theme === 'yalansh') {
             color = socket.dominColor.yalanshDominColor
-            imageImport = import('@/assets/paper/background-2.jpg')
         } else if (theme === 'roufenh') {
             color = socket.dominColor.roufenhDominColor
-            imageImport = import('@/assets/paper/background-3.jpg')
         } else {
             localStorage.setItem('theme', 'default')
             color = socket.dominColor.defaultDominColor
-            imageImport = import('@/assets/paper/background-0.jpg')
         }
 
         try {
