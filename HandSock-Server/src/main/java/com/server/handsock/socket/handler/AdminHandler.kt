@@ -42,7 +42,7 @@ class AdminHandler @Autowired constructor(
     }
 
     fun deleteChan(data: AdminMannerModel): Any {
-        return if (data.gid == null || data.gid <= 0) {
+        return if (data.gid == null || data.gid < 0) {
             HandUtils.printParamError()
         } else serverChannelService.deleteChan(data.gid)
     }
@@ -123,7 +123,7 @@ class AdminHandler @Autowired constructor(
     }
 
     fun updateChanOpenStatus(data: AdminMannerModel): Any {
-        return if (data.gid == null || data.status == null || data.gid <= 0) {
+        return if (data.gid == null || data.status == null || data.gid < 0) {
             HandUtils.printParamError()
         } else serverChannelService.updateChanOpenStatus(
             gid = data.gid,
@@ -132,7 +132,7 @@ class AdminHandler @Autowired constructor(
     }
 
     fun updateChanActiveStatus(data: AdminMannerModel): Any {
-        return if (data.gid == null || data.status == null || data.gid <= 0) {
+        return if (data.gid == null || data.status == null || data.gid < 0) {
             HandUtils.printParamError()
         } else serverChannelService.updateChanActiveStatus(
             gid = data.gid,
@@ -150,7 +150,7 @@ class AdminHandler @Autowired constructor(
     }
 
     fun createChan(data: AdminMannerModel): Any {
-        return if (data.gid == null || data.name.isNullOrEmpty() || data.avatar.isNullOrEmpty() || data.notice.isNullOrEmpty() || data.aiRole == null || data.gid <= 0) {
+        return if (data.gid == null || data.name.isNullOrEmpty() || data.avatar.isNullOrEmpty() || data.notice.isNullOrEmpty() || data.aiRole == null || data.gid < 0) {
             HandUtils.printParamError()
         } else serverChannelService.createChan(
             gid = data.gid,
@@ -193,7 +193,7 @@ class AdminHandler @Autowired constructor(
     }
 
     fun updateChanInfo(data: AdminMannerModel): Any {
-        return if (data.gid == null || data.name.isNullOrEmpty() || data.avatar.isNullOrEmpty() || data.notice.isNullOrEmpty() || data.aiRole == null || data.gid <= 0) {
+        return if (data.gid == null || data.name.isNullOrEmpty() || data.avatar.isNullOrEmpty() || data.notice.isNullOrEmpty() || data.aiRole == null || data.gid < 0) {
             HandUtils.printParamError()
         } else serverChannelService.updateChan(
             gid = data.gid,

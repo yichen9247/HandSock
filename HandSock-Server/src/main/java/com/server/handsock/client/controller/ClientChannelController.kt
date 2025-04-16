@@ -24,7 +24,7 @@ class ClientChannelController @Autowired constructor(
     @PostMapping("/search/gid")
     fun searchGroupByGid(@RequestBody data: ControllerSearchChannel, request: HttpServletRequest): Any {
         return authService.validClientStatusByRequest(request) {
-            if (data.gid == null || data.gid <= 0) {
+            if (data.gid == null || data.gid < 0) {
                 HandUtils.printParamError()
             } else clientChannelService.searchGroupByGid(data.gid)
         }
