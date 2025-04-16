@@ -18,10 +18,13 @@ export default class RequestUtils {
         });
     }
 
-    static getNoticeList = async (): Promise<any> => {
+    static getNoticeList = async (page: number, limit: number): Promise<any> => {
         const applicationStore = utils.useApplicationStore();
         return new Promise((res): void => {
-            applicationStore.socketIo.emit(socket.send.Search.All.SearchNoticeAll, {}, async (response: restfulType<Array<noticeBoardType>>): Promise<void> => {
+            applicationStore.socketIo.emit(socket.send.Search.All.SearchNoticeAll, {
+                page: page,
+                limit: limit
+            }, async (response: restfulType<Array<noticeBoardType>>): Promise<void> => {
                 if (response.code === 200) {
                     setTimeout(() => {
                         res(response.data);

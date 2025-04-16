@@ -128,7 +128,7 @@
         <FrameDrawer :title="`${formModel ? '创建' : '修改'}公告`" :show="rightDrawer" @close="drawerOnClose">
             <el-form :model="formData" label-width="auto">
                 <el-form-item label="公告标题">
-                    <el-input v-model="formData.title" placeholder="请输入公告标题"/>
+                    <el-input v-model="formData.title" placeholder="请输入公告标题" maxlength="20" show-word-limit />
                 </el-form-item>
 
                 <el-form-item label="公告内容">

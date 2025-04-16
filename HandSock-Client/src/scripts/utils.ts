@@ -1,19 +1,18 @@
 import { ElMessage, ElMessageBox } from "element-plus"
 import { useOnelDialogStore } from "@/stores/onelDialogStore"
 import { useApplicationStore } from "@/stores/applicationStore"
-import { showFailToast, showSuccessToast, showToast } from "vant"
 
 const isMobile = (): RegExpMatchArray => navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
 
 const showToasts = async (type: string, text: string): Promise<void> => {
     if (type === 'info') {
-        isMobile() ? showToast(text) : ElMessage({ message: text, type: 'info', plain: true });
+        ElMessage({ message: text, type: 'info', plain: true });
     } else if (type === 'error') {
-        isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'error', plain: true });
+        ElMessage({ message: text, type: 'error', plain: true });
     } else if (type === 'success') {
-        isMobile() ? showSuccessToast(text) : ElMessage({ message: text, type: 'success', plain: true });
+        ElMessage({ message: text, type: 'success', plain: true });
     } else if (type === 'warning') {
-        isMobile() ? showFailToast(text) : ElMessage({ message: text, type: 'warning', plain: true });
+        ElMessage({ message: text, type: 'warning', plain: true });
     }
 }
 

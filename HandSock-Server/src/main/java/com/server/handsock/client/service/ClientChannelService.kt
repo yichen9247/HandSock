@@ -6,12 +6,10 @@ import com.server.handsock.common.model.ChannelModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ClientChannelService @Autowired constructor(private val channelDao: ChannelDao) {
-    @Transactional
-    open fun searchAllGroup(): Map<String, Any> {
+class ClientChannelService @Autowired constructor(private val channelDao: ChannelDao) {
+    fun searchAllGroup(): Map<String, Any> {
         val channelModelList = channelDao.selectList(QueryWrapper<ChannelModel>().eq("active", 1))
         val history: MutableList<Map<String, Any>> = ArrayList()
         for (clientChannelModel in channelModelList) {
@@ -27,8 +25,7 @@ open class ClientChannelService @Autowired constructor(private val channelDao: C
         return result
     }
 
-    @Transactional
-    open fun searchGroupByGid(gid: Long): Map<String, Any> {
+    fun searchGroupByGid(gid: Long): Map<String, Any> {
         val groupSelect = if (gid == 0L) {
             channelDao.selectOne(QueryWrapper<ChannelModel>().eq("home", 1))
         } else channelDao.selectOne(QueryWrapper<ChannelModel>().eq("gid", gid))
@@ -37,8 +34,7 @@ open class ClientChannelService @Autowired constructor(private val channelDao: C
         } else HandUtils.handleResultByCode(200, groupSelect, "获取成功")
     }
 
-    @Transactional
-    open fun getChanOpenStatus(gid: Long): Boolean {
+    fun getChanOpenStatus(gid: Long): Boolean {
         val status = channelDao.selectOne(QueryWrapper<ChannelModel>().eq("gid", gid)).open
         return status == 1
     }

@@ -8,12 +8,10 @@ import com.server.handsock.common.model.BannerModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ServerBannerService @Autowired constructor(private val bannerDao: BannerDao) {
-    @Transactional
-    open fun getBannerList(page: Int, limit: Int): Map<String, Any> {
+class ServerBannerService @Autowired constructor(private val bannerDao: BannerDao) {
+    fun getBannerList(page: Int, limit: Int): Map<String, Any> {
         val wrapper = QueryWrapper<BannerModel>()
         val pageObj = Page<BannerModel>(page.toLong(), limit.toLong())
         val queryResult = bannerDao.selectPage(pageObj, wrapper)
@@ -23,15 +21,14 @@ open class ServerBannerService @Autowired constructor(private val bannerDao: Ban
         ), "获取成功")
     }
 
-    @Transactional
-    open fun deleteBanner(bid: Int): Map<String, Any> {
+    fun deleteBanner(bid: Int): Map<String, Any> {
         return if (bannerDao.deleteById(bid) > 0) {
             HandUtils.handleResultByCode(200, null, "删除成功")
         } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 
-    @Transactional
-    open fun updateBanner(bid: Int, name: String, href: String, image: String): Map<String, Any> {
+    fun updateBanner(bid: Int, name: String, href: String, image: String): Map<String, Any> {
+        if (name.length > 20) return HandUtils.handleResultByCode(409, null, "标题过长")
         if (bannerDao.selectOne(QueryWrapper<BannerModel>().eq("bid", bid)) == null) return HandUtils.handleResultByCode(409, null, "轮播不存在")
         val bannerModel = BannerModel()
         ServerBannerManage().updateBanner(bannerModel, bid, name, href, image)
@@ -40,8 +37,8 @@ open class ServerBannerService @Autowired constructor(private val bannerDao: Ban
         } else HandUtils.handleResultByCode(400, null, "修改失败")
     }
 
-    @Transactional
-    open fun createBanner(name: String, href: String, image: String): Map<String, Any> {
+    fun createBanner(name: String, href: String, image: String): Map<String, Any> {
+        if (name.length > 20) return HandUtils.handleResultByCode(409, null, "标题过长")
         val bannerModel = BannerModel()
         ServerBannerManage().setBanner(bannerModel, name, href, image)
         return if (bannerDao.insert(bannerModel) > 0) {

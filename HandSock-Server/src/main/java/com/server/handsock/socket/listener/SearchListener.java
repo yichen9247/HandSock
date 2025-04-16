@@ -34,10 +34,6 @@ public class SearchListener {
             searchHandler.handleSearchForumPost(data, ackSender);
         });
 
-        server.addEventListener("[SEARCH:FORUM:COMMENT]", CommonSearchPage.class, (client, data, ackSender) -> {
-            searchHandler.handleSearchPostComment(data, ackSender);
-        });
-
         server.addEventListener("[SEARCH:USER:ALL]", Map.class, (client, data, ackSender) -> {
             searchHandler.handleSearchAllUser(ackSender);
         });
@@ -46,8 +42,12 @@ public class SearchListener {
             searchHandler.handleSearchAllGroup(ackSender);
         });
 
-        server.addEventListener("[SEARCH:NOTICE:ALL]", Map.class, (client, data, ackSender) -> {
-            searchHandler.handleSearchAllNotice(ackSender);
+        server.addEventListener("[SEARCH:NOTICE:ALL]", CommonSearchPage.class, (client, data, ackSender) -> {
+            searchHandler.handleSearchAllNotice(data, ackSender);
+        });
+
+        server.addEventListener("[SEARCH:FORUM:COMMENT]", CommonSearchPage.class, (client, data, ackSender) -> {
+            searchHandler.handleSearchPostComment(data, ackSender);
         });
 
         server.addEventListener("[SEARCH:HISTORY:ALL]", SocketSearchChannel.class, (client, data, ackSender) -> {

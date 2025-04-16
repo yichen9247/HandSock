@@ -55,19 +55,19 @@
     <div class="user-setting">
         <p class="set-title">昵称设置</p>
         <div class="flex-line">
-            <el-input v-model="editForm.nick" placeholder="请输入要设置的昵称" clearable/>
+            <el-input v-model="editForm.nick" placeholder="请输入要设置的昵称" clearable maxlength="10" show-word-limit/>
             <el-button type="primary" @click="emitToUpdateNick">设置昵称</el-button>
         </div>
 
         <p class="set-title">账号设置</p>
         <div class="flex-line">
-            <el-input v-model="editForm.username" placeholder="请输入要设置的用户名" clearable/>
+            <el-input v-model="editForm.username" placeholder="请输入要设置的用户名" clearable maxlength="20" show-word-limit/>
             <el-button type="primary" @click="emitToUpdateUsername">设置账号</el-button>
         </div>
         
         <p class="set-title">密码设置</p>
         <div class="flex-line">
-            <el-input v-model="editForm.password" placeholder="请输入要设置的密码" clearable/>
+            <el-input v-model="editForm.password" placeholder="请输入要设置的密码" clearable maxlength="50" show-word-limit/>
             <el-button type="primary" @click="emitToUpdatePassword">设置密码</el-button>
         </div>
     </div>

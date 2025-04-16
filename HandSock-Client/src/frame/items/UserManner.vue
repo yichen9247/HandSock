@@ -175,11 +175,11 @@
         <FrameDrawer :title="`${formModel ? '新增' : '编辑'}用户`" :show="rightDrawer" @close="drawerOnClose">
             <el-form :model="formData" label-width="auto">
                 <el-form-item label="用户账号">
-                    <el-input v-model="formData.username" placeholder="请输入用户账户"/>
+                    <el-input v-model="formData.username" placeholder="请输入用户账户" maxlength="20" show-word-limit/>
                 </el-form-item>
 
                 <el-form-item label="用户昵称">
-                    <el-input v-model="formData.nick" placeholder="请输入用户昵称"/>
+                    <el-input v-model="formData.nick" placeholder="请输入用户昵称" maxlength="10" show-word-limit/>
                 </el-form-item>
 
                 <el-form-item label="用户头像">

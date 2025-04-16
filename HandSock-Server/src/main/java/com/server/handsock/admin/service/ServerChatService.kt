@@ -7,20 +7,17 @@ import com.server.handsock.common.model.MessageModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ServerChatService @Autowired constructor(private val messageDao: MessageDao) {
-    @Transactional
-    open fun getChatContent(sid: String): Map<String, Any> {
+class ServerChatService @Autowired constructor(private val messageDao: MessageDao) {
+     fun getChatContent(sid: String): Map<String, Any> {
         val messageModel = messageDao.selectOne(QueryWrapper<MessageModel>().eq("sid", sid))
         return if (messageModel != null) {
             HandUtils.handleResultByCode(200, messageModel, "获取成功")
         } else HandUtils.handleResultByCode(501, null, "内容已被删除")
     }
 
-    @Transactional
-    open fun getChatList(page: Int, limit: Int): Map<String, Any> {
+    fun getChatList(page: Int, limit: Int): Map<String, Any> {
         val pageObj = Page<MessageModel>(page.toLong(), limit.toLong())
         val wrapper = QueryWrapper<MessageModel>().orderByDesc("time")
         val queryResult = messageDao.selectPage(pageObj, wrapper)
@@ -30,8 +27,7 @@ open class ServerChatService @Autowired constructor(private val messageDao: Mess
         ), "获取成功")
     }
 
-    @Transactional
-    open fun deleteChat(sid: String): Map<String, Any> {
+    fun deleteChat(sid: String): Map<String, Any> {
         val messageModel = messageDao.selectOne(QueryWrapper<MessageModel>().eq("sid", sid))
         return if (messageModel != null) {
             if (messageDao.deleteById(sid) > 0) {
@@ -40,8 +36,7 @@ open class ServerChatService @Autowired constructor(private val messageDao: Mess
         } else HandUtils.handleResultByCode(501, null, "消息已被删除")
     }
 
-    @Transactional
-    open fun clearAllChatHistory() {
+    fun clearAllChatHistory() {
         if (messageDao.delete(null) > 0) {
             HandUtils.handleResultByCode(200, null, "清空聊天记录成功")
         } else HandUtils.handleResultByCode(400, null, "清空聊天记录成功失败")

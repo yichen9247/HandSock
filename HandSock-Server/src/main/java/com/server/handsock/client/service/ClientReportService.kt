@@ -12,16 +12,14 @@ import com.server.handsock.common.utils.HandUtils
 import lombok.Getter
 import lombok.Setter
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service @Setter @Getter
-open class ClientReportService(
+class ClientReportService(
     private val reportDao: ReportDao,
     private val messageDao: MessageDao,
     private val clientUserDao: ClientUserDao
 ) {
-    @Transactional
-    open fun addReport(sid: String, reporterId: Long, reportedId: Long, reason: String): Map<String, Any> {
+    fun addReport(sid: String, reporterId: Long, reportedId: Long, reason: String): Map<String, Any> {
         if (reason.length > 50) return HandUtils.handleResultByCode(400, null, "理由过长")
         val reportModel = ReportModel()
         messageDao.selectOne(QueryWrapper<MessageModel>().eq("sid", sid))

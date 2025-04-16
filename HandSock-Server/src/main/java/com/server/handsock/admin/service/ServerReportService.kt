@@ -7,12 +7,10 @@ import com.server.handsock.common.model.ReportModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ServerReportService @Autowired constructor(private val reportDao: ReportDao) {
-    @Transactional
-    open fun getReportList(page: Int, limit: Int): Map<String, Any> {
+class ServerReportService @Autowired constructor(private val reportDao: ReportDao) {
+     fun getReportList(page: Int, limit: Int): Map<String, Any> {
         val pageObj = Page<ReportModel>(page.toLong(), limit.toLong())
         val wrapper = QueryWrapper<ReportModel>().orderByDesc("time")
         val queryResult = reportDao.selectPage(pageObj, wrapper)
@@ -22,8 +20,7 @@ open class ServerReportService @Autowired constructor(private val reportDao: Rep
         ), "获取成功")
     }
 
-    @Transactional
-    open fun deleteReport(rid: Int): Map<String, Any> {
+    fun deleteReport(rid: Int): Map<String, Any> {
         return if (reportDao.deleteById(rid) > 0) {
             HandUtils.handleResultByCode(200, null, "删除成功")
         } else HandUtils.handleResultByCode(400, null, "删除失败")

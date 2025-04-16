@@ -7,12 +7,10 @@ import com.server.handsock.common.model.CommentModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ServerCommentService @Autowired constructor(private val commentDao: CommentDao) {
-    @Transactional
-    open fun getCommentList(page: Int, limit: Int): Map<String, Any> {
+class ServerCommentService @Autowired constructor(private val commentDao: CommentDao) {
+     fun getCommentList(page: Int, limit: Int): Map<String, Any> {
         val wrapper = QueryWrapper<CommentModel>()
         val pageObj = Page<CommentModel>(page.toLong(), limit.toLong())
         val queryResult = commentDao.selectPage(pageObj, wrapper)
@@ -22,8 +20,7 @@ open class ServerCommentService @Autowired constructor(private val commentDao: C
         ), "获取成功")
     }
 
-    @Transactional
-    open fun deleteForumComment(cid: Int?): Map<String, Any> {
+    fun deleteForumComment(cid: Int?): Map<String, Any> {
         val commentModel = commentDao.selectOne(QueryWrapper<CommentModel>().eq("cid", cid))
             ?: return HandUtils.handleResultByCode(404, null, "评论不存在")
         if (commentDao.deleteById(cid) == 0) return HandUtils.handleResultByCode(400, null, "删除失败")

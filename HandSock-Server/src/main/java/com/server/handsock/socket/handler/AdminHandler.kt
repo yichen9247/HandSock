@@ -7,6 +7,7 @@ import com.server.handsock.admin.service.*
 import com.server.handsock.common.data.AdminMannerModel
 import com.server.handsock.common.service.CommentService
 import com.server.handsock.common.service.ForumService
+import com.server.handsock.common.service.NoticeService
 import com.server.handsock.common.utils.HandUtils
 import com.server.handsock.service.AuthService
 import com.server.handsock.socket.eventer.OnlineEvent
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service
 class AdminHandler @Autowired constructor(
     private val authService: AuthService,
     private val forumService: ForumService,
-    private val commentService: CommentService,
+    private val noticeService: NoticeService,
     private val serverUserService: ServerUserService,
     private val serverChatService: ServerChatService,
     private val serverForumService: ServerForumService,
@@ -107,8 +108,8 @@ class AdminHandler @Autowired constructor(
     fun getChatList(data: AdminMannerModel) = handleListRequest(serverChatService::getChatList, data)
     fun getChanList(data: AdminMannerModel) = handleListRequest(serverChannelService::getChanList, data)
     fun getRepoList(data: AdminMannerModel) = handleListRequest(serverReportService::getReportList, data)
+    fun getNoticeList(data: AdminMannerModel) = handleListRequest(noticeService::searchSystemNotice, data)
     fun getBannerList(data: AdminMannerModel) = handleListRequest(serverBannerService::getBannerList, data)
-    fun getNoticeList(data: AdminMannerModel) = handleListRequest(serverNoticeService::getNoticeList, data)
     fun getUploadList(data: AdminMannerModel) = handleListRequest(serverUploadService::getUploadList, data)
     fun getCommentList(data: AdminMannerModel) = handleListRequest(serverCommentService::getCommentList, data)
 

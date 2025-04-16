@@ -8,13 +8,11 @@ import com.server.handsock.common.utils.ConsoleUtils
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import java.io.File
 
 @Service
-open class ServerUploadService @Autowired constructor(private val uploadDao: UploadDao) {
-    @Transactional
-    open fun getUploadList(page: Int, limit: Int): Map<String, Any> {
+class ServerUploadService @Autowired constructor(private val uploadDao: UploadDao) {
+    fun getUploadList(page: Int, limit: Int): Map<String, Any> {
         val pageObj = Page<UploadModel>(page.toLong(), limit.toLong())
         val wrapper = QueryWrapper<UploadModel>().orderByDesc("time")
         val queryResult = uploadDao.selectPage(pageObj, wrapper)
@@ -24,8 +22,7 @@ open class ServerUploadService @Autowired constructor(private val uploadDao: Upl
         ), "获取成功")
     }
 
-    @Transactional
-    open fun deleteUpload(fid: String): Map<String, Any> {
+    fun deleteUpload(fid: String): Map<String, Any> {
         deleteUploadFile(fid)
         return if (uploadDao.deleteById(fid) > 0) {
             HandUtils.handleResultByCode(200, null, "删除成功")

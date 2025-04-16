@@ -199,15 +199,15 @@
                 </el-form-item>
 
                 <el-form-item label="频道名称">
-                    <el-input v-model="formData.name" placeholder="请输入频道名称"/>
+                    <el-input v-model="formData.name" placeholder="请输入频道名称" maxlength="10" show-word-limit/>
                 </el-form-item>
 
                 <el-form-item label="频道头像">
-                    <el-input v-model="formData.avatar" placeholder="请输入频道头像（链接）"/>
+                    <el-input v-model="formData.avatar" placeholder="请输入频道头像（链接）" maxlength="200" show-word-limit/>
                 </el-form-item>
 
                 <el-form-item label="频道公告">
-                    <el-input type="textarea" v-model="formData.notice" :rows="3" placeholder="请输入频道公告（可以为空）"/>
+                    <el-input type="textarea" v-model="formData.notice" :rows="3" placeholder="请输入频道公告（可以为空）" maxlength="100" show-word-limit/>
                 </el-form-item>
                 <el-checkbox v-model="formData.aiRole">设置为AI频道</el-checkbox>
             </el-form>

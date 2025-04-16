@@ -9,15 +9,14 @@ import com.server.handsock.common.model.ForumModel
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ClientCommentService @Autowired constructor(
+class ClientCommentService @Autowired constructor(
     private val forumDao: ForumDao,
     private val commentDao: CommentDao
 ) {
-    @Transactional
-    open fun addPostComment(uid: Long?, pid: Int?, parent: Int?, content: String?): Map<String, Any> {
+    fun addPostComment(uid: Long, pid: Int, parent: Int?, content: String): Map<String, Any> {
+        if (content.length > 100) return HandUtils.handleResultByCode(409, null, "评论过长")
         val commentModel = CommentModel()
         forumDao.selectOne(QueryWrapper<ForumModel>().eq("pid", pid))
             ?: return HandUtils.handleResultByCode(400, null, "帖子不存在")

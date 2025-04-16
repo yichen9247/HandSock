@@ -3,12 +3,12 @@ package com.server.handsock.socket.handler
 import com.corundumstudio.socketio.AckRequest
 import com.server.handsock.client.service.ClientChannelService
 import com.server.handsock.client.service.ClientChatService
-import com.server.handsock.client.service.ClientNoticeService
 import com.server.handsock.client.service.ClientUserService
 import com.server.handsock.common.data.CommonSearchPage
 import com.server.handsock.common.data.SocketSearchChannel
 import com.server.handsock.common.service.CommentService
 import com.server.handsock.common.service.ForumService
+import com.server.handsock.common.service.NoticeService
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service
 @Service
 class SearchHandler @Autowired constructor(
     private val forumService: ForumService,
+    private val noticeService: NoticeService,
     private val commentService: CommentService,
     private val clientChatService: ClientChatService,
     private val clientUserService: ClientUserService,
-    private val clientNoticeService: ClientNoticeService,
     private val clientChannelService: ClientChannelService
 ) {
     fun handleSearchGroup(data: SocketSearchChannel, ackRequest: AckRequest) {
@@ -62,10 +62,15 @@ class SearchHandler @Autowired constructor(
         }
     }
 
-    fun handleSearchAllNotice(ackRequest: AckRequest) {
+    fun handleSearchAllNotice(data: CommonSearchPage, ackRequest: AckRequest) {
         try {
             ackRequest.sendAckData(
-                clientNoticeService.searchAllNotice()
+                if (data.page == null || data.limit == null || data.page <= 0 || data.limit <= 0)
+                    HandUtils.printParamError()
+                else noticeService.searchSystemNotice(
+                    page = data.page,
+                    limit = data.limit
+                )
             )
         } catch (e: Exception) {
             ackRequest.sendAckData(HandUtils.printErrorLog(e))

@@ -10,30 +10,27 @@ import com.server.handsock.common.types.UserAuthType
 import com.server.handsock.common.utils.HandUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
-open class ServerUserService @Autowired constructor(
+class ServerUserService @Autowired constructor(
     private val serverUserDao: ServerUserDao,
     private val clientUserDao: ClientUserDao
 ) {
-    @Transactional
-    open fun getUserList(page: Int, limit: Int): Map<String, Any> {
+    fun getUserList(page: Int, limit: Int): Map<String, Any> {
         val pageObj = Page<ServerUserModel>(page.toLong(), limit.toLong())
         val result = serverUserDao.selectPage(pageObj, QueryWrapper<ServerUserModel>().orderByDesc("reg_time"))
         return mapOf("code" to 200, "data" to mapOf("total" to result.total, "items" to result.records), "message" to "获取成功")
     }
 
-    @Transactional
-    open fun deleteUser(uid: Long): Map<String, Any> {
+    fun deleteUser(uid: Long): Map<String, Any> {
         if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
         return if (serverUserDao.deleteById(uid) > 0) {
             HandUtils.handleResultByCode(200, null, "删除成功")
         } else HandUtils.handleResultByCode(400, null, "删除失败")
     }
 
-    @Transactional
-    open fun updateUserPassword(uid: Long, password: String): Map<String, Any> {
+    fun updateUserPassword(uid: Long, password: String): Map<String, Any> {
+        if (HandUtils.isValidPassword(password)) return HandUtils.handleResultByCode(409, null, "密码格式不合规")
         if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
         return serverUserDao.selectById(uid)?.let { user ->
             ServerUserManage(HandUtils).updateUserPassword(user, uid, password)
@@ -42,8 +39,7 @@ open class ServerUserService @Autowired constructor(
         } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 
-    @Transactional
-    open fun updateUserStatus(uid: Long, status: Int): Map<String, Any> {
+    fun updateUserStatus(uid: Long, status: Int): Map<String, Any> {
         if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
         return serverUserDao.selectById(uid)?.let { user ->
             user.status = status
@@ -52,8 +48,8 @@ open class ServerUserService @Autowired constructor(
         } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 
-    @Transactional
-    open fun updateUserInfo(uid: Long, username: String, nick: String, avatar: String, robot: Boolean): Map<String, Any> {
+    fun updateUserInfo(uid: Long, username: String, nick: String, avatar: String, robot: Boolean): Map<String, Any> {
+        if (nick.length > 10 || nick.length < 2 || HandUtils.isValidUsername(username)) return HandUtils.handleResultByCode(409, null, "昵称或账号有误")
         if (checkAdmin(uid)) return HandUtils.handleResultByCode(400, null, "无法操作管理员账号")
         return serverUserDao.selectById(uid)?.let { user ->
             if (robot) {
@@ -69,13 +65,6 @@ open class ServerUserService @Autowired constructor(
             } else ServerUserManage(HandUtils).updateUserInfo(user, uid, username, nick, avatar, UserAuthType.USER_AUTHENTICATION)
             if (serverUserDao.updateById(user) > 0) HandUtils.handleResultByCode(200, null, "信息更新成功")
             else HandUtils.handleResultByCode(400, null, "信息更新失败")
-        } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
-    }
-
-    @Transactional
-    open fun getUserInfo(uid: Long): Map<String, Any> {
-        return serverUserDao.selectById(uid)?.let {
-            HandUtils.handleResultByCode(200, it, "获取成功")
         } ?: HandUtils.handleResultByCode(400, null, "用户不存在")
     }
 

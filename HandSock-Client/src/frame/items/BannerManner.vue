@@ -59,7 +59,7 @@
     const updateBanner = (row: any): void => {
         formModel.value = 0;
         formData.bid = row.bid;
-        formData.name = row.name,
+        formData.name = row.name;
         formData.href = row.href;
         rightDrawer.value = true;
         formData.image = row.image;
@@ -128,7 +128,7 @@
         <FrameDrawer :title="`${formModel ? '创建' : '修改'}轮播`" :show="rightDrawer" @close="drawerOnClose">
             <el-form :model="formData" label-width="auto">
                 <el-form-item label="轮播标题">
-                    <el-input v-model="formData.name" placeholder="请输入轮播标题"/>
+                    <el-input v-model="formData.name" placeholder="请输入轮播标题" maxlength="20" show-word-limit/>
                 </el-form-item>
 
                 <el-form-item label="跳转链接">

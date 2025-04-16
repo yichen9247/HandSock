@@ -3,7 +3,6 @@ package com.server.handsock.client.service
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.server.handsock.admin.dao.ServerUserDao
 import com.server.handsock.admin.mod.ServerUserModel
-import com.server.handsock.admin.service.ServerUserService
 import com.server.handsock.client.dao.ClientUserDao
 import com.server.handsock.client.man.ClientUserManage
 import com.server.handsock.client.mod.ClientUserModel
@@ -14,14 +13,12 @@ import com.server.handsock.common.utils.IDGenerator
 import com.server.handsock.service.TokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 open class ClientUserService @Autowired constructor(
     private val tokenService: TokenService,
     private val serverUserDao: ServerUserDao,
     private val clientUserDao: ClientUserDao,
-    private val serverUserService: ServerUserService
 ) {
     fun queryUserInfo(uid: Long): ClientUserModel {
         return clientUserDao.selectById(uid)
@@ -97,8 +94,7 @@ open class ClientUserService @Autowired constructor(
             val serverUserModel = ServerUserModel()
             val result = ClientUserManage().registerUser(serverUserModel, uid, username, HandUtils.encodeStringToMD5(password), address)
             val userinfo = result["userinfo"] as Map<*, *>?
-            result["token"] =
-                tokenService.generateUserToken(userinfo!!["uid"].toString().toLong(), username)
+            result["token"] = tokenService.generateUserToken(userinfo!!["uid"].toString().toLong(), username)
             val token = result["token"]
             if (serverUserDao.insert(serverUserModel) > 0) {
                 ConsoleUtils.printInfoLog("User Register $address $uid $token")
@@ -186,12 +182,13 @@ open class ClientUserService @Autowired constructor(
         return when(status) {
             "0" -> HandUtils.handleResultByCode(400, null, "等待扫码中")
             "1" -> {
+                tokenService.removeScanStatus(qid)
                 val targetUser = tokenService.getScanTargetUser(qid)
                     ?: return HandUtils.handleResultByCode(500, null, "服务器异常")
                 val loginUser = clientUserDao.selectById(targetUser.toLong())
                 loginUserScan(
                     address = address,
-                    username = loginUser.username,
+                    username = loginUser.username
                 )
             }
             else -> HandUtils.handleResultByCode(500, null, "服务器异常")
